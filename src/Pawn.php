@@ -30,7 +30,7 @@ class Pawn extends AbstractFigure {
      * Move action and after action
      * @param \Move $move
      * @param \Desk $desk
-     * @return \Figure|\Pawn
+     * @return \AbstractFigure|\Pawn
      */
     public function move(Move $move, Desk $desk)
     {
