@@ -1,6 +1,6 @@
 <?php
 
-class Knight extends Figure {
+class Knight extends AbstractFigure {
     public function __toString() 
     {
         return $this->is_black ? '♘' : '♞';

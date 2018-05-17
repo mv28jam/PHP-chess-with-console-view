@@ -1,6 +1,6 @@
 <?php
 
-class King extends Figure {
+class King extends AbstractFigure {
     public function __toString() 
     {
         return $this->is_black ? '♔' : '♚';

@@ -2,6 +2,8 @@
 
 /**
  * Desk of game
+ * 
+ * @author mv28jam <mv28jam@yandex.ru>
  */
 class Desk {
     /**
@@ -12,7 +14,7 @@ class Desk {
     /**
      * Last move flag, first move white so true
      * @var bool $last_move previous move 
-     * @see \Figure::$is_black
+     * @see \AbstractFigure::$is_black
      */
     private $last_move = true;
     /**
@@ -100,7 +102,7 @@ class Desk {
      * @param array $position
      * @return \Figure
      */
-    public function figures(array $position) :Figure 
+    public function figures(array $position) :AbstractFigure 
     {
         return $this->figures[$position[0]][$position[1]];        
     }

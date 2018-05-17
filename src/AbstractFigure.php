@@ -1,6 +1,11 @@
 <?php
 
-abstract class Figure {
+/**
+ * AbstractFigure abstract 
+ * 
+ * @author mv28jam <mv28jam@yandex.ru>
+ */
+abstract class AbstractFigure {
     
     //moves group names
     const NORMAL = 'normal';
@@ -56,7 +61,7 @@ abstract class Figure {
      * Move figure finally + internal actions
      * @param \Move $move move object
      * @param \Desk $desk 
-     * @return \Figure instanceof 
+     * @return \AbstractFigure instanceof 
      */
     public function move(Move $move, Desk $desk)
     {

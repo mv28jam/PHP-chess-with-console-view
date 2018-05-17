@@ -1,6 +1,6 @@
 <?php
 
-class Queen extends Figure {
+class Queen extends AbstractFigure {
     
     public function __toString() 
     {

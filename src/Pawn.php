@@ -3,9 +3,10 @@
 /**
  * Pawn actions and behavior
  * "en passant" move example b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3
+ * 
+ * @author mv28jam <mv28jam@yandex.ru>
  */
-
-class Pawn extends Figure {
+class Pawn extends AbstractFigure {
     
     /**
      * Pawn first step differ form other

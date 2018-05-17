@@ -1,6 +1,6 @@
 <?php
 
-class Rook extends Figure {
+class Rook extends AbstractFigure {
     public function __toString() 
     {
         return $this->is_black ? '♖' : '♜';

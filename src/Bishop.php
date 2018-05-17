@@ -1,6 +1,6 @@
 <?php
 
-class Bishop extends Figure {
+class Bishop extends AbstractFigure {
     public function __toString() {
         return $this->is_black ? '♗' : '♝';
     }

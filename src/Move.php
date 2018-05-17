@@ -3,7 +3,7 @@
 /**
  * Description of Move
  *
- * @author mv28jam
+ * @author mv28jam <mv28jam@yandex.ru>
  * 
  * @property-read array $from move from
  * @property-read array $to move to 

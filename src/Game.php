@@ -3,7 +3,7 @@
 /**
  * Description of Game
  *
- * @author mv28jam
+ * @author mv28jam <mv28jam@yandex.ru>
  */
 class Game {
     
