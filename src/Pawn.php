@@ -28,9 +28,9 @@ class Pawn extends AbstractFigure {
     
     /**
      * Move action and after action
-     * @param \Move $move
-     * @param \Desk $desk
-     * @return \AbstractFigure|\Pawn
+     * @param Move $move
+     * @param Desk $desk
+     * @return AbstractFigure|Pawn
      */
     public function move(Move $move, Desk $desk)
     {
@@ -66,15 +66,17 @@ class Pawn extends AbstractFigure {
         foreach($this->desk_change['unset'] as $val){
             $desk->figureUnset($val);
         }
+        //emptying unset array 
+        $this->desk_change['unset']=[];
         //
         return $this;
     }
     
     /**
      * Validate for pawn move 
-     * @param \Move $move move of figure
+     * @param Move $move move of figure
      * @param array $desk desk mask
-     * @param \Move $last_move last move in game
+     * @param Move $last_move last move in game
      * @return int return some price
      */
     public function checkFigureMove(Move $move, array $desk, Move $last_move=null) : int 
@@ -132,8 +134,8 @@ class Pawn extends AbstractFigure {
     
     /**
      * Create array of all possible moves without other figures
-     * @param \Move $move
-     * @return array of array of strings - second part of move, like "e4"
+     * @param Move $move
+     * @return array of array of Move - second part of move, like "e4"
      */
     public function getVacuumHorsePossibleMoves(Move $move) :array 
     {

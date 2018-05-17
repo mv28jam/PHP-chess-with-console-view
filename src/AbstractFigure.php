@@ -59,9 +59,9 @@ abstract class AbstractFigure {
     
     /**
      * Move figure finally + internal actions
-     * @param \Move $move move object
-     * @param \Desk $desk 
-     * @return \AbstractFigure instanceof 
+     * @param Move $move move object
+     * @param Desk $desk 
+     * @return AbstractFigure instanceof 
      */
     public function move(Move $move, Desk $desk)
     {
@@ -71,7 +71,7 @@ abstract class AbstractFigure {
     /**
      * Get list of possible moves from position start
      * @param array $start - start position
-     * @return array with keys 
+     * @return array of arrays of Move with keys 
      *  ['normal'] => ordinary moves 
      *  ['attack'] => attack figure moves
      *  ['special'] => special figure moves
@@ -83,9 +83,9 @@ abstract class AbstractFigure {
     
     /**
      * Check move
-     * @param \Move $move move object
+     * @param Move $move move object
      * @param array $desk map of desk
-     * @param \Move $last_move last move of any figure // have to have for pawn attack "en passant" @see en.wikipedia.org/wiki/Pawn_(chess)#Capturing
+     * @param Move $last_move last move of any figure // have to have for pawn attack "en passant" @see en.wikipedia.org/wiki/Pawn_(chess)#Capturing
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move
      */
     abstract public function checkFigureMove(Move $move, array $desk, Move $last_move=null) :int ;
