@@ -8,13 +8,13 @@
 class Desk {
     /**
      * array of figures on desk
-     * @var array \Figures 
+     * @var array Figures 
      */
     private $figures = [];
     /**
      * Last move flag, first move white so true
      * @var bool $last_move previous move 
-     * @see \AbstractFigure::$is_black
+     * @see AbstractFigure::$is_black
      */
     private $last_move = true;
     /**
@@ -76,15 +76,14 @@ class Desk {
         end($this->moves);
         //checks
         switch(true){
+            //check for figure in start podition
             case(!$this->checkFigureExists($move->getStart())):
                 throw new \Exception('No figure in position');
+            //check move order white-black-white-etc
             case(!$this->moveOrder($move)):
                 throw new \Exception('Other color moves - '.(new Pawn(!$this->last_move)));
-            case($this->figures($move->from)->checkFigureMove(
-                    $move, 
-                    $this->toMap(), 
-                    (current($this->moves) ? current($this->moves) : null)) < 0
-                ):
+            //check move of figure by this figure rules    
+            case($this->figures($move->from)->checkFigureMove($move, $this->toMap(),(current($this->moves) ? current($this->moves) : null)) < 0):
                 throw new \Exception('Forbidden move for '.$this->figures($move->getStart()));
         }
         //save move
@@ -100,7 +99,7 @@ class Desk {
     /**
      * Get figure in position
      * @param array $position
-     * @return \Figure
+     * @return AbstractFigure
      */
     public function figures(array $position) :AbstractFigure 
     {

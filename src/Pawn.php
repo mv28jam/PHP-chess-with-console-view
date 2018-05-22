@@ -73,11 +73,11 @@ class Pawn extends AbstractFigure {
     }
     
     /**
-     * Validate for pawn move 
+     * Validate pawn move, before move 
      * @param Move $move move of figure
      * @param array $desk desk mask
      * @param Move $last_move last move in game
-     * @return int return some price
+     * @return int some price of attack | -1 forbidden move | 0 simple move
      */
     public function checkFigureMove(Move $move, array $desk, Move $last_move=null) : int 
     { 
@@ -89,12 +89,13 @@ class Pawn extends AbstractFigure {
                 return 0;
             }
         }
-        //check spec move
+        //direction of move flag for color
         if($this->is_black){
             $sign = 1;    
         }else{
             $sign = -1;    
         }
+        //check spec move
         foreach($moves[self::SPECIAL] as $val){
             if(
                 $val->strTo === $move->strTo 
@@ -135,13 +136,13 @@ class Pawn extends AbstractFigure {
     /**
      * Create array of all possible moves without other figures
      * @param Move $move
-     * @return array of array of Move - second part of move, like "e4"
+     * @return array of array of Move
      */
     public function getVacuumHorsePossibleMoves(Move $move) :array 
     {
         //ini
         $result = parent::getVacuumHorsePossibleMoves($move);
-        //move destination
+        //direction of move flag for color
         if($this->is_black){
             $sign = -1;    
         }else{
