@@ -32,19 +32,6 @@ abstract class AbstractFigure {
     
     
     /**
-     * Get list of possible moves from position start
-     * @param array $start - start position
-     * @return array of arrays of Move with keys 
-     *  ['normal'] => ordinary moves 
-     *  ['attack'] => attack figure moves
-     *  ['special'] => special figure moves
-     */
-    public function getVacuumHorsePossibleMoves(Move $move) :array
-    {
-        return [self::NORMAL => [], self::ATTAK => [], self::SPECIAL => []];
-    }
-    
-    /**
      * Move figure finally + internal actions
      * @param Move $move move object
      * @param Desk $desk 
@@ -73,6 +60,19 @@ abstract class AbstractFigure {
     public function __construct(bool $is_black) 
     {
         $this->is_black = $is_black;
+    }
+    
+     /**
+     * Get list of possible moves from position start
+     * @param array $start - start position
+     * @return array of arrays of Move with keys 
+     *  ['normal'] => ordinary moves 
+     *  ['attack'] => attack figure moves
+     *  ['special'] => special figure moves
+     */
+    public function getVacuumHorsePossibleMoves(Move $move) :array
+    {
+        return [self::NORMAL => [], self::ATTAK => [], self::SPECIAL => []];
     }
     
     /**
