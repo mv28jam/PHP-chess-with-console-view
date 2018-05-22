@@ -32,26 +32,29 @@ abstract class AbstractFigure {
     
     
     /**
-     * Move figure finally + internal actions
-     * @param Move $move move object
-     * @param Desk $desk 
-     * @return AbstractFigure 
-     */
-    abstract public function move(Move $move, Desk $desk) :AbstractFigure;
-    
-    /**
      * Check move
      * @param Move $move move object
      * @param array $desk map of desk
-     * @param Move $last_move last move of any figure // have to have for pawn attack "en passant" @see en.wikipedia.org/wiki/Pawn_(chess)#Capturing
+     * @param Move $last_move last move of any figure 
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move
      */
     abstract public function checkFigureMove(Move $move, array $desk, Move $last_move=null) :int ;
     
     /**
-     * return figure symbol
+     * @return string figure symbol
      */
     abstract public function __toString();
+    
+    /**
+     * Move figure finally + internal actions
+     * @param Move $move move object
+     * @param Desk $desk 
+     * @return AbstractFigure 
+     */
+    public function move(Move $move, Desk $desk) :AbstractFigure
+    {
+        return $this;
+    }
     
     /**
      * Create of figure with color determinate
