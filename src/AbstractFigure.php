@@ -14,7 +14,7 @@ abstract class AbstractFigure {
     
     /**
      * Black or white figure
-     * @var type 
+     * @var boolean 
      */
     protected $is_black = false;
     /**
