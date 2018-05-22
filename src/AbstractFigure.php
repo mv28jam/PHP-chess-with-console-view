@@ -35,7 +35,7 @@ abstract class AbstractFigure {
      * Move figure finally + internal actions
      * @param Move $move move object
      * @param Desk $desk 
-     * @return AbstractFigure AbstractFigure
+     * @return AbstractFigure 
      */
     abstract public function move(Move $move, Desk $desk) :AbstractFigure;
     
