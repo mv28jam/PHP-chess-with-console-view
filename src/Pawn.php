@@ -32,7 +32,7 @@ class Pawn extends AbstractFigure {
      * @param Desk $desk
      * @return AbstractFigure|Pawn
      */
-    public function move(Move $move, Desk $desk)
+    public function move(Move $move, Desk $desk) :AbstractFigure
     {
         //register first move
         $this->first_step=false;

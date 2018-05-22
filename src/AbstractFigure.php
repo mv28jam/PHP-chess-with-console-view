@@ -30,6 +30,42 @@ abstract class AbstractFigure {
      */
     protected $desk_change = ['unset' => [], 'set' => []];
     
+    
+    /**
+     * Get list of possible moves from position start
+     * @param array $start - start position
+     * @return array of arrays of Move with keys 
+     *  ['normal'] => ordinary moves 
+     *  ['attack'] => attack figure moves
+     *  ['special'] => special figure moves
+     */
+    public function getVacuumHorsePossibleMoves(Move $move) :array
+    {
+        return [self::NORMAL => [], self::ATTAK => [], self::SPECIAL => []];
+    }
+    
+    /**
+     * Move figure finally + internal actions
+     * @param Move $move move object
+     * @param Desk $desk 
+     * @return AbstractFigure AbstractFigure
+     */
+    abstract public function move(Move $move, Desk $desk) :AbstractFigure;
+    
+    /**
+     * Check move
+     * @param Move $move move object
+     * @param array $desk map of desk
+     * @param Move $last_move last move of any figure // have to have for pawn attack "en passant" @see en.wikipedia.org/wiki/Pawn_(chess)#Capturing
+     * @return int "price" of move / -1 = forbidden move / 0 = no attack move
+     */
+    abstract public function checkFigureMove(Move $move, array $desk, Move $last_move=null) :int ;
+    
+    /**
+     * return figure symbol
+     */
+    abstract public function __toString();
+    
     /**
      * Create of figure with color determinate
      * @param boolean $is_black
@@ -57,41 +93,4 @@ abstract class AbstractFigure {
         return $this->is_black;
     }
     
-    /**
-     * Move figure finally + internal actions
-     * @param Move $move move object
-     * @param Desk $desk 
-     * @return AbstractFigure instanceof 
-     */
-    public function move(Move $move, Desk $desk)
-    {
-        return $this;
-    }
-    
-    /**
-     * Get list of possible moves from position start
-     * @param array $start - start position
-     * @return array of arrays of Move with keys 
-     *  ['normal'] => ordinary moves 
-     *  ['attack'] => attack figure moves
-     *  ['special'] => special figure moves
-     */
-    public function getVacuumHorsePossibleMoves(Move $move) :array
-    {
-        return [self::NORMAL => [], self::ATTAK => [], self::SPECIAL => []];
-    }
-    
-    /**
-     * Check move
-     * @param Move $move move object
-     * @param array $desk map of desk
-     * @param Move $last_move last move of any figure // have to have for pawn attack "en passant" @see en.wikipedia.org/wiki/Pawn_(chess)#Capturing
-     * @return int "price" of move / -1 = forbidden move / 0 = no attack move
-     */
-    abstract public function checkFigureMove(Move $move, array $desk, Move $last_move=null) :int ;
-    
-    /**
-     * return figure symbol
-     */
-    abstract public function __toString();
 }

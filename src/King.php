@@ -9,4 +9,8 @@ class King extends AbstractFigure {
     {
         return 1;
     }
+    public function move(Move $move, Desk $desk) :AbstractFigure
+    {
+        return $this;
+    }
 }

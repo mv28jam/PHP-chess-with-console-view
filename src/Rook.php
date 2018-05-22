@@ -9,4 +9,8 @@ class Rook extends AbstractFigure {
     {
         return true;
     }
+    public function move(Move $move, Desk $desk) :AbstractFigure
+    {
+        return $this;
+    }
 }
