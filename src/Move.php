@@ -34,14 +34,22 @@ class Move {
      */
     protected $deltaX = 0;
     protected $deltaY = 0;
+    protected static $move_delimeter = '-';
+    
     
     /**
      * @param string $move like e2-e4
+     * @param string $move_exploded end of move like e4 and $move like e2
      * @throws \Exception
      */
-    public function __construct(string $move) 
+    public function __construct(string $move, string $move_exploded = '') 
     {
-        if (!preg_match('/^([a-h])([1-8])-?([a-h])([1-8])$/', $move, $match)) {
+        //
+        if(!empty($move_exploded)){
+            $move = implode(self::$move_delimeter, [$move, $move_exploded]); 
+        }
+        //check matchoing for std string move
+        if (!preg_match('/^([a-h])([1-8])'.self::$move_delimeter.'?([a-h])([1-8])$/', $move, $match)) {
             throw new \Exception("Incorrect move");
         }
         //
@@ -94,18 +102,20 @@ class Move {
     
     /**
      * Increment char self::xFrom not by link
+     * @param int $step shith on
      * @return string
      */
-    public function nextX(){
-         return chr(ord($this->xFrom) + 1);
+    public function nextX($step = 1){
+         return chr(ord($this->xFrom) + $step);
     }
     
     /**
      * Decrement char self::xFrom not by link
+     * @param int $step shith on
      * @return string
      */
-    public function prevX(){
-        return chr(ord($this->xFrom) - 1);
+    public function prevX($step = 1){
+        return chr(ord($this->xFrom) - $step);
     }
     
     /**

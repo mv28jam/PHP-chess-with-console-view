@@ -26,8 +26,9 @@ class Pawn extends AbstractFigure {
      */
     protected $desk_change = ['unset' => [], 'set' => []];
     
+    
     /**
-     * Move action and after action
+     * Move action and after action for pawn
      * @param Move $move
      * @param Desk $desk
      * @return AbstractFigure|Pawn
@@ -134,9 +135,10 @@ class Pawn extends AbstractFigure {
     }
     
     /**
-     * Create array of all possible moves without other figures
+     * Create array of all possible moves without other figures for pawn
      * @param Move $move
-     * @return array of array of Move
+     * @return array of array of Move 
+     * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
     public function getVacuumHorsePossibleMoves(Move $move) :array 
     {
@@ -151,18 +153,18 @@ class Pawn extends AbstractFigure {
         //straight move
         /** @see $this->move() overkill check */
         if($move->checkY(($move->yFrom + (1 * $sign)))){
-            $result[self::NORMAL][] = new Move($move->strFrom.'-'.$move->xFrom.($move->yFrom + $sign));
+            $result[self::NORMAL][] = new Move($move->strFrom, $move->xFrom.($move->yFrom + $sign));
         }
         //attak
         if($move->checkX($move->nextX())){
-            $result[self::ATTAK][] = new Move($move->strFrom.'-'.$move->nextX().($move->yFrom + $sign));
+            $result[self::ATTAK][] = new Move($move->strFrom, $move->nextX().($move->yFrom + $sign));
         }
         if($move->checkX($move->prevX())){
-            $result[self::ATTAK][] = new Move($move->strFrom.'-'.$move->prevX().($move->yFrom + $sign));
+            $result[self::ATTAK][] = new Move($move->strFrom, $move->prevX().($move->yFrom + $sign));
         }
         //special move
         if($this->first_step){
-            $result[self::SPECIAL][] = new Move($move->strFrom.'-'.$move->xFrom.($move->yFrom + (2 * $sign)));
+            $result[self::SPECIAL][] = new Move($move->strFrom, $move->xFrom.($move->yFrom + (2 * $sign)));
         }
         //
         return $result;

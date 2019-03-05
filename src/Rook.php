@@ -8,6 +8,7 @@ class Rook extends AbstractFigure {
      */
     public $price = 2;
     
+    
     /**
      * Validate Rook move
      * @param Move $move Move object
@@ -17,20 +18,29 @@ class Rook extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, array $desk, Move $last_move=null) : int 
     {
+        $this->getVacuumHorsePossibleMoves($move); 
         return true;
     }
     
     /**
-     * Get list of possible moves from position start
+     * Get list of possible moves from position start for rook
      * @param array $start - start position
      * @return array of arrays of Move with keys 
-     *  ['normal'] => moves 
+     * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
     public function getVacuumHorsePossibleMoves(Move $move) :array
     {
         //ini
-        $result = [self::NORMAL => []];
-       
+        $result = parent::getVacuumHorsePossibleMoves($move);
+        //
+        for($i=1; $i<=8; $i++){
+            $step = ($i - $move->yFrom);
+            if($step == 0){
+                continue;
+            }
+            $result[self::NORMAL][] = new Move($move->strFrom, $move->xFrom.($move->yFrom + $step));
+            $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($step).$move->yFrom);
+        }
         //
         return $result;
     }
