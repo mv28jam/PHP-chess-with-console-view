@@ -73,26 +73,6 @@ abstract class AbstractFigure {
         $this->is_black = $is_black;
     }
     
-    /**
-     * Check diagonal free of figure
-     * @param Move $move Move object
-     * @param array $desk map of desk
-     * @return array
-     */
-    public function diagonalFreeOfFigure(Move $move, array $desk){
-        return [];
-    }
-    
-    /**
-     * Check vertical and horizontal free of figure
-     * @param Move $move Move object
-     * @param array $desk map of desk
-     * @return array 
-     */
-    public function verticalHorizontalFreeOfFigure(Move $move, array $desk){
-        return [];
-    }
-    
      /**
      * Get list of possible moves from position start
      * @param array $start - start position
