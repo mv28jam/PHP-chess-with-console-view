@@ -18,6 +18,16 @@
  * 
  */
 class Move {
+    
+    /**
+     * Move without attack
+     */
+    const MOVING = 0;
+    /**
+     * Forbidden move
+     */
+    const FORBIDDEN = -1;
+    
     /**
      * @var array $start
      * where is figure  
@@ -158,6 +168,14 @@ class Move {
      */
     public function getStop(){
         return $this->stop;
+    }
+    
+    /**
+     * Get X position of figure like Y(1-8)
+     * @return int
+     */
+    public function getXLikeY(string $in){
+        return (105-ord($in));
     }
     
 }

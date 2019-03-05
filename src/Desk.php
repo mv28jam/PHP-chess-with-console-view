@@ -83,7 +83,7 @@ class Desk {
             case(!$this->moveOrder($move)):
                 throw new \Exception('Other color moves - '.(new Pawn(!$this->last_move)));
             //check move of figure by this figure rules    
-            case($this->figures($move->from)->checkFigureMove($move, $this->toMap(),(current($this->moves) ? current($this->moves) : null)) < 0):
+            case($this->figures($move->from)->checkFigureMove($move, $this->toMap(),(current($this->moves) ? current($this->moves) : null)) < Move::MOVING):
                 throw new \Exception('Forbidden move for '.$this->figures($move->getStart()));
         }
         //save move
@@ -172,14 +172,17 @@ class Desk {
     
     /**
      * Return map of desk like figure price array
-     * @return array
+     * @return array of \stdClass
      */
     public function toMap() :array {
         $result=[];
         //
         for ($y = 8; $y >= 1; $y--) {
             for ($x = 'a'; $x <= 'h'; $x++) {
-                $result[$x][$y] = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->price() : false);
+                $res = new \stdClass();
+                $res->price = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->price() : false);
+                $res->is_black = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->getIsBlack() : null);
+                $result[$x][$y] = $res;
             }
         }
         //

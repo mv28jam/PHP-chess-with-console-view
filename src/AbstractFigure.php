@@ -21,7 +21,7 @@ abstract class AbstractFigure {
      * Abstract price of figure to automatic game
      * @var int 
      */
-    protected $price = PHP_INT_MAX;
+    protected $price = 0;
     /**
      * Changes to desk commit with move, but not straight attack or move
      * @var array description below
@@ -29,6 +29,12 @@ abstract class AbstractFigure {
      *  'set' => ['e2'=>'e4'] - set figures from position key to to position value
      */
     protected $desk_change = ['unset' => [], 'set' => []];
+    /**
+     * All figure moves
+     * @var array of Moves
+     */
+    protected $moves = [];
+    
     
     
     /**
@@ -36,7 +42,7 @@ abstract class AbstractFigure {
      * @param Move $move Move object
      * @param array $desk map of desk
      * @param Move $last_move last move of any figure 
-     * @return int "price" of move / -1 = forbidden move / 0 = no attack move
+     * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
      */
     abstract public function checkFigureMove(Move $move, array $desk, Move $last_move=null) :int ;
     
@@ -54,6 +60,7 @@ abstract class AbstractFigure {
      */
     public function move(Move $move, Desk $desk) :AbstractFigure
     {
+        $this->moves[] = $move; 
         return $this;
     }
     
@@ -66,12 +73,32 @@ abstract class AbstractFigure {
         $this->is_black = $is_black;
     }
     
+    /**
+     * Check diagonal free of figure
+     * @param Move $move Move object
+     * @param array $desk map of desk
+     * @return array
+     */
+    public function diagonalFreeOfFigure(Move $move, array $desk){
+        return [];
+    }
+    
+    /**
+     * Check vertical and horizontal free of figure
+     * @param Move $move Move object
+     * @param array $desk map of desk
+     * @return array 
+     */
+    public function verticalHorizontalFreeOfFigure(Move $move, array $desk){
+        return [];
+    }
+    
      /**
      * Get list of possible moves from position start
      * @param array $start - start position
      * @return array of arrays of Move with keys 
      *  ['normal'] => ordinary moves 
-     *  ['attack'] => attack figure moves
+     *  ['attack'] => attack special figure moves (for pawn)
      *  ['special'] => special figure moves
      */
     public function getVacuumHorsePossibleMoves(Move $move) :array
