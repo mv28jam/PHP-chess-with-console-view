@@ -66,9 +66,21 @@ class Rook extends AbstractFigure {
                 $result[self::NORMAL][] = new Move($move->strFrom, $move->prevX($stepX).$move->yFrom);
             }
         }
-        //roque
-        //@todo
-        $result[self::SPECIAL] = null;
+        //roque move without limitation
+        switch(true){
+            case($move->strFrom == 'h1'):
+                $result[self::SPECIAL][] = new Move('h1-f1');
+                break;
+            case($move->strFrom == 'a1'):
+                $result[self::SPECIAL][] = new Move('a1-d1');
+                break;
+            case($move->strFrom == 'h8'):
+                $result[self::SPECIAL][] = new Move('h8-f8');
+                break;
+            case($move->strFrom == 'a8'):
+                $result[self::SPECIAL][] = new Move('a8-d8');
+                break;
+        }
         //
         return $result;
     }
