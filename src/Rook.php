@@ -12,11 +12,10 @@ class Rook extends AbstractFigure {
     /**
      * Validate Rook move
      * @param Move $move Move object
-     * @param array $desk map of desk
-     * @param Move $last_move not used for Rook
+     * @param Desk $desk 
      * @return int {@inheritdoc}
      */
-    public function checkFigureMove(Move $move, array $desk, Move $last_move=null) : int 
+    public function checkFigureMove(Move $move, Desk $desk) : int 
     {
         //if requested move is possible
         //without desk figures poditions check
@@ -33,10 +32,15 @@ class Rook extends AbstractFigure {
         if(!$possible){
             return Move::FORBIDDEN;
         }
-        //
+        //horiz or vertical move
+        if($move->dY > 0){
+            
+        }else{
+            
+        }
         
         //
-        return 0;
+        return Move::FORBIDDEN;;
     }
     
     /**

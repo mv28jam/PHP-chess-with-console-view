@@ -40,11 +40,10 @@ abstract class AbstractFigure {
     /**
      * Check move
      * @param Move $move Move object
-     * @param array $desk map of desk
-     * @param Move $last_move last move of any figure 
+     * @param Desk $desk 
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
      */
-    abstract public function checkFigureMove(Move $move, array $desk, Move $last_move=null) :int ;
+    abstract public function checkFigureMove(Move $move, Desk $desk) :int ;
     
     /**
      * Return symbol of figure

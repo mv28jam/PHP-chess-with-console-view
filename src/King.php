@@ -23,11 +23,10 @@ class King extends AbstractFigure {
     /**
      * Validate King move
      * @param Move $move Move object
-     * @param array $desk map of desk
-     * @param Move $last_move 
+     * @param Desk $desk
      * @return int {@inheritdoc}
      */
-    public function checkFigureMove(Move $move, array $desk, Move $last_move=null) : int 
+    public function checkFigureMove(Move $move, Desk $desk) : int 
     {
         return 0;
     }

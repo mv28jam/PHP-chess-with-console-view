@@ -77,18 +77,19 @@ class Pawn extends AbstractFigure {
     /**
      * Validate pawn move
      * @param Move $move move object
-     * @param array $desk map of desk
-     * @param Move $last_move last move of any figure // have to have for pawn attack "en passant" @see en.wikipedia.org/wiki/Pawn_(chess)#Capturing
+     * @param Desk $desk @see getLastMove // have to have for pawn attack "en passant" @see en.wikipedia.org/wiki/Pawn_(chess)#Capturing
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move
      */
-    public function checkFigureMove(Move $move, array $desk, Move $last_move=null) : int 
+    public function checkFigureMove(Move $move, Desk $desk) : int 
     { 
+        //use for "en passant"
+        $last_move = $desk->getLastMove();
         //get possible moves
         $moves = $this->getVacuumHorsePossibleMoves($move);
         //ckeck our normal move
         //for pawn move only 1 field move so check only closest
         foreach($moves[self::NORMAL] as $val){
-            if($val->strTo === $move->strTo and $desk[$move->xTo][$move->yTo]->price===false){
+            if($val->strTo === $move->strTo and $desk->getFigurePrice($move->to) === 0){
                 return Move::MOVING;
             }
         }
@@ -104,9 +105,9 @@ class Pawn extends AbstractFigure {
             if(
                 $val->strTo === $move->strTo 
                 and 
-                $desk[$move->xTo][$move->yTo]->price===false
+                $desk->getFigurePrice($move->to) === 0
                 and 
-                $desk[$move->xTo][$move->yTo + $sign]->price===false    
+                $desk->getFigurePrice([$move->xTo, ($move->yTo + $sign)]) === 0
             ){
                 return Move::MOVING;
             }
@@ -117,19 +118,19 @@ class Pawn extends AbstractFigure {
             if(
                 $val->strTo === $move->strTo
                 and 
-                $desk[$move->xTo][$move->yTo]->price !== false 
+                $desk->getFigurePrice($move->to) !== 0 
                 and
-                $desk[$move->xTo][$move->yTo]->is_black != $this->is_black     
+                $desk->getFigureIsBlack($move->to) != $this->is_black     
             ){
-                return $desk[$move->xTo][$move->yTo]->price;
+                return $desk->getFigurePrice($move->to);
             }
             //check for attak "en passant"
             if(
                 !empty($last_move)
                 and
-                $desk[$last_move->xTo][$last_move->yTo]->price == $this->price()
+                $desk->getFigurePrice($last_move->to) == $this->price()
                 and
-                $desk[$move->xTo][$move->yTo]->is_black != $this->is_black    
+                $desk->getFigureIsBlack($last_move->to) != $this->is_black    
                 and
                 abs($last_move->dY)==2
                 and     
@@ -138,7 +139,7 @@ class Pawn extends AbstractFigure {
                 $last_move->xFrom == $val->xTo    
             ){
                 $this->desk_change['unset'][] = $last_move->to;
-                return $desk[$move->xTo][$move->yTo+$sign]->price;
+                return $desk->getFigurePrice([$move->xTo, ($move->yTo + $sign)]);
             }
         }
         //

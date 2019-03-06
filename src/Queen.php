@@ -23,11 +23,10 @@ class Queen extends AbstractFigure {
     /**
      * Validate Queen move
      * @param Move $move Move object
-     * @param array $desk map of desk
-     * @param Move $last_move not used!
+     * @param Desk $desk not used!
      * @return int {@inheritdoc}
      */
-    public function checkFigureMove(Move $move, array $desk, Move $last_move=null) : int 
+    public function checkFigureMove(Move $move, Desk $desk): int 
     {
         return 0;
     }

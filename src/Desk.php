@@ -83,7 +83,7 @@ class Desk {
             case(!$this->moveOrder($move)):
                 throw new \Exception('Other color moves - '.(new Pawn(!$this->last_move)));
             //check move of figure by this figure rules    
-            case($this->figures($move->from)->checkFigureMove($move, $this->toMap(),(current($this->moves) ? current($this->moves) : null)) < Move::MOVING):
+            case($this->figures($move->from)->checkFigureMove($move, $this) < Move::MOVING):
                 throw new \Exception('Forbidden move for '.$this->figures($move->getStart()));
         }
         //save move
@@ -97,13 +97,11 @@ class Desk {
     }
     
     /**
-     * Get figure in position
-     * @param array $position
-     * @return AbstractFigure
+     * Get last move of game
+     * @return Move|null
      */
-    public function figures(array $position) :AbstractFigure 
-    {
-        return $this->figures[$position[0]][$position[1]];        
+    public function getLastMove(){
+        return (current($this->moves) ? current($this->moves) : null);
     }
     
     /**
@@ -122,29 +120,48 @@ class Desk {
     }
     
     /**
-     * Check for figure in position
+     * Get fugure price
      * @param array $position
-     * @return bool
+     * @return int
      */
-    public function checkFigureExists(array $position) :bool 
-    {
-        return isset($this->figures[$position[0]][$position[1]]) ? true : false;
+    public function getFigurePrice(array $position) :int {
+        if($this->checkFigureExists($position)){
+            return $this->figures[$position[0]][$position[1]]->price();
+        }
+        //
+        return 0;
     }
     
     /**
-     * Check for move order white-black-white...
-     * @param Move $move
-     * @return bool true if order is right false if no
+     * Get fugure is black
+     * @param array $position
+     * @return bool|null
      */
-    protected function moveOrder(Move $move) :bool 
-    { 
-        if(
-            $this->last_move === $this->figures[$move->from[0]][$move->from[1]]->getIsBlack()
-        ){
-            return false;
-        }else{
-            return true;
+    public function getFigureIsBlack(array $position) {
+        if($this->checkFigureExists($position)){
+            return $this->figures[$position[0]][$position[1]]->getIsBlack();
         }
+        //
+        return null;  
+    }
+    
+    /**
+     * Return map of desk like figure price array
+     * @return array of \stdClass
+     */
+    public function toMap() :array {
+        $result=[];
+        //
+        for ($y = 8; $y >= 1; $y--) {
+            for ($x = 'a'; $x <= 'h'; $x++) {
+                $res = new \stdClass();
+                $res->price = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->price() : false);
+                $res->is_black = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->getIsBlack() : null);
+                $result[$x][$y] = $res;
+            }
+        }
+        //
+        return $result;
     }
     
     /**
@@ -168,24 +185,41 @@ class Desk {
         $result[] = "  a b c d e f g h\n";
         //
         return $result;
+    }        
+    
+    /**
+     * Check for move order white-black-white...
+     * @param Move $move
+     * @return bool true if order is right false if no
+     */
+    protected function moveOrder(Move $move) :bool 
+    { 
+        if(
+            $this->last_move === $this->figures[$move->from[0]][$move->from[1]]->getIsBlack()
+        ){
+            return false;
+        }else{
+            return true;
+        }
     }
     
     /**
-     * Return map of desk like figure price array
-     * @return array of \stdClass
+     * Get figure in position
+     * @param array $position
+     * @return AbstractFigure
      */
-    public function toMap() :array {
-        $result=[];
-        //
-        for ($y = 8; $y >= 1; $y--) {
-            for ($x = 'a'; $x <= 'h'; $x++) {
-                $res = new \stdClass();
-                $res->price = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->price() : false);
-                $res->is_black = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->getIsBlack() : null);
-                $result[$x][$y] = $res;
-            }
-        }
-        //
-        return $result;
+    protected function figures(array $position) :AbstractFigure 
+    {
+        return $this->figures[$position[0]][$position[1]];        
+    }
+    
+    /**
+     * Check for figure in position
+     * @param array $position
+     * @return bool
+     */
+    public function checkFigureExists(array $position) :bool 
+    {
+        return isset($this->figures[$position[0]][$position[1]]) ? true : false;
     }
 }
