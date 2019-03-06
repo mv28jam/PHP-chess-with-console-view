@@ -17,27 +17,17 @@ class Rook extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
-        //if requested move is possible
-        //without desk figures poditions check
-        $possible = false;
         //get possible moves
         $moves = $this->getVacuumHorsePossibleMoves($move);
         //ckeck our normal move
         foreach($moves[self::NORMAL] as $val){
             if($val->strTo === $move->strTo){
-                $possible = true;
+                return $this->checkHorizontalVerticalMove($move, $desk);
             }
-        }
-        //teoretecly can not do such move
-        if(!$possible){
+            //teoretecly can not do such move
             return Move::FORBIDDEN;
         }
-        //horiz or vertical move
-        if($move->dY > 0){
-            
-        }else{
-            
-        }
+        //
         
         //
         return Move::FORBIDDEN;;

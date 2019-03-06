@@ -36,7 +36,6 @@ abstract class AbstractFigure {
     protected $moves = [];
     
     
-    
     /**
      * Check move
      * @param Move $move Move object
@@ -52,6 +51,15 @@ abstract class AbstractFigure {
     abstract public function __toString();
     
     /**
+     * Create of figure with color determinate
+     * @param boolean $is_black
+     */
+    public function __construct(bool $is_black) 
+    {
+        $this->is_black = $is_black;
+    }
+    
+    /**
      * Move figure finally + internal actions
      * @param Move $move move object
      * @param Desk $desk 
@@ -64,12 +72,29 @@ abstract class AbstractFigure {
     }
     
     /**
-     * Create of figure with color determinate
-     * @param boolean $is_black
+     * Check horizontal or vertical move
+     * @param Move $move Move object
+     * @param Desk $desk 
+     * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
      */
-    public function __construct(bool $is_black) 
-    {
-        $this->is_black = $is_black;
+    public function checkHorizontalVerticalMove(Move $move, Desk $desk) :int {
+        //horiz or vertical move
+        if($move->dY > 0){
+            
+        }else{
+            
+        }
+        return Move::FORBIDDEN;
+    }
+    
+    /**
+     * Check diagonal move
+     * @param Move $move Move object
+     * @param Desk $desk 
+     * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
+     */
+    public function checkDiagonalMove(Move $move, Desk $desk) :int {
+        return Move::FORBIDDEN;
     }
     
      /**
