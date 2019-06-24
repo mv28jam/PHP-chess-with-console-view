@@ -106,7 +106,7 @@ class Move {
                 return $this->deltaY;        
         }
         //
-        trigger_error('Undefined property in '.__METHOD__.' : ' . $name, E_USER_ERROR);
+        user_error('Undefined property in '.__METHOD__.' : ' . $name, E_USER_ERROR);
         return null;
     }
     

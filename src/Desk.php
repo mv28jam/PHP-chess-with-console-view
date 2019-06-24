@@ -120,7 +120,7 @@ class Desk {
     }
     
     /**
-     * Get fugure price
+     * Get figure price
      * @param array $position
      * @return int
      */

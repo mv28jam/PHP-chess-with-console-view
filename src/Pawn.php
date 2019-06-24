@@ -64,10 +64,10 @@ class Pawn extends AbstractFigure {
         }
         //"en passant" support
         foreach($this->desk_change as $val){
-            $desk->figureUnset($val);
+            if($desk->figureUnset($val) === false){
+                user_error('No figure in position, have to be there!', E_USER_ERROR);
+            }
         }
-        //emptying unset array 
-        $this->desk_change = [];
         //
         return $this;
     }
