@@ -7,7 +7,9 @@
  */
 abstract class AbstractFigure {
     
-    //moves group names
+    /**
+     * moves group names
+     */
     const NORMAL = 'normal';
     const ATTAK = 'attack';
     const SPECIAL = 'special';
@@ -24,11 +26,10 @@ abstract class AbstractFigure {
     protected $price = 0;
     /**
      * Changes to desk commit with move, but not straight attack or move
-     * @var array description below
-     *  'unset' => ['e2'] - unset figure in position
-     *  'set' => ['e2'=>'e4'] - set figures from position key to to position value
+     * like "en passant"
+     * @var array 
      */
-    protected $desk_change = ['unset' => [], 'set' => []];
+    protected $desk_change = [];
     /**
      * All figure moves
      * @var array of Moves
@@ -91,7 +92,8 @@ abstract class AbstractFigure {
      * Check diagonal move
      * @param Move $move Move object
      * @param Desk $desk 
-     * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
+     * @return int "price" of move / -1 = forbidden move / 0 = no attack move 
+     * @see Move
      */
     public function checkDiagonalMove(Move $move, Desk $desk) :int {
         return Move::FORBIDDEN;
@@ -99,7 +101,7 @@ abstract class AbstractFigure {
     
      /**
      * Get list of possible moves from position start
-     * @param array $start - start position
+     * @param array $move - start position
      * @return array of arrays of Move with keys 
      *  ['normal'] => ordinary moves 
      *  ['attack'] => attack special figure moves (for pawn)

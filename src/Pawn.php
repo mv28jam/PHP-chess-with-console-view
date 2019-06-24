@@ -20,11 +20,9 @@ class Pawn extends AbstractFigure {
     protected $price = 1;
     /**
      * Changes to desk commit with "en passant" move
-     * @var array descr below
-     *  'unset' => ['e2'] - unset figure in position
-     *  'set' => ['e2'=>'e4'] - set figures from position key to to position value
+     * @var array 
      */
-    protected $desk_change = ['unset' => [], 'set' => []];
+    protected $desk_change = [];
     
     
     /**
@@ -65,11 +63,11 @@ class Pawn extends AbstractFigure {
             }
         }
         //"en passant" support
-        foreach($this->desk_change['unset'] as $val){
+        foreach($this->desk_change as $val){
             $desk->figureUnset($val);
         }
         //emptying unset array 
-        $this->desk_change['unset']=[];
+        $this->desk_change = [];
         //
         return $this;
     }
@@ -138,7 +136,7 @@ class Pawn extends AbstractFigure {
                 and 
                 $last_move->xFrom == $val->xTo    
             ){
-                $this->desk_change['unset'][] = $last_move->to;
+                $this->desk_change[] = $last_move->to;
                 return $desk->getFigurePrice([$move->xTo, ($move->yTo + $sign)]);
             }
         }
