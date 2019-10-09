@@ -49,7 +49,7 @@ class King extends AbstractFigure {
     /**
      * @inheritdoc
      */
-    public function __toString() 
+    public function __toString() : string  
     {
         return $this->is_black ? '♔' : '♚';
     }

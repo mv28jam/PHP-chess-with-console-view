@@ -59,7 +59,8 @@ class Game {
      * @param string $move
      * @return void
      */
-    public function moveAction(string $move):void{
+    public function moveAction(string $move) : void
+    {
         try {    
             $this->desk->move(new Move($move));
             $this->animated_output->echoMultipleLine($this->desk->dump(), 1);
@@ -80,7 +81,7 @@ class Game {
      * prepare game space
      * @return void
      */
-    public function init() :void
+    public function init() : void
     {
         $this->animated_output= new ConsoleAnimated\ConsoleAnimatedOutput();
         $this->desk = new Desk();
@@ -96,7 +97,7 @@ class Game {
      * @param string $move from STDIN
      * @return void
      */
-    protected function controlActions(string $move) :void
+    protected function controlActions(string $move) : void
     {
         switch($move){
             case(self::QUIT):
@@ -112,7 +113,7 @@ class Game {
      * exit the game
      * @return void
      */
-    public function gameExit(): void
+    public function gameExit() : void
     {
         exit(0);
     }

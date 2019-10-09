@@ -31,7 +31,7 @@ class Pawn extends AbstractFigure {
      * @param Desk $desk
      * @return AbstractFigure|Pawn
      */
-    public function move(Move $move, Desk $desk) :AbstractFigure
+    public function move(Move $move, Desk $desk) : AbstractFigure
     {
         parent::move($move, $desk);
         //register first move
@@ -150,7 +150,7 @@ class Pawn extends AbstractFigure {
      * @return array of array of Move 
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function getVacuumHorsePossibleMoves(Move $move) :array 
+    public function getVacuumHorsePossibleMoves(Move $move) : array 
     {
         //ini
         $result = parent::getVacuumHorsePossibleMoves($move);
@@ -184,7 +184,7 @@ class Pawn extends AbstractFigure {
      * @inheritdoc
      * @return string
      */
-    public function __toString() 
+    public function __toString() : string
     {
         return $this->is_black ? '♙' : '♟';
     }

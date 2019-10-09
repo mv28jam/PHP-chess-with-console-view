@@ -43,13 +43,13 @@ abstract class AbstractFigure {
      * @param Desk $desk 
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
      */
-    abstract public function checkFigureMove(Move $move, Desk $desk) :int ;
+    abstract public function checkFigureMove(Move $move, Desk $desk) : int;
     
     /**
      * Return symbol of figure
      * @return string figure symbol
      */
-    abstract public function __toString();
+    abstract public function __toString() : string;
     
     /**
      * Create of figure with color determinate
@@ -66,7 +66,7 @@ abstract class AbstractFigure {
      * @param Desk $desk 
      * @return AbstractFigure 
      */
-    public function move(Move $move, Desk $desk) :AbstractFigure
+    public function move(Move $move, Desk $desk) : AbstractFigure
     {
         $this->moves[] = $move; 
         return $this;
@@ -78,7 +78,8 @@ abstract class AbstractFigure {
      * @param Desk $desk 
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
      */
-    public function checkHorizontalVerticalMove(Move $move, Desk $desk) :int {
+    public function checkHorizontalVerticalMove(Move $move, Desk $desk) : int 
+    {
         //horiz or vertical move
         if($move->dY > 0){
             
@@ -95,7 +96,8 @@ abstract class AbstractFigure {
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move 
      * @see Move
      */
-    public function checkDiagonalMove(Move $move, Desk $desk) :int {
+    public function checkDiagonalMove(Move $move, Desk $desk) : int 
+    {
         return Move::FORBIDDEN;
     }
     
@@ -107,7 +109,7 @@ abstract class AbstractFigure {
      *  ['attack'] => attack special figure moves (for pawn)
      *  ['special'] => special figure moves
      */
-    public function getVacuumHorsePossibleMoves(Move $move) :array
+    public function getVacuumHorsePossibleMoves(Move $move) : array
     {
         return [self::NORMAL => [], self::ATTAK => [], self::SPECIAL => []];
     }
@@ -116,7 +118,7 @@ abstract class AbstractFigure {
      * Return some ktulhu figure price
      * @return int price
      */
-    public function price() :int
+    public function price() : int
     {
         return $this->price;
     }
@@ -125,7 +127,7 @@ abstract class AbstractFigure {
      * Check black or white
      * @return bool
      */
-    public function getIsBlack() :bool 
+    public function getIsBlack() : bool 
     {
         return $this->is_black;
     }
