@@ -44,8 +44,10 @@ class Game {
             $input = explode('|', $input);
             //moving  
             foreach($input as $key => $move){
-                //for multiple moves we miss STDIN line so create empty
-                if($key > 0)$this->animated_output->echoEmptyLine();
+                //for multiple input moves we miss STDIN line so create empty
+                if($key > 0){
+                    $this->animated_output->echoEmptyLine();
+                }
                 //
                 try {    
                     $this->desk->move(new Move($move));
