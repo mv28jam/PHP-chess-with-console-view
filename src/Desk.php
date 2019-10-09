@@ -70,7 +70,7 @@ class Desk {
      * @param Move $move
      * @throws \Exception
      */
-    public function move(Move $move) 
+    public function move(Move $move) : void
     {
         //rewind moves
         end($this->moves);
@@ -109,7 +109,7 @@ class Desk {
      * @param array $position like "e5"
      * @return bool
      */
-    public function figureUnset(array $position) :bool 
+    public function figureUnset(array $position) : bool 
     {
         if($this->checkFigureExists($position)){
             unset($this->figures[$position[0]][$position[1]]);
@@ -124,7 +124,7 @@ class Desk {
      * @param array $position
      * @return int
      */
-    public function getFigurePrice(array $position) :int {
+    public function getFigurePrice(array $position) : int {
         if($this->checkFigureExists($position)){
             return $this->figures[$position[0]][$position[1]]->price();
         }
@@ -137,7 +137,8 @@ class Desk {
      * @param array $position
      * @return bool|null
      */
-    public function getFigureIsBlack(array $position) {
+    public function getFigureIsBlack(array $position) : bool 
+    {
         if($this->checkFigureExists($position)){
             return $this->figures[$position[0]][$position[1]]->getIsBlack();
         }
@@ -149,7 +150,8 @@ class Desk {
      * Return map of desk like figure price array
      * @return array of \stdClass
      */
-    public function toMap() :array {
+    public function toMap() : array 
+    {
         $result=[];
         //
         for ($y = 8; $y >= 1; $y--) {
@@ -168,7 +170,7 @@ class Desk {
      * Create array of lines echo
      * @return array output
      */
-    public function dump() :array 
+    public function dump() : array 
     {
         $result = [];
         //
@@ -192,7 +194,7 @@ class Desk {
      * @param Move $move
      * @return bool true if order is right false if no
      */
-    protected function moveOrder(Move $move) :bool 
+    protected function moveOrder(Move $move) : bool 
     { 
         if(
             $this->last_move === $this->figures[$move->from[0]][$move->from[1]]->getIsBlack()
@@ -208,7 +210,7 @@ class Desk {
      * @param array $position
      * @return AbstractFigure
      */
-    protected function figures(array $position) :AbstractFigure 
+    protected function figures(array $position) : AbstractFigure 
     {
         return $this->figures[$position[0]][$position[1]];        
     }
@@ -218,8 +220,8 @@ class Desk {
      * @param array $position
      * @return bool
      */
-    public function checkFigureExists(array $position) :bool 
+    public function checkFigureExists(array $position) : bool 
     {
-        return isset($this->figures[$position[0]][$position[1]]) ? true : false;
+        return isset($this->figures[$position[0]][$position[1]]);
     }
 }
