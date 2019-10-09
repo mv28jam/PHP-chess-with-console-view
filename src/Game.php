@@ -49,22 +49,31 @@ class Game {
                     $this->animated_output->echoEmptyLine();
                 }
                 //
-                try {    
-                    $this->desk->move(new Move($move));
-                    $this->animated_output->echoMultipleLine($this->desk->dump(), 1);
-                    $this->animated_output->deleteLine();
-                    $this->animated_output->cursorUp();
-                    $this->animated_output->echoLine($this->input_move);
-                } catch (\Exception $e) {
-                    //do not save move and echo error message
-                    $this->animated_output->echoLine($this->mistake.$e->getMessage());
-                    $this->animated_output->cursorUp();
-                    $this->animated_output->echoLine($this->input_move);   
-                }
+                $this->moveAction($move);
             }
         }while(!empty($input));
     }
     
+    /**
+     * Move actions
+     * @param string $move
+     * @return void
+     */
+    public function moveAction(string $move):void{
+        try {    
+            $this->desk->move(new Move($move));
+            $this->animated_output->echoMultipleLine($this->desk->dump(), 1);
+            $this->animated_output->deleteLine();
+            $this->animated_output->cursorUp();
+            $this->animated_output->echoLine($this->input_move);
+        } catch (\Exception $e) {
+            //do not save move and echo error message
+            $this->animated_output->echoLine($this->mistake.$e->getMessage());
+            $this->animated_output->cursorUp();
+            $this->animated_output->echoLine($this->input_move);   
+        }
+    }
+
     /**
      * Init 
      * create objects
