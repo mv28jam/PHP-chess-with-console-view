@@ -20,7 +20,7 @@ class Pawn extends AbstractFigure {
      */
     protected $price = 1;
     /**
-     * Changes to desk commit with "en passant" move
+     * Changes to desk after "en passant" move
      * @var array 
      */
     protected $desk_change = [];
@@ -64,13 +64,14 @@ class Pawn extends AbstractFigure {
             }
         }
         //"en passant" support
-        foreach($this->desk_change as $val){
-            if($desk->figureUnset($val) === false){
+        if(!empty($this->desk_change)){
+            //unset and check for fatal error
+            if($desk->figureUnset($this->desk_change) === false){
                 user_error('No figure in position, have to be there!', E_USER_ERROR);
             }
+            //change clear
+            $this->desk_change = [];
         }
-        //change clear
-        $this->desk_change = [];
         //
         return $this;
     }
@@ -139,7 +140,7 @@ class Pawn extends AbstractFigure {
                 and 
                 $last_move->xFrom == $val->xTo    
             ){
-                $this->desk_change[] = $last_move->to;
+                $this->desk_change = $last_move->to;
                 return $desk->getFigurePrice([$move->xTo, ($move->yTo + $sign)]);
             }
         }

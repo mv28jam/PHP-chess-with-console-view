@@ -25,12 +25,6 @@ abstract class AbstractFigure {
      */
     protected $price = 0;
     /**
-     * Changes to desk commit with move, but not straight attack or move
-     * like "en passant"
-     * @var array 
-     */
-    protected $desk_change = [];
-    /**
      * All figure moves
      * @var array of Moves
      */
