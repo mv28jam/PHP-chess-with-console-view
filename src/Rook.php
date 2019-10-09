@@ -22,7 +22,8 @@ class Rook extends AbstractFigure {
         //ckeck our normal move
         foreach($moves[self::NORMAL] as $val){
             if($val->strTo === $move->strTo){
-                return $this->checkHorizontalVerticalMove($move, $desk);
+                //$this->checkHorizontalVertical($move);
+                return Move::FORBIDDEN;
             }
             //teoretecly can not do such move
             return Move::FORBIDDEN;

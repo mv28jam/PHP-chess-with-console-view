@@ -72,7 +72,7 @@ abstract class AbstractFigure {
      * @param Desk $desk 
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
      */
-    public function checkHorizontalVerticalMove(Move $move, Desk $desk) : int 
+    public function checkHorizontalVertical(Move $move) : bool 
     {
         //horiz or vertical move
         if($move->dY > 0){
@@ -80,7 +80,7 @@ abstract class AbstractFigure {
         }else{
             
         }
-        return Move::FORBIDDEN;
+        return false;
     }
     
     /**
@@ -90,9 +90,9 @@ abstract class AbstractFigure {
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move 
      * @see Move
      */
-    public function checkDiagonalMove(Move $move, Desk $desk) : int 
+    public function checkDiagonal(Move $move) : bool
     {
-        return Move::FORBIDDEN;
+        return false;
     }
     
      /**
