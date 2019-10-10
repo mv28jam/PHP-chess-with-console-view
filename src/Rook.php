@@ -112,7 +112,8 @@ class Rook extends AbstractFigure {
             return true;
         }
         //horiz or vertical move
-        /*
+        /* it is shit and do not work 
+         * @REDO
         if(abs($move->dY) > 0){
             $delta = $move->dY;
             if($delta > 0){
