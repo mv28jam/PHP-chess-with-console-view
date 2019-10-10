@@ -148,7 +148,7 @@ class Desk {
     
     /**
      * Return map of desk like figure price array
-     * @return array of \stdClass
+     * @return array of stdClass
      */
     public function toMap() : array 
     {
@@ -156,7 +156,7 @@ class Desk {
         //
         for ($y = 8; $y >= 1; $y--) {
             for ($x = 'a'; $x <= 'h'; $x++) {
-                $res = new \stdClass();
+                $res = new stdClass();
                 $res->price = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->price() : false);
                 $res->is_black = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->getIsBlack() : null);
                 $result[$x][$y] = $res;
