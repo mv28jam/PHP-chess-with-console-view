@@ -99,21 +99,4 @@ abstract class AbstractFigure {
         return $this->is_black;
     }
     
-    
-    /**
-     * Check horizontal or vertical move
-     * @param Move $move Move object
-     * @param Desk $desk 
-     * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
-     */
-    public function checkStraightMoveBlock(Move $move, Desk $desk) : bool 
-    {
-        //horiz or vertical move
-        if($move->dY > 0){
-            
-        }else{
-            
-        }
-        return false;
-    }
 }

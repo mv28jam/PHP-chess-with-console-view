@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Rook actions and behavior
+ * b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6|a7-a6
+ * 
+ * @author mv28jam <mv28jam@yandex.ru>
+ */
 class Rook extends AbstractFigure {
     
     /**
@@ -42,11 +48,11 @@ class Rook extends AbstractFigure {
         //ckeck our normal move
         foreach($moves[self::NORMAL] as $val){
             if($val->strTo === $move->strTo){
-                //$this->checkStraightMoveBlock($move, $desk);
+                if(self::checkStraightMoveBlock($move, $desk)){
+                    return $desk->getFigurePrice($move->to);
+                }
                 return Move::FORBIDDEN;
             }
-            //can not do such move
-            return Move::FORBIDDEN;
         }
         //
         
@@ -101,13 +107,49 @@ class Rook extends AbstractFigure {
      */
     public static function checkStraightMoveBlock(Move $move, Desk $desk) : bool 
     {
-        //horiz or vertical move
-        if($move->dY > 0){
-            
-        }else{
-            
+        //one step move
+        if(abs($move->dY) == 1 or abs($move->dY) === 1){
+            return true;
         }
-        return false;
+        //horiz or vertical move
+        /*
+        if(abs($move->dY) > 0){
+            $delta = $move->dY;
+            if($delta > 0){
+                    $delta -= 1; 
+            }else{
+                    $delta += 1; 
+            }
+            for($i = 1; $i < abs($delta); $i++){
+                if($desk->checkFigureExists([$move->xFrom, ($move->yTo + $delta)]) == true){
+                    return false;
+                }
+                if($delta > 0){
+                    $delta -= 1; 
+                }else{
+                    $delta += 1; 
+                }
+            }
+        }else{
+            $delta = $move->dX;
+            if($delta > 0){
+                $delta -= 1; 
+            }else{
+                $delta += 1; 
+            }
+            for($i = 1; $i < abs($move->dX); $i++){
+                if($desk->checkFigureExists([ord($move->getXLikeY($move->xTo) + $delta), $move->yFrom]) == true){
+                    return false;
+                }
+                if($delta > 0){
+                    $delta -= 1; 
+                }else{
+                    $delta += 1; 
+                }
+            }
+        }
+         */
+        return true;
     }
     
     /**
