@@ -172,6 +172,7 @@ class Move {
     
     /**
      * Get X position of figure like Y(1-8)
+     * Sorry
      * @return int
      */
     public function getXLikeY(string $in){

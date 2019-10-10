@@ -67,36 +67,9 @@ abstract class AbstractFigure {
     }
     
     /**
-     * Check horizontal or vertical move
-     * @param Move $move Move object
-     * @param Desk $desk 
-     * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
-     */
-    public function checkHorizontalVertical(Move $move) : bool 
-    {
-        //horiz or vertical move
-        if($move->dY > 0){
-            
-        }else{
-            
-        }
-        return false;
-    }
-    
-    /**
-     * Check diagonal move
-     * @param Move $move Move object
-     * @param Desk $desk 
-     * @return int "price" of move / -1 = forbidden move / 0 = no attack move 
-     * @see Move
-     */
-    public function checkDiagonal(Move $move) : bool
-    {
-        return false;
-    }
-    
-     /**
      * Get list of possible moves from position start
+     * \except simple limitation - NOT desk depended moves 
+     * \simple limitation like "first move"
      * @param array $move - start position
      * @return array of arrays of Move with keys 
      *  ['normal'] => ordinary moves 
@@ -126,4 +99,21 @@ abstract class AbstractFigure {
         return $this->is_black;
     }
     
+    
+    /**
+     * Check horizontal or vertical move
+     * @param Move $move Move object
+     * @param Desk $desk 
+     * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
+     */
+    public function checkStraightMoveBlock(Move $move, Desk $desk) : bool 
+    {
+        //horiz or vertical move
+        if($move->dY > 0){
+            
+        }else{
+            
+        }
+        return false;
+    }
 }

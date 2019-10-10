@@ -48,7 +48,7 @@ class Game {
                 if($key > 0){
                     $this->animated_output->echoEmptyLine();
                 }
-                //
+                //move output and desk move
                 $this->moveAction($move);
             }
         }while(!empty($input));
