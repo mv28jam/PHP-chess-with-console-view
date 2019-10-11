@@ -47,7 +47,7 @@ class Knight extends AbstractFigure {
         $result = parent::getVacuumHorsePossibleMoves($move);
         //
         foreach([2,-2] as $val){
-            //forward +2 vert
+            //forward 2 vert
             if($move->checkY($move->yFrom + $val)){
                 if($move->checkX($move->nextX())){
                     $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX().($move->yFrom + $val));
@@ -56,7 +56,7 @@ class Knight extends AbstractFigure {
                     $result[self::NORMAL][] = new Move($move->strFrom, $move->prevX().($move->yFrom + $val));
                 }
             }
-            //forward +2 horiz
+            //forward 2 horiz
             if($move->checkX($move->nextX($val))){
                 if($move->checkY($move->yFrom + 1)){
                     $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($val).($move->yFrom + 1));
