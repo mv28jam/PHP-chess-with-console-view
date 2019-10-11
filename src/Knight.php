@@ -34,7 +34,6 @@ class Knight extends AbstractFigure {
         }
         //
         return Move::FORBIDDEN;
-
     }
     
     /**
@@ -63,7 +62,7 @@ class Knight extends AbstractFigure {
                 if($move->checkY($move->yFrom + 1)){
                     $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($val).($move->yFrom + 1));
                 }
-                if($move->checkX($move->yFrom - 1)){
+                if($move->checkY($move->yFrom - 1)){
                     $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($val).($move->yFrom -1));
                 }
             }
