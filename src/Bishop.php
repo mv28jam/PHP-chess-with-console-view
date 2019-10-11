@@ -65,8 +65,30 @@ class Bishop extends AbstractFigure {
      */
     public static function checkDiagonalMoveBlock(Move $move, Desk $desk) : bool 
     {
+        //one step move
+        if(abs($move->dY) == 1){
+            return true;
+        }
         //@todo check
-        
+        //delta of move
+        switch(true){
+            //down left
+            case($move->dY > 0 and $move->dX > 0):
+                
+                break;
+            //down right
+            case($move->dY > 0 and $move->dX < 0):
+                
+                break;
+            //up right
+            case($move->dX > 0):
+                
+                break;
+            //up left
+            case($move->dX < 0):
+                
+                break;
+        }  
         //
         return true;
     }

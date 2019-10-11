@@ -118,17 +118,21 @@ class Rook extends AbstractFigure {
         $y = false;
         //delta of move
         switch(true){
+            //vertical move down
             case(abs($move->dY) > 0 and $move->dY > 0):
                 $delta = $move->dY - 1;
                 $y = true;
                 break;
+            //vertical move up
             case(abs($move->dY) > 0 and $move->dY < 0):
                 $delta = $move->dY + 1;
                 $y = true;
                 break;
+            //horizontal move left
             case($move->dX > 0):
                 $delta = $move->dX - 1;
                 break;
+            //horizontal move right
             case($move->dX < 0):
                 $delta = $move->dX + 1;
                 break;
