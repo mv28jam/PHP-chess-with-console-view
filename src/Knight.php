@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Knight actions and behavior
+ * Test game: 
+ * 
+ * @author mv28jam <mv28jam@yandex.ru>
+ */
 class Knight extends AbstractFigure {
     
     /**
@@ -8,17 +14,6 @@ class Knight extends AbstractFigure {
      */
     public $price = 2;
     
-    
-    /**
-     * Move action and after action for knight
-     * @param Move $move
-     * @param Desk $desk
-     * @return King
-     */
-    public function move(Move $move, Desk $desk) :AbstractFigure
-    {
-        return $this;
-    }
     
     /**
      * Validate Knight move
@@ -37,7 +32,7 @@ class Knight extends AbstractFigure {
      * @return array of array of Move
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function getVacuumHorsePossibleMoves(Move $move) :array
+    public function getVacuumHorsePossibleMoves(Move $move) : array
     {
         //ini
         $result = [self::NORMAL => []];
@@ -53,5 +48,33 @@ class Knight extends AbstractFigure {
     {
         return $this->is_black ? '♘' : '♞';
     }
+   
+    /**
+     * Check diagonal move blocks
+     * @param Move $move Move object
+     * @param Desk $desk 
+     * @return bool
+     */
+    public static function checkDiagonalMoveBlock(Move $move, Desk $desk) : bool 
+    {
+        
+        //
+        return true;
+    }
+    
+    /**
+     * Generate diagonal moves
+     * @param Move $move
+     * @return array of Move
+     */
+    public static function generateDiagonalMoves(Move $move){
+        //array of moves
+        $result = [];
+        //
+        
+        //
+        return $result;
+    }
+   
     
 }
