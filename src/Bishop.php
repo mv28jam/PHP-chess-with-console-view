@@ -40,8 +40,8 @@ class Bishop extends AbstractFigure {
         //ini
         $result = self::generateDiagonalMoves($move);
         
-        var_dump($result);
-        die;
+        //var_dump($result);
+        //die;
        
         //
         return $result;
