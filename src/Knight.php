@@ -2,7 +2,7 @@
 
 /**
  * Knight actions and behavior
- * Test game: 
+ * Test game:g1-f3|b8-c6|f3-e5|c6-e5|e2-e4|f5-e3|e4-e5|f3-e1
  * 
  * @author mv28jam <mv28jam@yandex.ru>
  */
@@ -36,7 +36,7 @@ class Knight extends AbstractFigure {
     }
     
     /**
-     * Create array of all possible moves without other figures for knight
+     * Create array of all possible moves for knight
      * @param Move $move
      * @return array of array of Move
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
