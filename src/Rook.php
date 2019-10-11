@@ -2,7 +2,7 @@
 
 /**
  * Rook actions and behavior
- * b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6|a7-a6
+ * b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6|a7-a6|h1-h3|c7-b6|h3-a3|a6-a5|c2-c3|a5-a4
  * 
  * @author mv28jam <mv28jam@yandex.ru>
  */
@@ -55,7 +55,7 @@ class Rook extends AbstractFigure {
             }
         }
         //
-        
+        //@TODO check of roque
         //
         return Move::FORBIDDEN;;
     }
@@ -100,10 +100,10 @@ class Rook extends AbstractFigure {
     }
     
     /**
-     * Check horizontal or vertical move
+     * Check horizontal or vertical move blocks
      * @param Move $move Move object
      * @param Desk $desk 
-     * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
+     * @return bool
      */
     public static function checkStraightMoveBlock(Move $move, Desk $desk) : bool 
     {
@@ -111,45 +111,33 @@ class Rook extends AbstractFigure {
         if(abs($move->dY) == 1 or abs($move->dY) === 1){
             return true;
         }
-        //horiz or vertical move
-        /* it is shit and do not work 
-         * @REDO
-        if(abs($move->dY) > 0){
-            $delta = $move->dY;
-            if($delta > 0){
-                    $delta -= 1; 
-            }else{
-                    $delta += 1; 
-            }
-            for($i = 1; $i < abs($delta); $i++){
-                if($desk->checkFigureExists([$move->xFrom, ($move->yTo + $delta)]) == true){
-                    return false;
-                }
-                if($delta > 0){
-                    $delta -= 1; 
-                }else{
-                    $delta += 1; 
-                }
-            }
-        }else{
-            $delta = $move->dX;
-            if($delta > 0){
-                $delta -= 1; 
-            }else{
-                $delta += 1; 
-            }
-            for($i = 1; $i < abs($move->dX); $i++){
-                if($desk->checkFigureExists([ord($move->getXLikeY($move->xTo) + $delta), $move->yFrom]) == true){
-                    return false;
-                }
-                if($delta > 0){
-                    $delta -= 1; 
-                }else{
-                    $delta += 1; 
-                }
+        //
+        $delta = 0;
+        $y = false;
+        //delta of move
+        switch(true){
+            case(abs($move->dY) > 0 and $move->dY > 0):
+                $delta = $move->dY - 1;
+                $y = true;
+                break;
+            case(abs($move->dY) > 0 and $move->dY < 0):
+                $delta = $move->dY + 1;
+                $y = true;
+                break;
+            case($move->dX > 0):
+                $delta = $move->dX - 1;
+                break;
+            case($move->dX < 0):
+                $delta = $move->dX + 1;
+                break;
+        }        
+        //
+        for($i = $delta; abs($i) > 0; ($delta < 0 ? $i++ : $i--)){
+            if($desk->checkFigureExists(($y ? [$move->xFrom, ($move->yTo + $i)] : [$move->prevX($i), $move->yFrom])) == true){
+                return false;
             }
         }
-         */
+        //
         return true;
     }
     
