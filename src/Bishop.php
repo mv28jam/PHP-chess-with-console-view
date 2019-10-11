@@ -2,7 +2,7 @@
 
 /**
  * Knight actions and behavior
- * Test game: e2-e4|e7-e6 
+ * Test game: e2-e4|d7-d6|f1-a6|c8-g4 
  * 
  * @author mv28jam <mv28jam@yandex.ru>
  */
@@ -25,7 +25,16 @@ class Bishop extends AbstractFigure {
     {
         //get possible moves
         $moves = $this->getVacuumHorsePossibleMoves($move);
-        
+        //
+        foreach($moves[self::NORMAL] as $val){
+            if($val->strTo === $move->strTo){
+                if(self::checkDiagonalMoveBlock($move, $desc)){
+                    return $desk->getFigurePrice($move->to);
+                }
+                return Move::FORBIDDEN;
+            }
+        }
+        //
         return Move::FORBIDDEN;
     }
     
@@ -37,14 +46,7 @@ class Bishop extends AbstractFigure {
      */
     public function getVacuumHorsePossibleMoves(Move $move) : array
     {
-        //ini
-        $result = self::generateDiagonalMoves($move);
-        
-        //var_dump($result);
-        //die;
-       
-        //
-        return $result;
+        return self::generateDiagonalMoves($move);
     }
     
     /**
@@ -63,6 +65,7 @@ class Bishop extends AbstractFigure {
      */
     public static function checkDiagonalMoveBlock(Move $move, Desk $desk) : bool 
     {
+        //@todo check
         
         //
         return true;
@@ -74,12 +77,25 @@ class Bishop extends AbstractFigure {
      * @return array of Move
      */
     public static function generateDiagonalMoves(Move $move){
-        //array of moves
-        $result = [];
+        //ini
+        $result = parent::getVacuumHorsePossibleMoves($move);
         //
         for($i=1; $i<=8; $i++){
-      
-            
+            $step = ($i - $move->getXLikeY($move->xFrom));
+            if($step != 0){
+                if($move->checkX($move->prevX($step)) and $move->checkY($move->yFrom + $step)){
+                    $result[self::NORMAL][] = new Move($move->strFrom, $move->prevX($step).($move->yFrom + $step));
+                }
+                if($move->checkX($move->nextX($step)) and $move->checkY($move->yFrom + $step)){
+                    $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($step).($move->yFrom + $step));
+                }
+                if($move->checkX($move->prevX($step)) and $move->checkY($move->yFrom - $step)){
+                    $result[self::NORMAL][] = new Move($move->strFrom, $move->prevX($step).($move->yFrom - $step));
+                }
+                if($move->checkX($move->nextX($step)) and $move->checkY($move->yFrom - $step)){
+                    $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($step).($move->yFrom - $step));
+                }
+            }
         }
         //
         return $result;
