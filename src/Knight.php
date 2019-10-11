@@ -29,7 +29,6 @@ class Knight extends AbstractFigure {
         foreach($moves[self::NORMAL] as $val){
             if($val->strTo === $move->strTo){
                 return $desk->getFigurePrice($move->to);
-                
             }
         }
         //
