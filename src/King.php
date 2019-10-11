@@ -28,7 +28,7 @@ class King extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
-        return 0;
+        return Move::FORBIDDEN;
     }
     
     /**

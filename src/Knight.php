@@ -23,7 +23,18 @@ class Knight extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
-        return 0;
+        //get possible moves
+        $moves = $this->getVacuumHorsePossibleMoves($move);
+        //
+        foreach($moves[self::NORMAL] as $val){
+            if($val->strTo === $move->strTo){
+                return $desk->getFigurePrice($move->to);
+                
+            }
+        }
+        //
+        return Move::FORBIDDEN;
+
     }
     
     /**
@@ -35,8 +46,29 @@ class Knight extends AbstractFigure {
     public function getVacuumHorsePossibleMoves(Move $move) : array
     {
         //ini
-        $result = [self::NORMAL => []];
-       
+        $result = parent::getVacuumHorsePossibleMoves($move);
+        //
+        foreach([2,-2] as $val){
+            //forward +2 vert
+            if($move->checkY($move->yFrom + $val)){
+                if($move->checkX($move->nextX())){
+                    $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX().($move->yFrom + $val));
+                }
+                if($move->checkX($move->prevX())){
+                    $result[self::NORMAL][] = new Move($move->strFrom, $move->prevX().($move->yFrom + $val));
+                }
+            }
+            //forward +2 horiz
+            if($move->checkX($move->nextX($val))){
+                if($move->checkY($move->yFrom + 1)){
+                    $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($val).($move->yFrom + 1));
+                }
+                if($move->checkX($move->yFrom - 1)){
+                    $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($val).($move->yFrom -1));
+                }
+            }
+            //
+        }
         //
         return $result;
     }
@@ -48,33 +80,5 @@ class Knight extends AbstractFigure {
     {
         return $this->is_black ? '♘' : '♞';
     }
-   
-    /**
-     * Check diagonal move blocks
-     * @param Move $move Move object
-     * @param Desk $desk 
-     * @return bool
-     */
-    public static function checkDiagonalMoveBlock(Move $move, Desk $desk) : bool 
-    {
-        
-        //
-        return true;
-    }
-    
-    /**
-     * Generate diagonal moves
-     * @param Move $move
-     * @return array of Move
-     */
-    public static function generateDiagonalMoves(Move $move){
-        //array of moves
-        $result = [];
-        //
-        
-        //
-        return $result;
-    }
-   
     
 }

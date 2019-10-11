@@ -58,7 +58,7 @@ class Move {
         if(!empty($move_exploded)){
             $move = implode(self::$move_delimeter, [$move, $move_exploded]); 
         }
-        //check matchoing for std string move
+        //check matching for std string move
         if (!preg_match('/^([a-h])([1-8])'.self::$move_delimeter.'?([a-h])([1-8])$/', $move, $match)) {
             throw new \Exception("Incorrect move");
         }

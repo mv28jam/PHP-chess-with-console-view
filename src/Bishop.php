@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Knight actions and behavior
+ * Test game: e2-e4|e7-e6 
+ * 
+ * @author mv28jam <mv28jam@yandex.ru>
+ */
 class Bishop extends AbstractFigure {
     
     /**
@@ -9,27 +15,18 @@ class Bishop extends AbstractFigure {
     public $price = 2;
     
     
-    /**
-     * Move action and after action for bishop
-     * @param Move $move
-     * @param Desk $desk
-     * @return King
-     */
-    public function move(Move $move, Desk $desk) :AbstractFigure
-    {
-        return $this;
-    }
-    
-    /**
+     /**
      * Validate Bishop move
      * @param Move $move Move object
-     * @param Desk $desk 
+     * @param Desk $desk
      * @return int {@inheritdoc}
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
-        $this->getVacuumHorsePossibleMoves($move); 
-        return 0;
+        //get possible moves
+        $moves = $this->getVacuumHorsePossibleMoves($move);
+        
+        return Move::FORBIDDEN;
     }
     
     /**
@@ -38,12 +35,14 @@ class Bishop extends AbstractFigure {
      * @return array of array of Move
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function getVacuumHorsePossibleMoves(Move $move) :array
+    public function getVacuumHorsePossibleMoves(Move $move) : array
     {
         //ini
-        $result = parent::getVacuumHorsePossibleMoves($move);
-        //
-
+        $result = self::generateDiagonalMoves($move);
+        
+        var_dump($result);
+        die;
+       
         //
         return $result;
     }
@@ -55,5 +54,36 @@ class Bishop extends AbstractFigure {
     {
         return $this->is_black ? '♗' : '♝';
     }
+   
+    /**
+     * Check diagonal move blocks
+     * @param Move $move Move object
+     * @param Desk $desk 
+     * @return bool
+     */
+    public static function checkDiagonalMoveBlock(Move $move, Desk $desk) : bool 
+    {
+        
+        //
+        return true;
+    }
+    
+    /**
+     * Generate diagonal moves
+     * @param Move $move
+     * @return array of Move
+     */
+    public static function generateDiagonalMoves(Move $move){
+        //array of moves
+        $result = [];
+        //
+        for($i=1; $i<=8; $i++){
+      
+            
+        }
+        //
+        return $result;
+    }
+   
     
 }

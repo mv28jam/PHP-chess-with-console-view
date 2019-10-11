@@ -27,12 +27,10 @@ class Rook extends AbstractFigure {
      * @return AbstractFigure 
      */
     public function move(\Move $move, \Desk $desk) : AbstractFigure {
-        
-        parent::move($move, $desk);
         //first move done
         $this->first_step = false;
         //
-        return $this;
+        return parent::move($move, $desk);
     }
     
     /**
@@ -45,9 +43,10 @@ class Rook extends AbstractFigure {
     {
         //get possible moves
         $moves = $this->getVacuumHorsePossibleMoves($move);
-        //@TODO check of roque
+        //roque move
         if(!empty($moves[self::SPECIAL]) and $moves[self::SPECIAL][0]->strTo == $move->strTo){
             throw new Exception('Roque support under construction! Sorry...');
+            //@TODO check of roque
             //return true;
         }
         //ckeck our normal move
