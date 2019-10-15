@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Queen actions and behavior
+ * Test game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7
+ * 
+ * @author mv28jam <mv28jam@yandex.ru>
+ */
 class King extends AbstractFigure {
     
     /**
@@ -28,6 +34,22 @@ class King extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
+        //get possible moves
+        $moves = $this->getVacuumHorsePossibleMoves($move);
+        //
+        foreach($moves[self::NORMAL] as $val){
+            if($val->strTo === $move->strTo){
+                switch(true){
+                    //@TODO check got attack move
+                    case(abs($move->dX) > 0 and abs($move->dY) > 0 and Bishop::checkDiagonalMoveBlock($move, $desk)):
+                    case(Rook::checkStraightMoveBlock($move, $desk)):
+                        return $desk->getFigurePrice($move->to);
+                    default:
+                        return Move::FORBIDDEN;
+                }
+            }
+        }
+        //
         return Move::FORBIDDEN;
     }
     
@@ -40,8 +62,13 @@ class King extends AbstractFigure {
     public function getVacuumHorsePossibleMoves(Move $move) :array
     {
         //ini
-        $result = [self::NORMAL => []];
-       
+        $result = parent::getVacuumHorsePossibleMoves($move);
+        //
+        foreach(array_merge(Bishop::generateDiagonalMoves($move), Rook::generateStraightMoves($move)) as $val){
+            if(abs($val->dX)<2 and abs($val->dY)<2){
+                $result[self::NORMAL][] = $val;
+            }
+        }
         //
         return $result;
     }
