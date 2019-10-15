@@ -77,11 +77,14 @@ class Desk {
         //checks
         switch(true){
             //check for figure in start podition
-            case(!$this->checkFigureExists($move->getStart())):
+            case(!$this->isFigureExists($move->getStart())):
                 throw new \Exception('No figure in position');
             //check move order white-black-white-etc
             case(!$this->moveOrder($move)):
                 throw new \Exception('Other color moves - '.(new Pawn(!$this->last_move)));
+            //check for attack figure of same color    
+            case($this->isSelfAttak($move->getStop())):
+                throw new \Exception('Friendly fire is forbidden');
             //check move of figure by this figure rules    
             case($this->figures($move->from)->checkFigureMove($move, $this) < Move::MOVING):
                 throw new \Exception('Forbidden move for '.$this->figures($move->getStart()));
@@ -111,7 +114,7 @@ class Desk {
      */
     public function figureUnset(array $position) : bool 
     {
-        if($this->checkFigureExists($position)){
+        if($this->isFigureExists($position)){
             unset($this->figures[$position[0]][$position[1]]);
             return true;
         }else{
@@ -125,7 +128,7 @@ class Desk {
      * @return int
      */
     public function getFigurePrice(array $position) : int {
-        if($this->checkFigureExists($position)){
+        if($this->isFigureExists($position)){
             return $this->figures[$position[0]][$position[1]]->price();
         }
         //
@@ -139,7 +142,7 @@ class Desk {
      */
     public function getFigureIsBlack(array $position) : bool 
     {
-        if($this->checkFigureExists($position)){
+        if($this->isFigureExists($position)){
             return $this->figures[$position[0]][$position[1]]->getIsBlack();
         }
         //
@@ -220,8 +223,23 @@ class Desk {
      * @param array $position
      * @return bool
      */
-    public function checkFigureExists(array $position) : bool 
+    public function isFigureExists(array $position) : bool 
     {
         return isset($this->figures[$position[0]][$position[1]]);
+    }
+    
+    /**
+     * Check for self attak
+     * @param array $position
+     * @return bool
+     */
+    public function isSelfAttak(array $position) : bool 
+    {
+        if($this->isFigureExists($position)){
+            return ($this->figures[$position[0]][$position[1]]->getIsBlack() !== $this->last_move);
+        }else{
+            return false;
+        }
+        
     }
 }

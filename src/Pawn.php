@@ -120,9 +120,7 @@ class Pawn extends AbstractFigure {
             if(
                 $val->strTo === $move->strTo
                 and 
-                $desk->getFigurePrice($move->to) !== 0 
-                and
-                $desk->getFigureIsBlack($move->to) != $this->is_black     
+                $desk->getFigurePrice($move->to) !== 0      
             ){
                 return $desk->getFigurePrice($move->to);
             }
@@ -130,9 +128,7 @@ class Pawn extends AbstractFigure {
             if(
                 !empty($last_move)
                 and
-                $desk->getFigurePrice($last_move->to) == $this->price()
-                and
-                $desk->getFigureIsBlack($last_move->to) != $this->is_black    
+                $desk->getFigurePrice($last_move->to) == $this->price()    
                 and
                 abs($last_move->dY)==2
                 and     
