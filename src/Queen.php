@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Queen actions and behavior
+ * Test game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d7-d8|e2-b5|d7-f5|b5-b7 
+ * 
+ * @author mv28jam <mv28jam@yandex.ru>
+ */
 class Queen extends AbstractFigure {
     
     /**
@@ -28,7 +34,22 @@ class Queen extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, Desk $desk): int 
     {
-        return 0;
+        //get possible moves
+        $moves = $this->getVacuumHorsePossibleMoves($move);
+        //
+        foreach($moves[self::NORMAL] as $val){
+            if($val->strTo === $move->strTo){
+                switch(true){
+                    case(abs($move->dX) > 0 and abs($move->dY) > 0 and Bishop::checkDiagonalMoveBlock($move, $desk)):
+                    case(Rook::checkStraightMoveBlock($move, $desk)):
+                        return $desk->getFigurePrice($move->to);
+                    default:
+                        return Move::FORBIDDEN;
+                }
+            }
+        }
+        //
+        return Move::FORBIDDEN;
     }
     
     /**
@@ -40,8 +61,9 @@ class Queen extends AbstractFigure {
     public function getVacuumHorsePossibleMoves(Move $move) :array
     {
         //ini
-        $result = [self::NORMAL => []];
-       
+        $result = parent::getVacuumHorsePossibleMoves($move);
+        //
+        $result[self::NORMAL] = array_merge(Bishop::generateDiagonalMoves($move), Rook::generateStraightMoves($move));
         //
         return $result;
     }

@@ -28,7 +28,7 @@ class Bishop extends AbstractFigure {
         //
         foreach($moves[self::NORMAL] as $val){
             if($val->strTo === $move->strTo){
-                if(self::checkDiagonalMoveBlock($move, $desc)){
+                if(self::checkDiagonalMoveBlock($move, $desk)){
                     return $desk->getFigurePrice($move->to);
                 }
                 return Move::FORBIDDEN;
@@ -46,7 +46,12 @@ class Bishop extends AbstractFigure {
      */
     public function getVacuumHorsePossibleMoves(Move $move) : array
     {
-        return self::generateDiagonalMoves($move);
+        //ini
+        $result = parent::getVacuumHorsePossibleMoves($move);
+        //
+        $result[self::NORMAL] = self::generateDiagonalMoves($move);
+        //        
+        return $result;
     }
     
     /**
@@ -99,23 +104,23 @@ class Bishop extends AbstractFigure {
      * @return array of Move
      */
     public static function generateDiagonalMoves(Move $move){
-        //ini
-        $result = parent::getVacuumHorsePossibleMoves($move);
+        //
+        $result = [];
         //
         for($i=1; $i<=8; $i++){
             $step = ($i - $move->getXLikeY($move->xFrom));
             if($step != 0){
                 if($move->checkX($move->prevX($step)) and $move->checkY($move->yFrom + $step)){
-                    $result[self::NORMAL][] = new Move($move->strFrom, $move->prevX($step).($move->yFrom + $step));
+                    $result[] = new Move($move->strFrom, $move->prevX($step).($move->yFrom + $step));
                 }
                 if($move->checkX($move->nextX($step)) and $move->checkY($move->yFrom + $step)){
-                    $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($step).($move->yFrom + $step));
+                    $result[] = new Move($move->strFrom, $move->nextX($step).($move->yFrom + $step));
                 }
                 if($move->checkX($move->prevX($step)) and $move->checkY($move->yFrom - $step)){
-                    $result[self::NORMAL][] = new Move($move->strFrom, $move->prevX($step).($move->yFrom - $step));
+                    $result[] = new Move($move->strFrom, $move->prevX($step).($move->yFrom - $step));
                 }
                 if($move->checkX($move->nextX($step)) and $move->checkY($move->yFrom - $step)){
-                    $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($step).($move->yFrom - $step));
+                    $result[] = new Move($move->strFrom, $move->nextX($step).($move->yFrom - $step));
                 }
             }
         }
