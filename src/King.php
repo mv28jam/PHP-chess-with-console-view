@@ -23,7 +23,7 @@ class King extends AbstractFigure {
      */
     public function move(Move $move, Desk $desk) :AbstractFigure
     {
-        return $this;
+        return parent::move($move, $desk);
     }
     
     /**

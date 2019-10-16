@@ -54,7 +54,7 @@ class Rook extends AbstractFigure {
             //return true;
         }
         //ckeck our normal move
-        foreach($moves[self::NORMAL] as $val){
+        foreach($this->normal as $val){
             if($val->strTo === $move->strTo){
                 if(self::checkStraightMoveBlock($move, $desk)){
                     return $desk->getFigurePrice($move->to);

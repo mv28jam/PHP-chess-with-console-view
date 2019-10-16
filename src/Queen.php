@@ -16,17 +16,6 @@ class Queen extends AbstractFigure {
     
     
     /**
-     * Move action and after action for queen
-     * @param Move $move
-     * @param Desk $desk
-     * @return Queen
-     */
-    public function move(Move $move, Desk $desk) :AbstractFigure
-    {
-        return parent::move($move, $desk);
-    }
-    
-    /**
      * Validate Queen move
      * @param Move $move Move object
      * @param Desk $desk not used!
