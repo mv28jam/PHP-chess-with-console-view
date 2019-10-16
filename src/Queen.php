@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Queen actions and behavior
  * Test game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7 
@@ -18,7 +19,7 @@ class Queen extends AbstractFigure {
     /**
      * Validate Queen move
      * @param Move $move Move object
-     * @param Desk $desk not used!
+     * @param Desk $desk
      * @return int {@inheritdoc}
      */
     public function checkFigureMove(Move $move, Desk $desk): int 
@@ -52,6 +53,9 @@ class Queen extends AbstractFigure {
      */
     public function countVacuumHorsePossibleMoves(Move $move) : void
     {
+        if(!empty($this->normal)){
+            return;
+        }
         //
         $this->normal = array_merge(Bishop::generateDiagonalMoves($move), Rook::generateStraightMoves($move));
         //

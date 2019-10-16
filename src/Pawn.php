@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Pawn actions and behavior
  * "en passant" move example b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6
@@ -154,6 +155,10 @@ class Pawn extends AbstractFigure {
      */
     public function countVacuumHorsePossibleMoves(Move $move) : void 
     {
+        //
+        if(!empty($this->normal)){
+            return;
+        }
         //direction of move flag for color
         if($this->is_black){
             $sign = -1;    
