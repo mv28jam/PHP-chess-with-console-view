@@ -82,12 +82,13 @@ class Desk {
             //check move order white-black-white-etc
             case(!$this->moveOrder($move)):
                 throw new \Exception('Other color moves - '.(new Pawn(!$this->last_move)));
-            //check for attack figure of same color    
-            case($this->isSelfAttak($move->getStop())):
-                throw new \Exception('Friendly fire is forbidden');
             //check move of figure by this figure rules    
             case($this->figures($move->from)->checkFigureMove($move, $this) < Move::MOVING):
                 throw new \Exception('Forbidden move for '.$this->figures($move->getStart()));
+        }
+        //check for attack figure of same color    
+        if($this->isSelfAttak($move->getStop())){
+            user_error('Incorrect move check for figure', E_USER_ERROR);
         }
         //save move
         $this->moves[] = $move;

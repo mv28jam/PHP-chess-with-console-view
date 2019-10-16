@@ -139,7 +139,7 @@ class Rook extends AbstractFigure {
         }        
         //
         for($i = $delta; abs($i) > 0; ($delta < 0 ? $i++ : $i--)){
-            if($desk->checkFigureExists(($y ? [$move->xFrom, ($move->yTo + $i)] : [$move->prevX($i), $move->yFrom])) == true){
+            if($desk->isFigureExists(($y ? [$move->xFrom, ($move->yTo + $i)] : [$move->prevX($i), $move->yFrom])) == true){
                 return false;
             }
         }
