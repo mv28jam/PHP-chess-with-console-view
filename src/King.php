@@ -34,10 +34,14 @@ class King extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
+        //check for self attack
+        if($this->checkSelfAttack($move, $desk)){
+            return Move::FORBIDDEN;
+        }
         //get possible moves
-        $moves = $this->getVacuumHorsePossibleMoves($move);
+        $this->countVacuumHorsePossibleMoves($move);
         //
-        foreach($moves[self::NORMAL] as $val){
+        foreach($this->normal as $val){
             if($val->strTo === $move->strTo){
                 switch(true){
                     //@TODO check got attack move
@@ -56,21 +60,17 @@ class King extends AbstractFigure {
     /**
      * Create array of all possible moves without other figures for king
      * @param Move $move
-     * @return array of array of Move
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function getVacuumHorsePossibleMoves(Move $move) :array
+    public function countVacuumHorsePossibleMoves(Move $move) : void
     {
-        //ini
-        $result = parent::getVacuumHorsePossibleMoves($move);
         //
         foreach(array_merge(Bishop::generateDiagonalMoves($move), Rook::generateStraightMoves($move)) as $val){
             if(abs($val->dX)<2 and abs($val->dY)<2){
-                $result[self::NORMAL][] = $val;
+                $this->normal[] = $val;
             }
         }
         //
-        return $result;
     }
     
     /**

@@ -23,10 +23,14 @@ class Bishop extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
+        //check for self attack
+        if($this->checkSelfAttack($move, $desk)){
+            return Move::FORBIDDEN;
+        }
         //get possible moves
-        $moves = $this->getVacuumHorsePossibleMoves($move);
+        $moves = $this->countVacuumHorsePossibleMoves($move);
         //
-        foreach($moves[self::NORMAL] as $val){
+        foreach($this->normal as $val){
             if($val->strTo === $move->strTo){
                 if(self::checkDiagonalMoveBlock($move, $desk)){
                     return $desk->getFigurePrice($move->to);
@@ -41,17 +45,13 @@ class Bishop extends AbstractFigure {
     /**
      * Create array of all possible moves without other figures for bishop
      * @param Move $move
-     * @return array of array of Move
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function getVacuumHorsePossibleMoves(Move $move) : array
+    public function countVacuumHorsePossibleMoves(Move $move) : void
     {
-        //ini
-        $result = parent::getVacuumHorsePossibleMoves($move);
         //
-        $result[self::NORMAL] = self::generateDiagonalMoves($move);
+        $this->normal = self::generateDiagonalMoves($move);
         //        
-        return $result;
     }
     
     /**

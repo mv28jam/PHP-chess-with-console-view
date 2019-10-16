@@ -23,8 +23,12 @@ class Knight extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
+        //check for self attack
+        if($this->checkSelfAttack($move, $desk)){
+            return Move::FORBIDDEN;
+        }
         //get possible moves
-        $moves = $this->getVacuumHorsePossibleMoves($move);
+        $this->countVacuumHorsePossibleMoves($move);
         //
         foreach($moves[self::NORMAL] as $val){
             if($val->strTo === $move->strTo){
@@ -38,37 +42,33 @@ class Knight extends AbstractFigure {
     /**
      * Create array of all possible moves for knight
      * @param Move $move
-     * @return array of array of Move
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function getVacuumHorsePossibleMoves(Move $move) : array
+    public function countVacuumHorsePossibleMoves(Move $move) : void
     {
-        //ini
-        $result = parent::getVacuumHorsePossibleMoves($move);
         //
         foreach([2,-2] as $val){
             //forward 2 vert
             if($move->checkY($move->yFrom + $val)){
                 if($move->checkX($move->nextX())){
-                    $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX().($move->yFrom + $val));
+                    $this->normal[] = new Move($move->strFrom, $move->nextX().($move->yFrom + $val));
                 }
                 if($move->checkX($move->prevX())){
-                    $result[self::NORMAL][] = new Move($move->strFrom, $move->prevX().($move->yFrom + $val));
+                    $this->normal[] = new Move($move->strFrom, $move->prevX().($move->yFrom + $val));
                 }
             }
             //forward 2 horiz
             if($move->checkX($move->nextX($val))){
                 if($move->checkY($move->yFrom + 1)){
-                    $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($val).($move->yFrom + 1));
+                    $this->normal[] = new Move($move->strFrom, $move->nextX($val).($move->yFrom + 1));
                 }
                 if($move->checkY($move->yFrom - 1)){
-                    $result[self::NORMAL][] = new Move($move->strFrom, $move->nextX($val).($move->yFrom -1));
+                    $this->normal[] = new Move($move->strFrom, $move->nextX($val).($move->yFrom -1));
                 }
             }
             //
         }
         //
-        return $result;
     }
     
     /**

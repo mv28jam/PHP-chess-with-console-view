@@ -34,7 +34,6 @@ class Pawn extends AbstractFigure {
      */
     public function move(Move $move, Desk $desk) : AbstractFigure
     {
-        parent::move($move, $desk);
         //register first move
         $this->first_step=false;
         //check pawn respawn
@@ -72,8 +71,8 @@ class Pawn extends AbstractFigure {
             //change clear
             $this->desk_change = [];
         }
+        return parent::move($move, $desk);
         //
-        return $this;
     }
     
     /**
@@ -87,10 +86,10 @@ class Pawn extends AbstractFigure {
         //use for "en passant"
         $last_move = $desk->getLastMove();
         //get possible moves
-        $moves = $this->getVacuumHorsePossibleMoves($move);
+        $this->countVacuumHorsePossibleMoves($move);
         //ckeck our normal move
         //for pawn move only 1 field move so check only closest
-        foreach($moves[self::NORMAL] as $val){
+        foreach($this->normal as $val){
             if($val->strTo === $move->strTo and $desk->getFigurePrice($move->to) === 0){
                 return Move::MOVING;
             }
@@ -103,7 +102,7 @@ class Pawn extends AbstractFigure {
         }
         //check spec move
         //field ahead have to be empty
-        foreach($moves[self::SPECIAL] as $val){
+        foreach($this->special as $val){
             if(
                 $val->strTo === $move->strTo 
                 and 
@@ -115,7 +114,7 @@ class Pawn extends AbstractFigure {
             }
         }
         //ckeck our move like attak
-        foreach($moves[self::ATTAK] as $val){
+        foreach($this->attack as $val){
             //check for ordinary attak
             if(
                 $val->strTo === $move->strTo
@@ -151,13 +150,10 @@ class Pawn extends AbstractFigure {
     /**
      * Create array of all possible moves without other figures for pawn
      * @param Move $move
-     * @return array of array of Move 
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function getVacuumHorsePossibleMoves(Move $move) : array 
+    public function countVacuumHorsePossibleMoves(Move $move) : void 
     {
-        //ini
-        $result = parent::getVacuumHorsePossibleMoves($move);
         //direction of move flag for color
         if($this->is_black){
             $sign = -1;    
@@ -167,21 +163,20 @@ class Pawn extends AbstractFigure {
         //straight move
         /** @see $this->move() overkill check */
         if($move->checkY(($move->yFrom + (1 * $sign)))){
-            $result[self::NORMAL][] = new Move($move->strFrom, $move->xFrom.($move->yFrom + $sign));
+            $this->normal[] = new Move($move->strFrom, $move->xFrom.($move->yFrom + $sign));
         }
         //attak
         if($move->checkX($move->nextX())){
-            $result[self::ATTAK][] = new Move($move->strFrom, $move->nextX().($move->yFrom + $sign));
+            $this->attack[] = new Move($move->strFrom, $move->nextX().($move->yFrom + $sign));
         }
         if($move->checkX($move->prevX())){
-            $result[self::ATTAK][] = new Move($move->strFrom, $move->prevX().($move->yFrom + $sign));
+            $this->attack[] = new Move($move->strFrom, $move->prevX().($move->yFrom + $sign));
         }
         //special move
         if($this->first_step){
-            $result[self::SPECIAL][] = new Move($move->strFrom, $move->xFrom.($move->yFrom + (2 * $sign)));
+            $this->special[] = new Move($move->strFrom, $move->xFrom.($move->yFrom + (2 * $sign)));
         }
         //
-        return $result;
     }
     
     /**

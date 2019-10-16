@@ -23,7 +23,7 @@ class Queen extends AbstractFigure {
      */
     public function move(Move $move, Desk $desk) :AbstractFigure
     {
-        return $this;
+        return parent::move($move, $desk);
     }
     
     /**
@@ -34,10 +34,14 @@ class Queen extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, Desk $desk): int 
     {
+        //check for self attack
+        if($this->checkSelfAttack($move, $desk)){
+            return Move::FORBIDDEN;
+        }
         //get possible moves
-        $moves = $this->getVacuumHorsePossibleMoves($move);
+        $this->countVacuumHorsePossibleMoves($move);
         //
-        foreach($moves[self::NORMAL] as $val){
+        foreach($this->normal as $val){
             if($val->strTo === $move->strTo){
                 switch(true){
                     case(abs($move->dX) > 0 and abs($move->dY) > 0 and Bishop::checkDiagonalMoveBlock($move, $desk)):
@@ -55,17 +59,13 @@ class Queen extends AbstractFigure {
     /**
      * Create array of all possible moves without other figures for queen
      * @param Move $move
-     * @return array of array of Move
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function getVacuumHorsePossibleMoves(Move $move) :array
+    public function countVacuumHorsePossibleMoves(Move $move) : void
     {
-        //ini
-        $result = parent::getVacuumHorsePossibleMoves($move);
         //
-        $result[self::NORMAL] = array_merge(Bishop::generateDiagonalMoves($move), Rook::generateStraightMoves($move));
+        $this->normal = array_merge(Bishop::generateDiagonalMoves($move), Rook::generateStraightMoves($move));
         //
-        return $result;
     }
     
     /**

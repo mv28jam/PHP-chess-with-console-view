@@ -41,10 +41,14 @@ class Rook extends AbstractFigure {
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
+        //check for self attack
+        if($this->checkSelfAttack($move, $desk)){
+            return Move::FORBIDDEN;
+        }
         //get possible moves
-        $moves = $this->getVacuumHorsePossibleMoves($move);
+        $this->countVacuumHorsePossibleMoves($move);
         //roque move
-        if(!empty($moves[self::SPECIAL]) and $moves[self::SPECIAL][0]->strTo == $move->strTo){
+        if(!empty($this->special) and $this->special[0]->strTo == $move->strTo){
             throw new Exception('Roque support under construction! Sorry...');
             //@TODO check of roque
             //return true;
@@ -65,32 +69,28 @@ class Rook extends AbstractFigure {
     /**
      * Get list of possible moves from position start for rook
      * @param Move $move
-     * @return array of array of Move 
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function getVacuumHorsePossibleMoves(Move $move) :array
+    public function countVacuumHorsePossibleMoves(Move $move) : void
     {
-        //ini
-        $result = parent::getVacuumHorsePossibleMoves($move);
         //ordinary moves
-        $result[self::NORMAL] = self::generateStraightMoves($move);
+        $this->normal = self::generateStraightMoves($move);
         //roque move without limitation
         switch(true){
             case($move->strFrom == 'h1' and $this->first_step):
-                $result[self::SPECIAL][] = new Move('h1-f1');
+                $this->special[] = new Move('h1-f1');
                 break;
             case($move->strFrom == 'a1' and $this->first_step):
-                $result[self::SPECIAL][] = new Move('a1-d1');
+                $this->special[] = new Move('a1-d1');
                 break;
             case($move->strFrom == 'h8' and $this->first_step):
-                $result[self::SPECIAL][] = new Move('h8-f8');
+                $this->special[] = new Move('h8-f8');
                 break;
             case($move->strFrom == 'a8' and $this->first_step):
-                $result[self::SPECIAL][] = new Move('a8-d8');
+                $this->special[] = new Move('a8-d8');
                 break;
         }
         //
-        return $result;
     }
     
     /**

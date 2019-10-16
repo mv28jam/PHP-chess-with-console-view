@@ -133,7 +133,7 @@ class Desk {
             return $this->figures[$position[0]][$position[1]]->price();
         }
         //
-        return 0;
+        return Move::MOVING;
     }
     
     /**
@@ -237,10 +237,9 @@ class Desk {
     public function isSelfAttak(array $position) : bool 
     {
         if($this->isFigureExists($position)){
-            return ($this->figures[$position[0]][$position[1]]->getIsBlack() !== $this->last_move);
+            return ($this->getFigureIsBlack($position) !== $this->last_move);
         }else{
             return false;
-        }
-        
+        }   
     }
 }

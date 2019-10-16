@@ -8,13 +8,6 @@
 abstract class AbstractFigure {
     
     /**
-     * moves group names
-     */
-    const NORMAL = 'normal';
-    const ATTAK = 'attack';
-    const SPECIAL = 'special';
-    
-    /**
      * Black or white figure
      * @var boolean 
      */
@@ -30,6 +23,22 @@ abstract class AbstractFigure {
      */
     protected $moves = [];
     
+    /**
+     * Ordinary moves 
+     * @var array of moves 
+     */
+    public $normal = [];
+    /**
+     * Attack special figure moves (for pawn)
+     * @var array of moves 
+     */
+    public $attack = [];
+    /**
+     * Special figure moves
+     * @var array of moves 
+     */
+    public $special = [];
+    
     
     /**
      * Check move
@@ -38,6 +47,14 @@ abstract class AbstractFigure {
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
      */
     abstract public function checkFigureMove(Move $move, Desk $desk) : int;
+    
+    /**
+     * Count list of possible moves from position start
+     * \except simple limitation - NOT desk depended moves 
+     * \simple limitation like "first move"
+     * @param array $move - start position
+     */
+    abstract public function countVacuumHorsePossibleMoves(Move $move) : void;
     
     /**
      * Return symbol of figure
@@ -62,7 +79,11 @@ abstract class AbstractFigure {
      */
     public function move(Move $move, Desk $desk) : AbstractFigure
     {
-        $this->moves[] = $move; 
+        //add move to hitory
+        $this->moves[] = $move;
+        //clean counted
+        $this->cleanMoves();
+        //
         return $this;
     }
     
@@ -71,14 +92,36 @@ abstract class AbstractFigure {
      * \except simple limitation - NOT desk depended moves 
      * \simple limitation like "first move"
      * @param array $move - start position
-     * @return array of arrays of Move with keys 
-     *  ['normal'] => ordinary moves 
-     *  ['attack'] => attack special figure moves (for pawn)
-     *  ['special'] => special figure moves
+     * @return array of Move 
      */
-    public function getVacuumHorsePossibleMoves(Move $move) : array
+    public function getVacuumHorsePossibleMoves(Move $move) : array {
+        $this->countVacuumHorsePossibleMoves($move);
+        return array_merge($this->attack, $this->normal, $this->special);
+    }
+    
+    /**
+     * Check for self attak (white goto white etc)
+     * Has not used for pawn
+     * @param Move $move
+     * @param Desk $desk
+     * @return bool
+     */
+    public function checkSelfAttack(Move $move, Desk $desk) : bool
     {
-        return [self::NORMAL => [], self::ATTAK => [], self::SPECIAL => []];
+        if($desk->isFigureExists($move->to)){
+            return ($desk->getFigureIsBlack($move->to) === $this->is_black);
+        }
+        return false;    
+    }
+    
+    /**
+     * Clean counted moves after actual moving
+     */
+    public function cleanMoves() : void
+    {
+        $this->attack = [];
+        $this->normal = [];
+        $this->special = [];
     }
     
     /**
