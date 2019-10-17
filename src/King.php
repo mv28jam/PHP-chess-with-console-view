@@ -8,6 +8,7 @@
  * @author mv28jam <mv28jam@yandex.ru>
  */
 class King extends AbstractFigure {
+    use SMoveTrait, DMoveTrait;
     
     /**
      * Price of King
@@ -46,8 +47,8 @@ class King extends AbstractFigure {
             if($val->strTo === $move->strTo){
                 switch(true){
                     //@TODO check got attack move
-                    case(abs($move->dX) > 0 and abs($move->dY) > 0 and Bishop::checkDiagonalMoveBlock($move, $desk)):
-                    case(Rook::checkStraightMoveBlock($move, $desk)):
+                    case(abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk)):
+                    case($this->checkStraightMoveBlock($move, $desk)):
                         return $desk->getFigurePrice($move->to);
                     default:
                         return Move::FORBIDDEN;
@@ -70,7 +71,7 @@ class King extends AbstractFigure {
             return;
         }
         //
-        foreach(array_merge(Bishop::generateDiagonalMoves($move), Rook::generateStraightMoves($move)) as $val){
+        foreach(array_merge($this->generateDiagonalMoves($move), $this->generateStraightMoves($move)) as $val){
             if(abs($val->dX)<2 and abs($val->dY)<2){
                 $this->normal[] = $val;
             }

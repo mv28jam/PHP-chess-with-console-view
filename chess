@@ -9,8 +9,10 @@ if((int)substr(str_replace('.','', phpversion()), 0, 2) < 71){
 require_once (__DIR__ . '/vendor/autoload.php');
 
 //load
-foreach (glob('src/*.php') as $file) {
-    require_once $file;
+foreach(['src/traits/*.php', 'src/*.php'] as $mask){
+    foreach (glob($mask) as $file) {
+        require_once ($file);
+    }
 }
 
 //

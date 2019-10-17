@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Knight actions and behavior
  * Test game: e2-e4|d7-d6|f1-a6|c8-g4 
@@ -7,6 +8,7 @@
  * @author mv28jam <mv28jam@yandex.ru>
  */
 class Bishop extends AbstractFigure {
+    use DMoveTrait;
     
     /**
      * Price of Bishop
@@ -32,7 +34,7 @@ class Bishop extends AbstractFigure {
         //
         foreach($this->normal as $val){
             if($val->strTo === $move->strTo){
-                if(self::checkDiagonalMoveBlock($move, $desk)){
+                if($this->checkDiagonalMoveBlock($move, $desk)){
                     return $desk->getFigurePrice($move->to);
                 }
                 return Move::FORBIDDEN;
@@ -50,7 +52,7 @@ class Bishop extends AbstractFigure {
     public function countVacuumHorsePossibleMoves(Move $move) : void
     {
         //
-        $this->normal = self::generateDiagonalMoves($move);
+        $this->normal = $this->generateDiagonalMoves($move);
         //        
     }
     
@@ -61,72 +63,5 @@ class Bishop extends AbstractFigure {
     {
         return $this->is_black ? '♗' : '♝';
     }
-   
-    /**
-     * Check diagonal move blocks
-     * @param Move $move Move object
-     * @param Desk $desk 
-     * @return bool
-     */
-    public static function checkDiagonalMoveBlock(Move $move, Desk $desk) : bool 
-    {
-        //one step move
-        if(abs($move->dY) == 1){
-            return true;
-        }
-        //@todo check
-        //delta of move
-        switch(true){
-            //down left
-            case($move->dY > 0 and $move->dX > 0):
-                
-                break;
-            //down right
-            case($move->dY > 0 and $move->dX < 0):
-                
-                break;
-            //up right
-            case($move->dX > 0):
-                
-                break;
-            //up left
-            case($move->dX < 0):
-                
-                break;
-        }  
-        //
-        return true;
-    }
-    
-    /**
-     * Generate diagonal moves
-     * @param Move $move
-     * @return array of Move
-     */
-    public static function generateDiagonalMoves(Move $move){
-        //
-        $result = [];
-        //
-        for($i=1; $i<=8; $i++){
-            $step = ($i - $move->getXLikeY($move->xFrom));
-            if($step != 0){
-                if($move->checkX($move->prevX($step)) and $move->checkY($move->yFrom + $step)){
-                    $result[] = new Move($move->strFrom, $move->prevX($step).($move->yFrom + $step));
-                }
-                if($move->checkX($move->nextX($step)) and $move->checkY($move->yFrom + $step)){
-                    $result[] = new Move($move->strFrom, $move->nextX($step).($move->yFrom + $step));
-                }
-                if($move->checkX($move->prevX($step)) and $move->checkY($move->yFrom - $step)){
-                    $result[] = new Move($move->strFrom, $move->prevX($step).($move->yFrom - $step));
-                }
-                if($move->checkX($move->nextX($step)) and $move->checkY($move->yFrom - $step)){
-                    $result[] = new Move($move->strFrom, $move->nextX($step).($move->yFrom - $step));
-                }
-            }
-        }
-        //
-        return $result;
-    }
-   
     
 }

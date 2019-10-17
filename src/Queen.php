@@ -8,6 +8,7 @@
  * @author mv28jam <mv28jam@yandex.ru>
  */
 class Queen extends AbstractFigure {
+    use SMoveTrait, DMoveTrait;
     
     /**
      * Price of Queen
@@ -34,8 +35,8 @@ class Queen extends AbstractFigure {
         foreach($this->normal as $val){
             if($val->strTo === $move->strTo){
                 switch(true){
-                    case(abs($move->dX) > 0 and abs($move->dY) > 0 and Bishop::checkDiagonalMoveBlock($move, $desk)):
-                    case(Rook::checkStraightMoveBlock($move, $desk)):
+                    case(abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk)):
+                    case($this->checkStraightMoveBlock($move, $desk)):
                         return $desk->getFigurePrice($move->to);
                     default:
                         return Move::FORBIDDEN;
@@ -57,7 +58,7 @@ class Queen extends AbstractFigure {
             return;
         }
         //
-        $this->normal = array_merge(Bishop::generateDiagonalMoves($move), Rook::generateStraightMoves($move));
+        $this->normal = array_merge($this->generateDiagonalMoves($move), $this->generateStraightMoves($move));
         //
     }
     

@@ -8,6 +8,7 @@
  * @author mv28jam <mv28jam@yandex.ru>
  */
 class Rook extends AbstractFigure {
+    use SMoveTrait;
     
     /**
      * Price of Rook
@@ -57,7 +58,7 @@ class Rook extends AbstractFigure {
         //ckeck our normal move
         foreach($this->normal as $val){
             if($val->strTo === $move->strTo){
-                if(self::checkStraightMoveBlock($move, $desk)){
+                if($this->checkStraightMoveBlock($move, $desk)){
                     return $desk->getFigurePrice($move->to);
                 }
                 return Move::FORBIDDEN;
@@ -79,7 +80,7 @@ class Rook extends AbstractFigure {
             return;
         }
         //ordinary moves
-        $this->normal = self::generateStraightMoves($move);
+        $this->normal = $this->generateStraightMoves($move);
         //roque move without limitation
         switch(true){
             case($move->strFrom == 'h1' and $this->first_step):
@@ -104,77 +105,6 @@ class Rook extends AbstractFigure {
     public function __toString() : string 
     {
         return $this->is_black ? '♖' : '♜';
-    }
-    
-    /**
-     * Check horizontal or vertical move blocks
-     * @param Move $move Move object
-     * @param Desk $desk 
-     * @return bool
-     */
-    public static function checkStraightMoveBlock(Move $move, Desk $desk) : bool 
-    {
-        //one step move
-        if(abs($move->dY) == 1 or abs($move->dY) === 1){
-            return true;
-        }
-        //
-        $delta = 0;
-        $y = false;
-        //delta of move
-        switch(true){
-            //vertical move down
-            case(abs($move->dY) > 0 and $move->dY > 0):
-                $delta = $move->dY - 1;
-                $y = true;
-                break;
-            //vertical move up
-            case(abs($move->dY) > 0 and $move->dY < 0):
-                $delta = $move->dY + 1;
-                $y = true;
-                break;
-            //horizontal move left
-            case($move->dX > 0):
-                $delta = $move->dX - 1;
-                break;
-            //horizontal move right
-            case($move->dX < 0):
-                $delta = $move->dX + 1;
-                break;
-        }        
-        //
-        for($i = $delta; abs($i) > 0; ($delta < 0 ? $i++ : $i--)){
-            if($desk->isFigureExists(($y ? [$move->xFrom, ($move->yTo + $i)] : [$move->prevX($i), $move->yFrom])) == true){
-                return false;
-            }
-        }
-        //
-        return true;
-    }
-    
-    /**
-     * Generate straight moves
-     * @param Move $move
-     * @return array of Move
-     */
-    public static function generateStraightMoves(Move $move){
-        //array of moves
-        $result = [];
-        //
-        for($i=1; $i<=8; $i++){
-            //Y move
-            $stepY = ($i - $move->yFrom);
-            if($stepY != 0){
-                $result[] = new Move($move->strFrom, $move->xFrom.($move->yFrom + $stepY));
-            }
-            // X move
-            $stepX = ($i - $move->getXLikeY($move->xFrom));
-            if($stepX != 0){
-                $result[] = new Move($move->strFrom, $move->prevX($stepX).$move->yFrom);
-            }
-        }
-        //
-        return $result;
     }
    
 }
