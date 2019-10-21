@@ -1,4 +1,5 @@
-# php_console_chess
+# Console chess made wirh PHP
+##no bots, only game mechanics
 
 8 ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖   
 7 ♙ ♙ ♙ ♙ ♙ ♙ ― ♙   
