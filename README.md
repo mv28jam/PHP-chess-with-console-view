@@ -1,5 +1,6 @@
 # Console chess made wirh PHP
-##no bots, only game mechanics
+### no bots, only game mechanics
+### api will be 
 
 8 ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖   
 7 ♙ ♙ ♙ ♙ ♙ ♙ ― ♙   
