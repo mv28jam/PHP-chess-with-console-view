@@ -14,7 +14,7 @@ Api will be.
 Input move:b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3  
 
 
-###TODO:
+### TODO:
 -Rook(diagonal) move check
 -Roque limitation check
 -King move complecs limitation check
