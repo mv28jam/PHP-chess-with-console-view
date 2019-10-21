@@ -12,6 +12,10 @@ class GameMehanic {
         
     }
     
+    public function isKingUnderAttack(bool $is_black, Desk $desk){
+        
+    }
+    
     public function isFigureCanMove(AbstractFigure $figure, Desk $desk){
         
     }

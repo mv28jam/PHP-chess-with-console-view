@@ -18,11 +18,11 @@ abstract class AbstractFigure {
      */
     protected $price = 0;
     /**
-     * All figure moves
+     * All figure possible moves, сlean after $this->move()
+     * @see $this->cleanMoves() 
      * @var array of Moves
      */
     protected $moves = [];
-    
     /**
      * Ordinary moves 
      * @var array of moves 
