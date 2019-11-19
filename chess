@@ -2,7 +2,7 @@
 <?php
 //check for version
 if((int)substr(str_replace('.','', phpversion()), 0, 2) < 71){
-    die('PHP version have to be 7.2 or higher.'.PHP_EOL);
+    die('PHP version have to be 7.1 or higher.'.PHP_EOL);
 }
 
 //сomposer
