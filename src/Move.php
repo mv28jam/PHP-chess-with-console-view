@@ -146,12 +146,20 @@ class Move {
      * @param int $in move second number
      * @return boolean
      */
-    public function checkY(int $in){
+    public function checkY(int $in) : bool{
         if($in > 0 and $in < 9){
             return true;
         }else{
             return false;
         }
+    }
+    
+    /**
+     * Check X and Y
+     * @param string $in
+     */
+    public function checkXY(string $x, int $y) : bool{
+        return ($this->checkX($x) and $this->checkY($y));
     }
     
     /**

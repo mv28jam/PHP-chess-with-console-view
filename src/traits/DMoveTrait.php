@@ -21,16 +21,16 @@ trait DMoveTrait {
         for($i=1; $i<=8; $i++){
             $step = ($i - $move->getXLikeY($move->xFrom));
             if($step != 0){
-                if($move->checkX($move->prevX($step)) and $move->checkY($move->yFrom + $step)){
+                if($move->checkXY($move->prevX($step), $move->yFrom + $step)){
                     $result[] = new Move($move->strFrom, $move->prevX($step).($move->yFrom + $step));
                 }
-                if($move->checkX($move->nextX($step)) and $move->checkY($move->yFrom + $step)){
+                if($move->checkXY($move->nextX($step), $move->yFrom + $step)){
                     $result[] = new Move($move->strFrom, $move->nextX($step).($move->yFrom + $step));
                 }
-                if($move->checkX($move->prevX($step)) and $move->checkY($move->yFrom - $step)){
+                if($move->checkXY($move->prevX($step), $move->yFrom - $step)){
                     $result[] = new Move($move->strFrom, $move->prevX($step).($move->yFrom - $step));
                 }
-                if($move->checkX($move->nextX($step)) and $move->checkY($move->yFrom - $step)){
+                if($move->checkXY($move->nextX($step),$move->yFrom - $step)){
                     $result[] = new Move($move->strFrom, $move->nextX($step).($move->yFrom - $step));
                 }
             }
@@ -68,24 +68,21 @@ trait DMoveTrait {
                     $x = 1;
                     break;
                 //up right
-                case($move->dY < 0 and $move->dX > 0):
+                case($move->dX > 0)://$move->dY < 0
                     $y = 1;
                     $x = -1;
                     break;
                 //up left
-                case($move->dY < 0 and $move->dX < 0):
+                case($move->dX < 0)://$move->dY < 0
                     $y = $x = 1;
                     break;
             }  
         }
         //check desk
         for($i = 1; $i < abs($move->dX); $i++){
-            if(     
-                $desk->isFigureExists([$move->nextX($i*$x), ($move->yFrom + $i*$y)]) == true    
-            ){
+            if($desk->isFigureExists([$move->nextX($i*$x), ($move->yFrom + $i*$y)]) == true){
                 return false;
-            }     
-            
+            }
         }
         //
         return true;
