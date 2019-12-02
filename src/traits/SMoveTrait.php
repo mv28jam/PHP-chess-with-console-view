@@ -43,7 +43,7 @@ trait SMoveTrait {
     public function checkStraightMoveBlock(Move $move, Desk $desk) : bool 
     {
         //one step move
-        if(abs($move->dY) == 1 or abs($move->dY) === 1){
+        if(abs($move->dY) == 1 or abs($move->dY) == 1){
             return true;
         }
         //
