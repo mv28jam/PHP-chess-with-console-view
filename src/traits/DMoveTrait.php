@@ -55,29 +55,26 @@ trait DMoveTrait {
             return true;
         }
         //define direction
-       
-            
-            switch(true){
-                //down left
-                case($move->dY > 0 and $move->dX > 0):
-                    $y = $x = -1;
-                    break;
-                //down right
-                case($move->dY > 0 and $move->dX < 0):
-                    $y = -1;
-                    $x = 1;
-                    break;
-                //up right
-                case($move->dX > 0)://$move->dY < 0
-                    $y = 1;
-                    $x = -1;
-                    break;
-                //up left
-                case($move->dX < 0)://$move->dY < 0
-                    $y = $x = 1;
-                    break;
-            }  
-        
+        switch(true){
+            //down left
+            case($move->dY > 0 and $move->dX > 0):
+                $y = $x = -1;
+                break;
+            //down right
+            case($move->dY > 0 and $move->dX < 0):
+                $y = -1;
+                $x = 1;
+                break;
+            //up right
+            case($move->dX > 0)://$move->dY < 0
+                $y = 1;
+                $x = -1;
+                break;
+            //up left
+            case($move->dX < 0)://$move->dY < 0
+                $y = $x = 1;
+                break;
+        }  
         //check desk
         for($i = 1; $i < (abs($move->dX) - 1); $i++){
             if($desk->isFigureExists([$move->nextX($i*$x), ($move->yFrom + $i*$y)]) == true){
