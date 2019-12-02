@@ -55,8 +55,8 @@ trait DMoveTrait {
             return true;
         }
         //define direction
-        for($i=1; $i<=8; $i++){
-            //delta of move
+       
+            
             switch(true){
                 //down left
                 case($move->dY > 0 and $move->dX > 0):
@@ -77,9 +77,9 @@ trait DMoveTrait {
                     $y = $x = 1;
                     break;
             }  
-        }
+        
         //check desk
-        for($i = 1; $i < abs($move->dX); $i++){
+        for($i = 1; $i < (abs($move->dX) - 1); $i++){
             if($desk->isFigureExists([$move->nextX($i*$x), ($move->yFrom + $i*$y)]) == true){
                 return false;
             }
