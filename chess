@@ -1,12 +1,16 @@
 #!/usr/bin/env php
 <?php
 //check for version
-if((int)substr(str_replace('.','', phpversion()), 0, 2) < 71){
+if(PHP_MAJOR_VERSION < 7 and PHP_MINOR_VERSION < 1){
     die('PHP version have to be 7.2 or higher.'.PHP_EOL);
 }
 
 //сomposer
 require_once (__DIR__ . '/vendor/autoload.php');
+//check for output class exists
+if(!class_exists('ConsoleAnimated\ConsoleAnimatedOutput')){
+    die('Can not find output library. Try "composer install".'.PHP_EOL);
+}
 
 //load
 foreach(['src/traits/*.php', 'src/*.php'] as $mask){
