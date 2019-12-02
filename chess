@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 //check for version
-if(PHP_MAJOR_VERSION < 7 and PHP_MINOR_VERSION < 1){
+if(PHP_MAJOR_VERSION * 10 + PHP_MINOR_VERSION < 71){
     die('PHP version have to be 7.2 or higher.'.PHP_EOL);
 }
 
