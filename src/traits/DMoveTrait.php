@@ -47,30 +47,46 @@ trait DMoveTrait {
      */
     public function checkDiagonalMoveBlock(Move $move, Desk $desk) : bool 
     {
+        //dir sign
+        $y=0;
+        $x=0;
         //one step move
         if(abs($move->dY) == 1){
             return true;
         }
-        //@todo check
-        //delta of move
-        switch(true){
-            //down left
-            case($move->dY > 0 and $move->dX > 0):
-                
-                break;
-            //down right
-            case($move->dY > 0 and $move->dX < 0):
-                
-                break;
-            //up right
-            case($move->dX > 0):
-                
-                break;
-            //up left
-            case($move->dX < 0):
-                
-                break;
-        }  
+        //define direction
+        for($i=1; $i<=8; $i++){
+            //delta of move
+            switch(true){
+                //down left
+                case($move->dY > 0 and $move->dX > 0):
+                    $y = $x = -1;
+                    break;
+                //down right
+                case($move->dY > 0 and $move->dX < 0):
+                    $y = -1;
+                    $x = 1;
+                    break;
+                //up right
+                case($move->dY < 0 and $move->dX > 0):
+                    $y = 1;
+                    $x = -1;
+                    break;
+                //up left
+                case($move->dY < 0 and $move->dX < 0):
+                    $y = $x = 1;
+                    break;
+            }  
+        }
+        //check desk
+        for($i = 1; $i < abs($move->dX); $i++){
+            if(     
+                $desk->isFigureExists([$move->nextX($i*$x), ($move->yFrom + $i*$y)]) == true    
+            ){
+                return false;
+            }     
+            
+        }
         //
         return true;
     }
