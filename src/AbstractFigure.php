@@ -142,4 +142,10 @@ abstract class AbstractFigure {
         return $this->is_black;
     }
     
+    /**
+     * Unset figure
+     */
+    public function killFigure() : void {
+        
+    }
 }

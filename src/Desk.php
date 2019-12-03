@@ -92,6 +92,10 @@ class Desk {
         }
         //save move
         $this->moves[] = $move;
+        //kill fugure actions
+        if($this->isFigureExists($move->to)){
+             $this->figures($move->to)->killFigure();
+        }
         //move to new position + internal figure actions
         $this->figures[$move->to[0]][$move->to[1]] = $this->figures($move->from)->move($move, $this);
         //move order set

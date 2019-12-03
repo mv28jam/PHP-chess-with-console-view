@@ -188,4 +188,12 @@ class Move {
         return (105-ord($in));
     }
     
+    /**
+     * To string
+     * @return string
+     */
+    public function __toString() : string {
+        return $this->strFrom.self::$move_delimeter.$this->strTo;
+    }
+    
 }

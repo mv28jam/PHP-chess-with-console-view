@@ -4,6 +4,8 @@
 /**
  * Queen actions and behavior
  * Test game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7
+ * Test of end game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7|f5-f2|h2-h3|f2-e1
+ * 
  * 
  * @author mv28jam <mv28jam@yandex.ru>
  */
@@ -17,11 +19,14 @@ class King extends AbstractFigure {
      */
     public $price = PHP_INT_MAX;
     
+    
     /**
-     * @todo right
+     * Unset king = game over
      */
-    public function __destruct() {
-        throw new GameMechanicsException('Game over. '.(new Pawn(!$this->is_black)).' wins.');
+    public function killFigure() : void {
+        if(isset($this->price)){
+            throw new EndGameException('Game over. '.(new Pawn(!$this->is_black)).' wins by ');
+        }
     }
     
     /**
