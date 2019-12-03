@@ -60,7 +60,7 @@ class Move {
         }
         //check matching for std string move
         if (!preg_match('/^([a-h])([1-8])'.self::$move_delimeter.'?([a-h])([1-8])$/', $move, $match)) {
-            throw new \Exception("Incorrect move");
+            throw new \Exception("Incorrect notation. Use e2-e4.");
         }
         //
         $this->start[] = $match[1];
