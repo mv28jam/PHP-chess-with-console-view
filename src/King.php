@@ -16,6 +16,12 @@ class King extends AbstractFigure {
      */
     public $price = PHP_INT_MAX;
     
+    /**
+     * @todo right
+     */
+    public function __destruct() {
+        throw new GameMechanicsException('Game over. '.(new Pawn(!$this->is_black)).' wins.');
+    }
     
     /**
      * Move action and after action for king
