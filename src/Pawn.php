@@ -79,7 +79,9 @@ class Pawn extends AbstractFigure {
     /**
      * Validate pawn move
      * @param Move $move move object
-     * @param Desk $desk @see getLastMove // have to have for pawn attack "en passant" @see en.wikipedia.org/wiki/Pawn_(chess)#Capturing
+     * @param Desk $desk 
+     * @see getLastMove // have to have for pawn attack "en passant" 
+     * @link en.wikipedia.org/wiki/Pawn_(chess)#Capturing
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
