@@ -13,7 +13,7 @@ if(!class_exists('ConsoleAnimated\ConsoleAnimatedOutput')){
 }
 
 //load
-foreach(['src/traits/*.php', 'src/*.php'] as $mask){
+foreach(['src/traits/*.php', 'src/exceptions/*.php', 'src/*.php'] as $mask){
     foreach (glob($mask) as $file) {
         require_once ($file);
     }
