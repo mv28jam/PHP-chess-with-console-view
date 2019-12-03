@@ -93,7 +93,7 @@ class Pawn extends AbstractFigure {
         //ckeck our normal move
         //for pawn move only 1 field move so check only closest
         foreach($this->normal as $val){
-            if($val->strTo === $move->strTo and $desk->getFigurePrice($move->to) === 0){
+            if($val->strTo === $move->strTo and $desk->getFigurePrice($move->to) === Move::MOVING){
                 return Move::MOVING;
             }
         }
