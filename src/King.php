@@ -8,7 +8,8 @@
  * @author mv28jam <mv28jam@yandex.ru>
  */
 class King extends AbstractFigure {
-    use SMoveTrait, DMoveTrait;
+    use SMoveTrait;
+    use DMoveTrait;
     
     /**
      * Price of King
