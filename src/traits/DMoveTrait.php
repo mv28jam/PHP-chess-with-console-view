@@ -76,7 +76,7 @@ trait DMoveTrait {
                 break;
         }  
         //check desk
-        for($i = 1; $i < (abs($move->dX) - 1); $i++){
+        for($i = 1; $i < abs($move->dX); $i++){
             if($desk->isFigureExists([$move->nextX($i*$x), ($move->yFrom + $i*$y)]) == true){
                 return false;
             }
