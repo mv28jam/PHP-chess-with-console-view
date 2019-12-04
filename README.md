@@ -1,4 +1,4 @@
-# Console chess made with PHP
+# Console chess made with PHP (interactive)
 No "bot", only game mechanics.
 Api will be. 
 
