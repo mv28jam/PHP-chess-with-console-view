@@ -100,6 +100,15 @@ class Rook extends AbstractFigure {
         }
         //
     }
+
+    /**
+     * Rook made from pawn already moved
+     * @return $this
+     */
+    public function fromPawn(){
+        $this->first_step = false;
+        return $this;
+    }
     
     /**
      * @inheritdoc

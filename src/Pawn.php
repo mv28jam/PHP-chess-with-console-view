@@ -52,7 +52,7 @@ class Pawn extends AbstractFigure {
                     return new Queen($this->is_black);
                 case('r'):
                 case('R'):
-                    return new Rook($this->is_black);
+                    return (new Rook($this->is_black))->fromPawn();
                 case('K'):
                 case('k'):
                     return new Knight($this->is_black);
