@@ -6,7 +6,7 @@
  * @TODO
  * @author mv28jam
  */
-class GameMehanic {
+class GameMechanic {
     
     public function isFieldUnderAttack(array $field, Desk $desk){
         
