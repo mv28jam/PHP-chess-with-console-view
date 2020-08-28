@@ -12,7 +12,7 @@ class Game {
      */
     const QUIT = 'q';
     /**
-     * Move delimeter
+     * Move delimiter
      */
     const DELIMITER = '|';
     
@@ -57,11 +57,12 @@ class Game {
             }
         }while(!empty($input));
     }
-    
+
     /**
      * Move actions
      * @param string $move
      * @return void
+     * @throws Exception
      */
     public function moveAction(string $move) : void
     {

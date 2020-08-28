@@ -46,10 +46,11 @@ class Queen extends AbstractFigure {
         //
         return Move::FORBIDDEN;
     }
-    
+
     /**
      * Create array of all possible moves without other figures for queen
      * @param Move $move
+     * @throws Exception
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
     public function countVacuumHorsePossibleMoves(Move $move) : void

@@ -153,11 +153,12 @@ class Move {
             return false;
         }
     }
-    
+
     /**
      * Check X and Y
      * @param string $x move first letter
      * @param int $y move second number
+     * @return bool
      */
     public function checkXY(string $x, int $y) : bool{
         return ($this->checkX($x) and $this->checkY($y));

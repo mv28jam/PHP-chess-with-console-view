@@ -87,7 +87,7 @@ class Desk {
                 throw new \Exception('Forbidden move for '.$this->figures($move->getStart()));
         }
         //check for attack figure of same color    
-        if($this->isSelfAttak($move->getStop())){
+        if($this->isSelfAttack($move->getStop())){
             user_error('Incorrect move check for figure', E_USER_ERROR);
         }
         //save move
@@ -234,11 +234,11 @@ class Desk {
     }
     
     /**
-     * Check for self attak
+     * Check for self attack
      * @param array $position
      * @return bool
      */
-    public function isSelfAttak(array $position) : bool 
+    public function isSelfAttack(array $position) : bool
     {
         if($this->isFigureExists($position)){
             return ($this->getFigureIsBlack($position) !== $this->last_move);

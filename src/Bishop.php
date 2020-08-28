@@ -43,10 +43,11 @@ class Bishop extends AbstractFigure {
         //
         return Move::FORBIDDEN;
     }
-    
+
     /**
      * Create array of all possible moves without other figures for bishop
      * @param Move $move
+     * @throws Exception
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
     public function countVacuumHorsePossibleMoves(Move $move) : void

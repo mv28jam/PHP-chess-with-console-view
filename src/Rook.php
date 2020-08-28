@@ -34,12 +34,13 @@ class Rook extends AbstractFigure {
         //
         return parent::move($move, $desk);
     }
-    
+
     /**
      * Validate Rook move
      * @param Move $move Move object
-     * @param Desk $desk 
+     * @param Desk $desk
      * @return int {@inheritdoc}
+     * @throws Exception
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
@@ -67,10 +68,11 @@ class Rook extends AbstractFigure {
         //
         return Move::FORBIDDEN;;
     }
-    
+
     /**
      * Get list of possible moves from position start for rook
      * @param Move $move
+     * @throws Exception
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
     public function countVacuumHorsePossibleMoves(Move $move) : void

@@ -8,11 +8,12 @@
  * @author mv28jam
  */
 trait DMoveTrait {
-    
+
     /**
      * Generate diagonal moves
      * @param Move $move
      * @return array of Move
+     * @throws Exception
      */
     public function generateDiagonalMoves(Move $move){
         //

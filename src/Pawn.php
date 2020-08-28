@@ -116,9 +116,9 @@ class Pawn extends AbstractFigure {
                 return Move::MOVING;
             }
         }
-        //ckeck our move like attak
+        //ckeck our move like attack
         foreach($this->attack as $val){
-            //check for ordinary attak
+            //check for ordinary attack
             if(
                 $val->strTo === $move->strTo
                 and 
@@ -128,7 +128,7 @@ class Pawn extends AbstractFigure {
             ){
                 return $desk->getFigurePrice($move->to);
             }
-            //check for attak "en passant"
+            //check for attack "en passant"
             if(
                 !empty($last_move)
                 and
@@ -172,7 +172,7 @@ class Pawn extends AbstractFigure {
         if($move->checkY(($move->yFrom + (1 * $sign)))){
             $this->normal[] = new Move($move->strFrom, $move->xFrom.($move->yFrom + $sign));
         }
-        //attak
+        //attack
         if($move->checkX($move->nextX())){
             $this->attack[] = new Move($move->strFrom, $move->nextX().($move->yFrom + $sign));
         }

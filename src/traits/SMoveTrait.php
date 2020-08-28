@@ -8,11 +8,12 @@
  * @author mv28jam
  */
 trait SMoveTrait {
-    
+
     /**
      * Generate straight moves
      * @param Move $move
      * @return array of Move
+     * @throws Exception
      */
     public function generateStraightMoves(Move $move){
         //array of moves

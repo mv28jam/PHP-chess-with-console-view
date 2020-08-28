@@ -100,7 +100,7 @@ abstract class AbstractFigure {
     }
     
     /**
-     * Check for self attak (white goto white etc)
+     * Check for self attack (white goto white etc)
      * Has not used for pawn
      * @param Move $move
      * @param Desk $desk

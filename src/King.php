@@ -39,15 +39,19 @@ class King extends AbstractFigure {
     {
         return parent::move($move, $desk);
     }
-    
+
     /**
      * Validate King move
      * @param Move $move Move object
      * @param Desk $desk
      * @return int {@inheritdoc}
+     * @throws Exception
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
+
+        //TODO special checks
+
         //check for self attack
         if($this->checkSelfAttack($move, $desk)){
             return Move::FORBIDDEN;
@@ -70,10 +74,11 @@ class King extends AbstractFigure {
         //
         return Move::FORBIDDEN;
     }
-    
+
     /**
      * Create array of all possible moves without other figures for king
      * @param Move $move
+     * @throws Exception
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
     public function countVacuumHorsePossibleMoves(Move $move) : void

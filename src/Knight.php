@@ -14,13 +14,14 @@ class Knight extends AbstractFigure {
      * @var integer 
      */
     public $price = 2;
-    
-    
+
+
     /**
      * Validate Knight move
      * @param Move $move Move object
      * @param Desk $desk
      * @return int {@inheritdoc}
+     * @throws Exception
      */
     public function checkFigureMove(Move $move, Desk $desk) : int 
     {
@@ -31,7 +32,7 @@ class Knight extends AbstractFigure {
         //get possible moves
         $this->countVacuumHorsePossibleMoves($move);
         //
-        foreach($moves[self::NORMAL] as $val){
+        foreach($this->normal as $val){
             if($val->strTo === $move->strTo){
                 return $desk->getFigurePrice($move->to);
             }
@@ -39,10 +40,11 @@ class Knight extends AbstractFigure {
         //
         return Move::FORBIDDEN;
     }
-    
+
     /**
      * Create array of all possible moves for knight
      * @param Move $move
+     * @throws Exception
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
     public function countVacuumHorsePossibleMoves(Move $move) : void
