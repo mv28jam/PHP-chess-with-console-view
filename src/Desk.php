@@ -66,23 +66,33 @@ class Desk {
     }
 
     /**
-     * Move of figure 
+     * Move of figure
      * @param Move $move
-     * @throws \Exception
+     * @param bool $castling
+     * @throws Exception
      */
-    public function move(Move $move) : void
+    public function move(Move $move, $castling = false) : void
     {
         //rewind moves
         end($this->moves);
         //checks
         switch(true){
-            //check for figure in start podition
+            //check for figure in start position
             case(!$this->isFigureExists($move->getStart())):
                 throw new \Exception('No figure in position');
             //check move order white-black-white-etc
             case(!$this->moveOrder($move)):
                 throw new \Exception('Other color moves - '.(new Pawn(!$this->last_move)));
-            //check move of figure by this figure rules    
+            //check move of figure by this figure rules
+            case($castling):
+                if ($this->figures($move->from) instanceof Rook) {
+                    if (!$this->figures($move->from)->castlingAvailable()) {
+                        throw new \Exception('Castling unavailable for this Rook');
+                    }
+                } else {
+                    throw new \Exception('Castling available only with Rook');
+                }
+                break;
             case($this->figures($move->from)->checkFigureMove($move, $this) < Move::MOVING):
                 throw new \Exception('Forbidden move for '.$this->figures($move->getStart()));
         }
@@ -99,7 +109,9 @@ class Desk {
         //move to new position + internal figure actions
         $this->figures[$move->to[0]][$move->to[1]] = $this->figures($move->from)->move($move, $this);
         //move order set
-        $this->last_move = $this->figures[$move->to[0]][$move->to[1]]->getIsBlack();
+        if (!$castling) {
+            $this->last_move = $this->figures[$move->to[0]][$move->to[1]]->getIsBlack();
+        }
         //unset figure in old position
         unset($this->figures[$move->from[0]][$move->from[1]]);
     }
@@ -231,6 +243,55 @@ class Desk {
     public function isFigureExists(array $position) : bool 
     {
         return isset($this->figures[$position[0]][$position[1]]);
+    }
+
+    /**
+     * Check is position under attack
+     * for white color by default
+     * @param array $position
+     * @param bool $current_color_is_black
+     * @return bool
+     * @throws Exception
+     */
+    public function isPositionUnderAttack(array $position, bool $current_color_is_black = false): bool
+    {
+        $enemy_figures = $this->allFiguresByColor(!$current_color_is_black);
+        foreach ($enemy_figures as $figure_pos => $figure) {
+            $move = $figure_pos . '-' . implode('', $position);
+            $figure->countVacuumHorsePossibleMoves(new Move($move));
+            // Special check for Pawn
+            if ($figure instanceof Pawn) {
+                foreach ($figure->attack as $pawn_move) {
+                    if ($pawn_move->getStop() === $position) {
+                        return true;
+                    }
+                }
+            // For other figures
+            } elseif ($figure->checkFigureMove(new Move($move), $this) > Move::FORBIDDEN) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get all figures by color
+     * @param bool $is_black
+     * @return array
+     */
+    private function allFiguresByColor(bool $is_black = false): array
+    {
+        $result = [];
+        foreach ($this->figures as $posX => $arrayY) {
+            foreach ($arrayY as $posY => $figure) {
+                if ($figure->getIsBlack() === $is_black) {
+                    $result[$posX . $posY] = $figure;
+                }
+            }
+        }
+
+        return $result;
     }
     
     /**
