@@ -51,11 +51,11 @@ class Rook extends AbstractFigure {
         //get possible moves
         $this->countVacuumHorsePossibleMoves($move);
         //roque move
-        if(!empty($this->special) and $this->special[0]->strTo == $move->strTo){
+        /*if(!empty($this->special) and $this->special[0]->strTo == $move->strTo){
             throw new Exception('Roque support under construction! Sorry...');
             //@TODO check of roque
             //return true;
-        }
+        }*/
         //ckeck our normal move
         foreach($this->normal as $val){
             if($val->strTo === $move->strTo){
@@ -66,7 +66,7 @@ class Rook extends AbstractFigure {
             }
         }
         //
-        return Move::FORBIDDEN;;
+        return Move::FORBIDDEN;
     }
 
     /**
@@ -84,7 +84,7 @@ class Rook extends AbstractFigure {
         //ordinary moves
         $this->normal = $this->generateStraightMoves($move);
         //roque move without limitation
-        switch(true){
+        /*switch(true){
             case($move->strFrom == 'h1' and $this->first_step):
                 $this->special[] = new Move('h1-f1');
                 break;
@@ -97,7 +97,7 @@ class Rook extends AbstractFigure {
             case($move->strFrom == 'a8' and $this->first_step):
                 $this->special[] = new Move('a8-d8');
                 break;
-        }
+        }*/
         //
     }
 
@@ -108,6 +108,15 @@ class Rook extends AbstractFigure {
     public function fromPawn(){
         $this->first_step = false;
         return $this;
+    }
+
+    /**
+     * Check if castling available for this figure
+     * @return bool
+     */
+    public function castlingAvailable()
+    {
+        return $this->first_step;
     }
     
     /**
