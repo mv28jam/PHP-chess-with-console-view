@@ -108,8 +108,9 @@ class Desk {
      * Get last move of game
      * @return Move|null
      */
-    public function getLastMove(){
-        return (current($this->moves) ? current($this->moves) : null);
+    public function getLastMove(): ?Move
+    {
+        return (current($this->moves) ?: null);
     }
     
     /**
