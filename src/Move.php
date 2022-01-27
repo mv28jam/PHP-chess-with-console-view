@@ -10,9 +10,9 @@
  * @property-read string $strFrom move from string
  * @property-read string $strTo move to string
  * @property-read string $xFrom move from
- * @property-read string $yFrom move from
+ * @property-read int $yFrom move from
  * @property-read string $xTo move to 
- * @property-read string $yTo move to 
+ * @property-read int $yTo move to
  * @property-read int $dX delta of move
  * @property-read int $dY delta of move
  * 
