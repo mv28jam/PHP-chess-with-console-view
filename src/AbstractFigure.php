@@ -47,12 +47,12 @@ abstract class AbstractFigure {
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move @see Move
      */
     abstract public function checkFigureMove(Move $move, Desk $desk) : int;
-    
+
     /**
      * Count list of possible moves from position start
-     * \except simple limitation - NOT desk depended moves 
+     * \except simple limitation - NOT desk depended moves
      * \simple limitation like "first move"
-     * @param array $move - start position
+     * @param Move $move - start position
      */
     abstract public function countVacuumHorsePossibleMoves(Move $move) : void;
     
@@ -79,20 +79,20 @@ abstract class AbstractFigure {
      */
     public function move(Move $move, Desk $desk) : AbstractFigure
     {
-        //add move to hitory
+        //add move to history
         $this->moves[] = $move;
         //clean counted
         $this->cleanMoves();
         //
         return $this;
     }
-    
+
     /**
      * Get list of possible moves from position start
-     * \except simple limitation - NOT desk depended moves 
+     * \except simple limitation - NOT desk depended moves
      * \simple limitation like "first move"
-     * @param array $move - start position
-     * @return array of Move 
+     * @param Move $move - start position
+     * @return array of Move
      */
     public function getVacuumHorsePossibleMoves(Move $move) : array {
         $this->countVacuumHorsePossibleMoves($move);
