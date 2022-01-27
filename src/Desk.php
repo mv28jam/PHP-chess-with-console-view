@@ -147,11 +147,15 @@ class Desk {
      */
     public function getFigureIsBlack(array $position) : bool 
     {
+        $color = false;
+        //double check
         if($this->isFigureExists($position)){
-            return $this->figures[$position[0]][$position[1]]->getIsBlack();
+            $color = $this->figures[$position[0]][$position[1]]->getIsBlack();
+        }else{
+            user_error('No figure to get color. Check figure exist before get color.', E_USER_ERROR);
         }
         //
-        return null;  
+        return $color;
     }
     
     /**
