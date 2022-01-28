@@ -15,8 +15,7 @@ trait SMoveTrait {
      * @return array of Move
      * @throws Exception
      */
-    public function generateStraightMoves(Move $move): array
-    {
+    public function generateStraightMoves(Move $move){
         //array of moves
         $result = [];
         //

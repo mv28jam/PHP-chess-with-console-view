@@ -15,14 +15,13 @@ class Queen extends AbstractFigure {
      * @var integer 
      */
     public $price = 3;
-
-
+    
+    
     /**
      * Validate Queen move
      * @param Move $move Move object
      * @param Desk $desk
      * @return int {@inheritdoc}
-     * @throws Exception
      */
     public function checkFigureMove(Move $move, Desk $desk): int 
     {

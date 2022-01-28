@@ -15,8 +15,7 @@ trait DMoveTrait {
      * @return array of Move
      * @throws Exception
      */
-    public function generateDiagonalMoves(Move $move): array
-    {
+    public function generateDiagonalMoves(Move $move){
         //
         $result = [];
         //
