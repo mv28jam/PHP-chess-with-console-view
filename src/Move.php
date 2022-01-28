@@ -10,9 +10,9 @@
  * @property-read string $strFrom move from string
  * @property-read string $strTo move to string
  * @property-read string $xFrom move from
- * @property-read int $yFrom move from
+ * @property-read string $yFrom move from
  * @property-read string $xTo move to 
- * @property-read int $yTo move to
+ * @property-read string $yTo move to 
  * @property-read int $dX delta of move
  * @property-read int $dY delta of move
  * 
@@ -56,7 +56,7 @@ class Move {
     {
         //
         if(!empty($move_exploded)){
-            $move = implode(self::$move_delimeter, [$move, $move_exploded]);
+            $move = implode(self::$move_delimeter, [$move, $move_exploded]); 
         }
         //check matching for std string move
         if (!preg_match('/^([a-h])([1-8])'.self::$move_delimeter.'?([a-h])([1-8])$/', $move, $match)) {
@@ -81,7 +81,7 @@ class Move {
      * @param string $name
      * @return mixed 
      */
-    public function __get(string $name){
+    public function __get($name){
         $start = $this->getStart();
         switch($name){
             case('from'):
@@ -115,8 +115,7 @@ class Move {
      * @param int $step shith on
      * @return string
      */
-    public function nextX(int $step = 1): string
-    {
+    public function nextX($step = 1){
          return chr(ord($this->xFrom) + $step);
     }
     
@@ -125,8 +124,7 @@ class Move {
      * @param int $step shith on
      * @return string
      */
-    public function prevX(int $step = 1): string
-    {
+    public function prevX($step = 1){
         return chr(ord($this->xFrom) - $step);
     }
     
@@ -135,8 +133,7 @@ class Move {
      * @param string $in move first letter
      * @return boolean
      */
-    public function checkX(string $in): bool
-    {
+    public function checkX(string $in){
         if(ord($in) > 96 and ord($in) < 105){
             return true;
         }else{
@@ -149,8 +146,7 @@ class Move {
      * @param int $in move second number
      * @return boolean
      */
-    public function checkY(int $in) : bool
-    {
+    public function checkY(int $in) : bool{
         if($in > 0 and $in < 9){
             return true;
         }else{
@@ -172,8 +168,7 @@ class Move {
      * Return move from
      * @return array
      */
-    public function getStart(): array
-    {
+    public function getStart(){
         return $this->start;
     }
     
@@ -181,8 +176,7 @@ class Move {
      * Return move to
      * @return array
      */
-    public function getStop(): array
-    {
+    public function getStop(){
         return $this->stop;
     }
     
@@ -191,8 +185,7 @@ class Move {
      * Sorry
      * @return int
      */
-    public function getXLikeY(string $in): int
-    {
+    public function getXLikeY(string $in){
         return (105-ord($in));
     }
     

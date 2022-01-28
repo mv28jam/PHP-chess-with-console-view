@@ -31,6 +31,13 @@ class Game {
      * @var Desk desk to play on
      */
     protected $desk = null;
+
+    /**
+     * Saveloader object
+     * @var Saveloader object for save or load
+     * last game data
+     */
+    private $saveloader = null;
     
     /**
      * game start
@@ -95,7 +102,12 @@ class Game {
     public function init() : void
     {
         $this->animated_output= new ConsoleAnimated\ConsoleAnimatedOutput();
-        $this->desk = new Desk();
+        $this->saveloader = new Saveloader();
+        if (($last_game_data = $this->saveloader->loadLastGame()) && $this->wantToOpenLastGame()){
+            $this->desk = new Desk($last_game_data);
+        } else {
+            $this->desk = new Desk();
+        }
         //prepare output space
         $this->animated_output->echoMultipleLine($this->desk->dump(), -1);
         $this->animated_output->echoEmptyLine();
@@ -119,16 +131,50 @@ class Game {
                 break;
         }
     }
-    
+
+    /**
+     * Ask to open last game if exists
+     * @return bool
+     */
+    private function wantToOpenLastGame() : bool
+    {
+        $this->animated_output->echoLine("Do you want to load last game? [Yes/no]: ");
+        $input = strtolower(trim(fgets(STDIN)));
+        switch($input){
+            case('yes'):
+            case('y'):
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Ask to save game progress
+     * @return bool
+     */
+    private function wantToSaveGame() : bool
+    {
+        $this->animated_output->echoLine("Do you want to save game progress? [Yes/no]: ");
+        $input = strtolower(trim(fgets(STDIN)));
+        switch($input){
+            case('yes'):
+            case('y'):
+                return true;
+            default:
+                return false;
+        }
+    }
+
     /**
      * exit the game
      * @return void
      */
     public function gameExit() : void
     {
+        if($this->wantToSaveGame()) {
+            $this->saveloader->saveLastGame($this->desk);
+        }
         exit(0);
     }
-    
-    
-    
 }
