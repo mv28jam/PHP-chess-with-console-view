@@ -20,18 +20,18 @@ class Pawn extends AbstractFigure
      * Changes to desk after "en passant" move
      * @var array
      */
-    protected $desk_change = [];
+    protected array $desk_change = [];
     /**
      * Pawn first step differ form other
      * @var boolean first pawn step or not
      */
-    private $first_step = true;
+    private bool $first_step = true;
 
     /**
      * Move action and after action for pawn
      * @param Move $move
      * @param Desk $desk
-     * @return AbstractFigure|Pawn
+     * @return AbstractFigure
      */
     public function move(Move $move, Desk $desk): AbstractFigure
     {
@@ -116,7 +116,7 @@ class Pawn extends AbstractFigure
                 return Move::MOVING;
             }
         }
-        //ckeck our move like attack
+        //check our move like attack
         foreach ($this->attack as $val) {
             //check for ordinary attack
             if (
@@ -153,6 +153,7 @@ class Pawn extends AbstractFigure
     /**
      * Create array of all possible moves without other figures for pawn
      * @param Move $move
+     * @throws Exception
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
     public function countVacuumHorsePossibleMoves(Move $move): void

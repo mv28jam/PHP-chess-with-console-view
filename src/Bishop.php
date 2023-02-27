@@ -23,6 +23,7 @@ class Bishop extends AbstractFigure
      * @param Move $move Move object
      * @param Desk $desk
      * @return int {@inheritdoc}
+     * @throws Exception
      */
     public function checkFigureMove(Move $move, Desk $desk): int
     {

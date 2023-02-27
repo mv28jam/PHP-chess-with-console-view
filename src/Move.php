@@ -33,23 +33,23 @@ class Move
      * @var array $start
      * where is figure
      */
-    protected $start = [];
+    protected array $start = [];
     /**
      * @var array $stop
      * where to go
      */
-    protected $stop = [];
+    protected array $stop = [];
     /**
      * Delta of move
      * @var int
      */
-    protected $deltaX = 0;
-    protected $deltaY = 0;
+    protected int $deltaX = 0;
+    protected int $deltaY = 0;
 
     /**
      * @param string $move like e2-e4
      * @param string $move_exploded end of move like e4 and $move like e2
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(string $move, string $move_exploded = '')
     {
@@ -59,7 +59,7 @@ class Move
         }
         //check matching for std string move
         if (!preg_match('/^([a-h])([1-8])' . self::$move_delimeter . '?([a-h])([1-8])$/', $move, $match)) {
-            throw new \Exception("Incorrect notation. Use e2-e4.");
+            throw new Exception("Incorrect notation. Use e2-e4.");
         }
         //
         $this->start[] = $match[1];
@@ -68,7 +68,7 @@ class Move
         $this->stop[] = $match[4];
         //
         if ($this->start == $this->stop) {
-            throw new \Exception("No move");
+            throw new Exception("No move");
         }
         //create delta of move
         $this->deltaX = ord($this->start[0]) - ord($this->stop[0]);
