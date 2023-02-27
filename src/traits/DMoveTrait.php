@@ -7,7 +7,8 @@
  * @uses Move, Desk
  * @author mv28jam
  */
-trait DMoveTrait {
+trait DMoveTrait
+{
 
     /**
      * Generate diagonal moves
@@ -20,44 +21,44 @@ trait DMoveTrait {
         //
         $result = [];
         //
-        for($i=1; $i<=8; $i++){
+        for ($i = 1; $i <= 8; $i++) {
             $step = ($i - $move->getXLikeY($move->xFrom));
-            if($step != 0){
-                if($move->checkXY($move->prevX($step), $move->yFrom + $step)){
-                    $result[] = new Move($move->strFrom, $move->prevX($step).($move->yFrom + $step));
+            if ($step != 0) {
+                if ($move->checkXY($move->prevX($step), $move->yFrom + $step)) {
+                    $result[] = new Move($move->strFrom, $move->prevX($step) . ($move->yFrom + $step));
                 }
-                if($move->checkXY($move->nextX($step), $move->yFrom + $step)){
-                    $result[] = new Move($move->strFrom, $move->nextX($step).($move->yFrom + $step));
+                if ($move->checkXY($move->nextX($step), $move->yFrom + $step)) {
+                    $result[] = new Move($move->strFrom, $move->nextX($step) . ($move->yFrom + $step));
                 }
-                if($move->checkXY($move->prevX($step), $move->yFrom - $step)){
-                    $result[] = new Move($move->strFrom, $move->prevX($step).($move->yFrom - $step));
+                if ($move->checkXY($move->prevX($step), $move->yFrom - $step)) {
+                    $result[] = new Move($move->strFrom, $move->prevX($step) . ($move->yFrom - $step));
                 }
-                if($move->checkXY($move->nextX($step),$move->yFrom - $step)){
-                    $result[] = new Move($move->strFrom, $move->nextX($step).($move->yFrom - $step));
+                if ($move->checkXY($move->nextX($step), $move->yFrom - $step)) {
+                    $result[] = new Move($move->strFrom, $move->nextX($step) . ($move->yFrom - $step));
                 }
             }
         }
         //
         return $result;
     }
-    
+
     /**
      * Check diagonal move blocks
      * @param Move $move Move object
-     * @param Desk $desk 
+     * @param Desk $desk
      * @return bool
      */
-    public function checkDiagonalMoveBlock(Move $move, Desk $desk) : bool 
+    public function checkDiagonalMoveBlock(Move $move, Desk $desk): bool
     {
         //dir sign
-        $y=0;
-        $x=0;
+        $y = 0;
+        $x = 0;
         //one step move
-        if(abs($move->dY) == 1){
+        if (abs($move->dY) == 1) {
             return true;
         }
         //define direction
-        switch(true){
+        switch (true) {
             //down left
             case($move->dY > 0 and $move->dX > 0):
                 $y = $x = -1;
@@ -76,15 +77,15 @@ trait DMoveTrait {
             case($move->dX < 0)://$move->dY < 0
                 $y = $x = 1;
                 break;
-        }  
+        }
         //check desk
-        for($i = 1; $i < abs($move->dX); $i++){
-            if($desk->isFigureExists([$move->nextX($i*$x), ($move->yFrom + $i*$y)]) == true){
+        for ($i = 1; $i < abs($move->dX); $i++) {
+            if ($desk->isFigureExists([$move->nextX($i * $x), ($move->yFrom + $i * $y)]) == true) {
                 return false;
             }
         }
         //
         return true;
     }
-    
+
 }

@@ -6,6 +6,7 @@
  *
  * @author mv28jam
  */
-class EndGameException extends \Exception{
-    
+class EndGameException extends \Exception
+{
+
 }

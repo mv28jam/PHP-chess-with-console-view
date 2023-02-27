@@ -5,8 +5,9 @@
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */
-class Game {
-    
+class Game
+{
+
     /**
      * Game quit symbol
      */
@@ -15,12 +16,12 @@ class Game {
      * Move delimiter
      */
     const DELIMITER = '|';
-    
+
     /**
      * Output messages
      */
-    protected $input_move='Input move:';
-    protected $mistake='Mistake: ';
+    protected $input_move = 'Input move:';
+    protected $mistake = 'Mistake: ';
     /**
      * Object to animate output
      * @var ConsoleAnimatedOutput object holder
@@ -31,7 +32,7 @@ class Game {
      * @var Desk desk to play on
      */
     protected $desk = null;
-    
+
     /**
      * game start
      */
@@ -40,22 +41,65 @@ class Game {
         //new game init
         $this->init();
         //game action
-        do{
+        do {
             $input = trim(fgets(STDIN));
             //check for out or save or some other not move
             $this->controlActions($input);
             //explode moves b2-b4|g7-g5
             $input = explode(self::DELIMITER, $input);
             //moving  
-            foreach($input as $key => $move){
+            foreach ($input as $key => $move) {
                 //for multiple input moves we miss STDIN line so create empty
-                if($key > 0){
+                if ($key > 0) {
                     $this->animated_output->echoEmptyLine();
                 }
                 //move output and desk move
                 $this->moveAction($move);
             }
-        }while(!empty($input));
+        } while (!empty($input));
+    }
+
+    /**
+     * Init
+     * create objects
+     * prepare game space
+     * @return void
+     */
+    public function init(): void
+    {
+        $this->animated_output = new ConsoleAnimated\ConsoleAnimatedOutput();
+        $this->desk = new Desk();
+        //prepare output space
+        $this->animated_output->echoMultipleLine($this->desk->dump(), -1);
+        $this->animated_output->echoEmptyLine();
+        $this->animated_output->cursorUp();
+        $this->animated_output->echoLine($this->input_move);
+    }
+
+    /**
+     * Check input for control strings
+     * @param string $move from STDIN
+     * @return void
+     */
+    protected function controlActions(string $move): void
+    {
+        switch ($move) {
+            case(self::QUIT):
+            case('exit'):
+            case('quit'):
+            case('die'):
+                $this->gameExit();
+                break;
+        }
+    }
+
+    /**
+     * exit the game
+     * @return void
+     */
+    public function gameExit(): void
+    {
+        exit(0);
     }
 
     /**
@@ -64,71 +108,25 @@ class Game {
      * @return void
      * @throws Exception
      */
-    public function moveAction(string $move) : void
+    public function moveAction(string $move): void
     {
-        try {    
+        try {
             $this->desk->move(new Move($move));
             $this->animated_output->echoMultipleLine($this->desk->dump(), 1);
             $this->animated_output->deleteLine();
             $this->animated_output->cursorUp();
-            $this->animated_output->echoLine($this->input_move);    
-        } 
-        catch (EndGameException $e) {
-            $this->animated_output->echoLine($e->getMessage().(new Move($move)));
+            $this->animated_output->echoLine($this->input_move);
+        } catch (EndGameException $e) {
+            $this->animated_output->echoLine($e->getMessage() . (new Move($move)));
             $this->animated_output->echoEmptyLine();
             exit(0);
-        }    
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             //do not save move and echo error message
-            $this->animated_output->echoLine($this->mistake.$e->getMessage());
+            $this->animated_output->echoLine($this->mistake . $e->getMessage());
             $this->animated_output->cursorUp();
-            $this->animated_output->echoLine($this->input_move);   
+            $this->animated_output->echoLine($this->input_move);
         }
     }
 
-    /**
-     * Init 
-     * create objects
-     * prepare game space
-     * @return void
-     */
-    public function init() : void
-    {
-        $this->animated_output= new ConsoleAnimated\ConsoleAnimatedOutput();
-        $this->desk = new Desk();
-        //prepare output space
-        $this->animated_output->echoMultipleLine($this->desk->dump(), -1);
-        $this->animated_output->echoEmptyLine();
-        $this->animated_output->cursorUp();
-        $this->animated_output->echoLine($this->input_move);
-    }
-    
-    /**
-     * Check input for control strings
-     * @param string $move from STDIN
-     * @return void
-     */
-    protected function controlActions(string $move) : void
-    {
-        switch($move){
-            case(self::QUIT):
-            case('exit'):
-            case('quit'):
-            case('die'):    
-                $this->gameExit();
-                break;
-        }
-    }
-    
-    /**
-     * exit the game
-     * @return void
-     */
-    public function gameExit() : void
-    {
-        exit(0);
-    }
-    
-    
-    
+
 }

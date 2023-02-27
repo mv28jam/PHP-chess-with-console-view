@@ -4,14 +4,15 @@
 /**
  * Knight actions and behavior
  * Test game:g1-f3|b8-c6|f3-e5|c6-e5|e2-e4|f5-e3|e4-e5|f3-e1
- * 
+ *
  * @author mv28jam <mv28jam@yandex.ru>
  */
-class Knight extends AbstractFigure {
-    
+class Knight extends AbstractFigure
+{
+
     /**
      * Price of Knight
-     * @var integer 
+     * @var integer
      */
     public $price = 2;
 
@@ -23,17 +24,17 @@ class Knight extends AbstractFigure {
      * @return int {@inheritdoc}
      * @throws Exception
      */
-    public function checkFigureMove(Move $move, Desk $desk) : int 
+    public function checkFigureMove(Move $move, Desk $desk): int
     {
         //check for self attack
-        if($this->checkSelfAttack($move, $desk)){
+        if ($this->checkSelfAttack($move, $desk)) {
             return Move::FORBIDDEN;
         }
         //get possible moves
         $this->countVacuumHorsePossibleMoves($move);
         //
-        foreach($this->normal as $val){
-            if($val->strTo === $move->strTo){
+        foreach ($this->normal as $val) {
+            if ($val->strTo === $move->strTo) {
                 return $desk->getFigurePrice($move->to);
             }
         }
@@ -47,43 +48,43 @@ class Knight extends AbstractFigure {
      * @throws Exception
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function countVacuumHorsePossibleMoves(Move $move) : void
+    public function countVacuumHorsePossibleMoves(Move $move): void
     {
         //
-        if(!empty($this->normal)){
+        if (!empty($this->normal)) {
             return;
         }
         //
-        foreach([2,-2] as $val){
+        foreach ([2, -2] as $val) {
             //forward 2 vert
-            if($move->checkY($move->yFrom + $val)){
-                if($move->checkX($move->nextX())){
-                    $this->normal[] = new Move($move->strFrom, $move->nextX().($move->yFrom + $val));
+            if ($move->checkY($move->yFrom + $val)) {
+                if ($move->checkX($move->nextX())) {
+                    $this->normal[] = new Move($move->strFrom, $move->nextX() . ($move->yFrom + $val));
                 }
-                if($move->checkX($move->prevX())){
-                    $this->normal[] = new Move($move->strFrom, $move->prevX().($move->yFrom + $val));
+                if ($move->checkX($move->prevX())) {
+                    $this->normal[] = new Move($move->strFrom, $move->prevX() . ($move->yFrom + $val));
                 }
             }
             //forward 2 horiz
-            if($move->checkX($move->nextX($val))){
-                if($move->checkY($move->yFrom + 1)){
-                    $this->normal[] = new Move($move->strFrom, $move->nextX($val).($move->yFrom + 1));
+            if ($move->checkX($move->nextX($val))) {
+                if ($move->checkY($move->yFrom + 1)) {
+                    $this->normal[] = new Move($move->strFrom, $move->nextX($val) . ($move->yFrom + 1));
                 }
-                if($move->checkY($move->yFrom - 1)){
-                    $this->normal[] = new Move($move->strFrom, $move->nextX($val).($move->yFrom -1));
+                if ($move->checkY($move->yFrom - 1)) {
+                    $this->normal[] = new Move($move->strFrom, $move->nextX($val) . ($move->yFrom - 1));
                 }
             }
             //
         }
         //
     }
-    
+
     /**
      * @inheritdoc
      */
-    public function __toString() : string 
+    public function __toString(): string
     {
         return $this->is_black ? '♘' : '♞';
     }
-    
+
 }

@@ -8,6 +8,7 @@
  *
  * @author mv28jam
  */
-class GameMechanicsException  extends \Exception{
-    
+class GameMechanicsException extends \Exception
+{
+
 }

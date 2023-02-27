@@ -7,7 +7,8 @@
  * @uses Move, Desk
  * @author mv28jam
  */
-trait SMoveTrait {
+trait SMoveTrait
+{
 
     /**
      * Generate straight moves
@@ -20,39 +21,39 @@ trait SMoveTrait {
         //array of moves
         $result = [];
         //
-        for($i=1; $i<=8; $i++){
+        for ($i = 1; $i <= 8; $i++) {
             //Y move
             $stepY = ($i - $move->yFrom);
-            if($stepY != 0){
-                $result[] = new Move($move->strFrom, $move->xFrom.($move->yFrom + $stepY));
+            if ($stepY != 0) {
+                $result[] = new Move($move->strFrom, $move->xFrom . ($move->yFrom + $stepY));
             }
             // X move
             $stepX = ($i - $move->getXLikeY($move->xFrom));
-            if($stepX != 0){
-                $result[] = new Move($move->strFrom, $move->prevX($stepX).$move->yFrom);
+            if ($stepX != 0) {
+                $result[] = new Move($move->strFrom, $move->prevX($stepX) . $move->yFrom);
             }
         }
         //
         return $result;
     }
-    
+
     /**
      * Check horizontal or vertical move blocks
      * @param Move $move Move object
-     * @param Desk $desk 
+     * @param Desk $desk
      * @return bool
      */
-    public function checkStraightMoveBlock(Move $move, Desk $desk) : bool 
+    public function checkStraightMoveBlock(Move $move, Desk $desk): bool
     {
         //one step move
-        if(abs($move->dY) == 1 or abs($move->dY) == 1){
+        if (abs($move->dY) == 1 or abs($move->dY) == 1) {
             return true;
         }
         //
         $delta = 0;
         $y = false;
         //delta of move
-        switch(true){
+        switch (true) {
             //vertical move down
             case(abs($move->dY) > 0 and $move->dY > 0):
                 $delta = $move->dY - 1;
@@ -71,15 +72,15 @@ trait SMoveTrait {
             case($move->dX < 0):
                 $delta = $move->dX + 1;
                 break;
-        }        
+        }
         //
-        for($i = $delta; abs($i) > 0; ($delta < 0 ? $i++ : $i--)){
-            if($desk->isFigureExists(($y ? [$move->xFrom, ($move->yTo + $i)] : [$move->prevX($i), $move->yFrom])) == true){
+        for ($i = $delta; abs($i) > 0; ($delta < 0 ? $i++ : $i--)) {
+            if ($desk->isFigureExists(($y ? [$move->xFrom, ($move->yTo + $i)] : [$move->prevX($i), $move->yFrom])) == true) {
                 return false;
             }
         }
         //
         return true;
     }
-    
+
 }

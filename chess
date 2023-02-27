@@ -1,21 +1,21 @@
 #!/usr/bin/env php
 <?php
 //check for version
-if(PHP_MAJOR_VERSION * 10 + PHP_MINOR_VERSION < 71){
-    die('PHP version have to be 7.1 or higher.'.PHP_EOL);
+if (PHP_MAJOR_VERSION * 10 + PHP_MINOR_VERSION < 71) {
+    die('PHP version have to be 7.1 or higher.' . PHP_EOL);
 }
 
 //сomposer
-require_once (__DIR__ . '/vendor/autoload.php');
+require_once(__DIR__ . '/vendor/autoload.php');
 //check for output class exists
-if(!class_exists('ConsoleAnimated\ConsoleAnimatedOutput')){
-    die('Can not find output library. Try "composer install".'.PHP_EOL);
+if (!class_exists('ConsoleAnimated\ConsoleAnimatedOutput')) {
+    die('Can not find output library. Try "composer install".' . PHP_EOL);
 }
 
 //load
-foreach(['src/traits/*.php', 'src/exceptions/*.php', 'src/*.php'] as $mask){
+foreach (['src/traits/*.php', 'src/exceptions/*.php', 'src/*.php'] as $mask) {
     foreach (glob($mask) as $file) {
-        require_once ($file);
+        require_once($file);
     }
 }
 
