@@ -14,7 +14,7 @@ class Knight extends AbstractFigure
      * Price of Knight
      * @var integer
      */
-    public $price = 2;
+    public int $price = 2;
 
 
     /**

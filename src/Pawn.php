@@ -15,7 +15,7 @@ class Pawn extends AbstractFigure
      * Abstract price of figure for automatic game
      * @var int
      */
-    protected $price = 1;
+    protected int $price = 1;
     /**
      * Changes to desk after "en passant" move
      * @var array

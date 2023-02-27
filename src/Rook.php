@@ -15,7 +15,7 @@ class Rook extends AbstractFigure
      * Price of Rook
      * @var integer
      */
-    public $price = 2;
+    public int $price = 2;
     /**
      * Rook roque possible only like first step
      * @var boolean

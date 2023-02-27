@@ -12,33 +12,33 @@ abstract class AbstractFigure
      * Ordinary moves
      * @var array of moves
      */
-    public $normal = [];
+    public array $normal = [];
     /**
      * Attack special figure moves (for pawn)
      * @var array of moves
      */
-    public $attack = [];
+    public array $attack = [];
     /**
      * Special figure moves
      * @var array of moves
      */
-    public $special = [];
+    public array $special = [];
     /**
      * Black or white figure
      * @var boolean
      */
-    protected $is_black = false;
+    protected bool $is_black = false;
     /**
      * Abstract price of figure to automatic game
      * @var int
      */
-    protected $price = 0;
+    protected int $price = 0;
     /**
      * All figure possible moves, сlean after $this->move()
      * @see $this->cleanMoves()
      * @var array of Moves
      */
-    protected $moves = [];
+    protected array $moves = [];
 
     /**
      * Create of figure with color determinate

@@ -18,7 +18,7 @@ class King extends AbstractFigure
      * Price of King
      * @var integer
      */
-    public $price = PHP_INT_MAX;
+    public int $price = PHP_INT_MAX;
 
 
     /**

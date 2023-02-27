@@ -15,7 +15,7 @@ class Bishop extends AbstractFigure
      * Price of Bishop
      * @var integer
      */
-    public $price = 2;
+    public int $price = 2;
 
 
     /**
