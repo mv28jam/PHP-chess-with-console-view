@@ -254,4 +254,97 @@ class Desk
         //
         return $result;
     }
+
+    public function getFiguresByColor(bool $isBlack = true): array
+    {
+        $figures = [];
+        foreach ($this->figures as $x => $yFigure) {
+            foreach ($yFigure as $y => $figure) {
+                if ($figure->getIsBlack() === $isBlack) {
+                    $figures[$x][$y] = $figure;
+                }
+            }
+        }
+        return $figures;
+    }
+
+    public function isPositionUnderAttack(array $position, bool $selfColorIsBlack = true): bool
+    {
+        $enemyFigures = $this->getFiguresByColor(!$selfColorIsBlack);
+        foreach ($enemyFigures as $x => $yFigure) {
+            foreach ($yFigure as $y => $figure) {
+                $inspectedMoveStr = $x . $y . '-' . $position[0] . $position[1];
+                $inspectedMove = new Move($inspectedMoveStr);
+                $figure->countVacuumHorsePossibleMoves($inspectedMove);
+                return $figure->checkFigureMove($inspectedMove, $this) > Move::FORBIDDEN;
+            }
+        }
+        return false;
+    }
+
+    public function makeRoque(int $roqueLength): void
+    {
+        $isBlackRoque = !$this->last_move;
+        $isShortRoque = $roqueLength === 3;
+
+        $roque = new RoqueMove($isBlackRoque, $isShortRoque);
+        // checking The King
+        $kingStart = $roque->getStartKingPosition();
+        if (!$this->isFigureExists($kingStart)) {
+            throw new \Exception('No King in position');
+        }
+        $king = $this->figures[$kingStart[0]][$kingStart[1]];
+        if (!($king instanceof King)) {
+            throw new \Exception('No King in position');
+        }
+        if ($isBlackRoque != $king->getIsBlack()) {
+            throw new \Exception('This is wrong colored king!');
+        }
+        if (!$king->isFirstStep()) {
+            throw new \Exception('The king has already made a move');
+        }
+        if ($this->isPositionUnderAttack($kingStart, $isBlackRoque)) {
+            throw new \Exception('The king in check');
+        }
+
+        // checking The Rook
+        $rookStart = $roque->getStartRookPosition();
+        if (!$this->isFigureExists($rookStart)) {
+            throw new \Exception('No Rook in position');
+        }
+        $rook = $this->figures[$rookStart[0]][$rookStart[1]];
+        if (!($rook instanceof Rook)) {
+            throw new \Exception('No Rook in position');
+        }
+        if ($isBlackRoque != $rook->getIsBlack()) {
+            throw new \Exception('This is wrong colored Rook!');
+        }
+        if (!$rook->isFirstStep()) {
+            throw new \Exception('The Rook has already made a move');
+        }
+
+        foreach ($roque->getToCheckPositions() as $checkedPosition) {
+            if ($this->isFigureExists($checkedPosition)) {
+                throw new \Exception('There is figure between King and Rook');
+            }
+            if ($checkedPosition[0] != 'b' and $this->isPositionUnderAttack($checkedPosition, $roque->isBlack())) {
+                throw new \Exception('The roque through beaten square or target King position is under attack');
+            }
+        }
+        // TODO save move
+
+        //move to new position + internal figure actions
+        $kingStop = $roque->getStopKingPosition();
+        $kingMove = new Move(implode('', $kingStart) . '-' . implode('', $kingStop));
+        $this->figures[$kingStop[0]][$kingStop[1]] = $king->move($kingMove, $this);
+
+        $rookStop = $roque->getStopRookPosition();
+        $rookMove = new Move(implode('', $rookStart) . '-' . implode('', $rookStop));
+        $this->figures[$rookStop[0]][$rookStop[1]] = $rook->move($rookMove, $this);
+
+        $this->last_move = $roque->isBlack();
+        unset($this->figures[$kingStart[0]][$kingStart[1]]);
+        unset($this->figures[$rookStart[0]][$rookStart[1]]);
+    }
+
 }

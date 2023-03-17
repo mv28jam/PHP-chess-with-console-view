@@ -19,6 +19,11 @@ class King extends AbstractFigure
      * @var integer
      */
     public int $price = PHP_INT_MAX;
+    /**
+     * King roque possible only like first step
+     * @var boolean
+     */
+    private bool $first_step = true;
 
 
     /**
@@ -39,7 +44,15 @@ class King extends AbstractFigure
      */
     public function move(Move $move, Desk $desk): AbstractFigure
     {
+        //first move done
+        $this->first_step = false;
+        //
         return parent::move($move, $desk);
+    }
+
+    public function isFirstStep(): bool
+    {
+        return $this->first_step;
     }
 
     /**
@@ -94,6 +107,17 @@ class King extends AbstractFigure
             if (abs($val->dX) < 2 and abs($val->dY) < 2) {
                 $this->normal[] = $val;
             }
+        }
+        //roque move without limitation
+        switch (true) {
+            case($move->strFrom == 'e1' and $this->first_step):
+                $this->special[] = new Move('e1-g1');
+                $this->special[] = new Move('e1-c1');
+                break;
+            case($move->strFrom == 'e8' and $this->first_step):
+                $this->special[] = new Move('e8-g8');
+                $this->special[] = new Move('e8-c8');
+                break;
         }
         //
     }

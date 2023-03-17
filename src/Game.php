@@ -111,7 +111,12 @@ class Game
     public function moveAction(string $move): void
     {
         try {
-            $this->desk->move(new Move($move));
+            //check is it roque
+            if (preg_match('/^([O0o])-?([O0o])-?([O0o])?$/', $move, $match)) {
+                $this->desk->makeRoque(count($match));
+            } else {
+                $this->desk->move(new Move($move));
+            }
             $this->animated_output->echoMultipleLine($this->desk->dump(), 1);
             $this->animated_output->deleteLine();
             $this->animated_output->cursorUp();

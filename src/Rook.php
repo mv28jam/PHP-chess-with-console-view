@@ -22,6 +22,10 @@ class Rook extends AbstractFigure
      */
     private $first_step = true;
 
+    public function isFirstStep(): bool
+    {
+        return $this->first_step;
+    }
 
     /**
      * Move Rook figure finally + rook actions
