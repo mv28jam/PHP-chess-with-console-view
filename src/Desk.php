@@ -180,7 +180,13 @@ class Desk
      */
     public function getLastMove(): ?Move
     {
-        return (current($this->moves) ?: null);
+        $current = current($this->moves) ?: null;
+        if (isset($current) and $current instanceof RoqueMove) {
+            $rookStart = $current->getStartRookPosition();
+            $rookStop = $current->getStopRookPosition();
+            $current = new Move(implode('', $rookStart) . '-' . implode('', $rookStop));
+        }
+        return $current;
     }
 
     /**
@@ -331,7 +337,8 @@ class Desk
                 throw new \Exception('The roque through beaten square or target King position is under attack');
             }
         }
-        // TODO save move
+        // save move
+        $this->moves[] = $roque;
 
         //move to new position + internal figure actions
         $kingStop = $roque->getStopKingPosition();
