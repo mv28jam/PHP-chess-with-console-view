@@ -88,6 +88,7 @@ class Game
             case('exit'):
             case('quit'):
             case('die'):
+                $this->saveGame();
                 $this->gameExit();
                 break;
         }
@@ -100,6 +101,12 @@ class Game
     public function gameExit(): void
     {
         exit(0);
+    }
+
+    public function saveGame(): void
+    {
+        $history = new History();
+        $history->saveGame($this->desk);
     }
 
     /**

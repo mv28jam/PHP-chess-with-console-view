@@ -354,4 +354,9 @@ class Desk
         unset($this->figures[$rookStart[0]][$rookStart[1]]);
     }
 
+    public function getMoves(): array
+    {
+        return $this->moves;
+    }
+
 }

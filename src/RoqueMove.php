@@ -4,7 +4,7 @@ class RoqueMove
 {
     const WHITE_LINE = 1;
     const BLACK_LINE = 8;
-
+    protected static $move_delimiter = '-';
     const KING_START = 'e';
     // SHORT
     const KING_STOP_SHORT = 'g';
@@ -79,5 +79,11 @@ class RoqueMove
     public function isBlack(): bool
     {
         return $this->isBlack;
+    }
+
+    public function __toString(): string
+    {
+        $tail = $this->isShort ? '' : self::$move_delimiter . 'O';
+        return 'O' . self::$move_delimiter . 'O' . $tail;
     }
 }
