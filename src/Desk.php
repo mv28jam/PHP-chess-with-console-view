@@ -94,7 +94,7 @@ class Desk
         //save move
         $this->moves[] = $move;
         //kill fugure actions
-        $this->killFigure($move);
+        $this->killFigure($move->to);
         //move to new position + internal figure actions
         $this->figures[$move->to[0]][$move->to[1]] = $this->figures($move->from)->processMove($move, $this);
         //move order set
@@ -104,12 +104,13 @@ class Desk
     }
 
     /**
-     * @param Move $move
+     * @param array $to
      * @return void
      */
-    public function killFigure(Move $move){
-        if ($this->isFigureExists($move->to)) {
-            $this->figures($move->to)->killFigure();
+    public function killFigure(array $to): void
+    {
+        if ($this->isFigureExists($to)) {
+            $this->figures($to)->killFigure();
         }
     }
 
