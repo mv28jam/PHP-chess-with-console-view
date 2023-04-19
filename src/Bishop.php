@@ -28,7 +28,7 @@ class Bishop extends AbstractFigure
     public function checkFigureMove(Move $move, Desk $desk): int
     {
         //get possible moves
-        $moves = $this->countVacuumHorsePossibleMoves($move);
+        $this->countVacuumHorsePossibleMoves($move);
         //
         foreach ($this->normal as $val) {
             if ($val->strTo === $move->strTo) {
