@@ -24,7 +24,7 @@ class King extends AbstractFigure
     /**
      * Unset king = game over
      */
-    public function killFigure(): void
+    public function destructFigure(): void
     {
         if (isset($this->price)) {
             throw new EndGameException('Game over. ' . (new Pawn(!$this->is_black)) . ' wins by ');
@@ -35,9 +35,9 @@ class King extends AbstractFigure
      * Move action and after action for king
      * @param Move $move
      * @param Desk $desk
-     * @return King
+     * @return MoveResult
      */
-    public function processMove(Move $move, Desk $desk): AbstractFigure
+    public function processMove(Move $move, Desk $desk): MoveResult
     {
         return parent::processMove($move, $desk);
     }

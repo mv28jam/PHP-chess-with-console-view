@@ -96,7 +96,7 @@ class Desk
         //move to new position + internal figure actions
         $this->moveActions($move);
         //unset figure in old position
-        $this->figureUnset($move->from);
+        $this->figureRemove($move->from);
         //save history
         $this->moveHistory($move);
     }
@@ -106,9 +106,25 @@ class Desk
      * @return void
      * TODO
      */
-    public function moveActions(Move $move){
-        $move_res = $this->figures($move->from)->processMove($move, $this);
-        $this->figures[$move->to[0]][$move->to[1]] = $move_res;
+    public function moveActions(Move $move): void
+    {
+        //get result of move
+        $res = $this->figures($move->from)->processMove($move, $this);
+        //set figure result of move in position
+        $this->figures[$move->to[0]][$move->to[1]] = $res->getFigure();
+        //kill figures
+        foreach ($res->getKill() as $val) {
+            if(empty($val)) break;
+            $this->killFigure($val);
+            $this->figureRemove($val);
+        }
+        //move figures
+        foreach ($res->getTransfer() as $val) {
+            if(empty($val)) break;
+            //todo
+        }
+        //
+        unset($res);
     }
 
     /**
@@ -130,7 +146,7 @@ class Desk
     public function killFigure(array $to): void
     {
         if ($this->isFigureExists($to)) {
-            $this->figures($to)->killFigure();
+            $this->figures($to)->destructFigure();
         }
     }
 
@@ -216,7 +232,7 @@ class Desk
      * @param array $position like "e5"
      * @return bool
      */
-    public function figureUnset(array $position): bool
+    public function figureRemove(array $position): bool
     {
         if ($this->isFigureExists($position)) {
             unset($this->figures[$position[0]][$position[1]]);

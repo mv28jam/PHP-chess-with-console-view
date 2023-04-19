@@ -61,14 +61,14 @@ abstract class AbstractFigure
      * Move figure finally + internal actions
      * @param Move $move move object
      * @param Desk $desk
-     * @return AbstractFigure
+     * @return MoveResult
      */
-    public function processMove(Move $move, Desk $desk): AbstractFigure
+    public function processMove(Move $move, Desk $desk): MoveResult
     {
         //clean counted
         $this->cleanMoves();
         //
-        return $this;
+        return (new MoveResult())->setFigure($this);
     }
 
     /**
@@ -121,10 +121,7 @@ abstract class AbstractFigure
     }
 
     /**
-     * Unset figure
+     * Destruct figure actions
      */
-    public function killFigure(): void
-    {
-
-    }
+    public function destructFigure(): void { }
 }

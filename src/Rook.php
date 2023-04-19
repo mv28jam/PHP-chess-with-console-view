@@ -27,9 +27,9 @@ class Rook extends AbstractFigure
      * Move Rook figure finally + rook actions
      * @param Move $move move object
      * @param Desk $desk
-     * @return AbstractFigure
+     * @return MoveResult
      */
-    public function processMove(\Move $move, \Desk $desk): AbstractFigure
+    public function processMove(\Move $move, \Desk $desk): MoveResult
     {
         //first move done
         $this->first_step = false;

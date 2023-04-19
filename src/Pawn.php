@@ -20,7 +20,7 @@ class Pawn extends AbstractFigure
      * Changes to desk after "en passant" move
      * @var array
      */
-    protected array $desk_change = [];
+    protected array $en_passant_kill = [];
     /**
      * Pawn first step differ form other
      * @var boolean first pawn step or not
@@ -31,9 +31,9 @@ class Pawn extends AbstractFigure
      * Move action and after action for pawn
      * @param Move $move
      * @param Desk $desk
-     * @return AbstractFigure
+     * @return MoveResult
      */
-    public function processMove(Move $move, Desk $desk): AbstractFigure
+    public function processMove(Move $move, Desk $desk): MoveResult
     {
         //register first move
         $this->first_step = false;
@@ -62,16 +62,8 @@ class Pawn extends AbstractFigure
                     return new Queen($this->is_black);
             }
         }
-        //"en passant" support
-        if (!empty($this->desk_change)) {
-            //unset and check for fatal error
-            if ($desk->figureUnset($this->desk_change) === false) {
-                user_error('No figure in position, have to be there!', E_USER_ERROR);
-            }
-            //change clear
-            $this->desk_change = [];
-        }
-        return parent::processMove($move, $desk);
+        //
+        return parent::processMove($move, $desk)->setKill($this->en_passant_kill);
         //
     }
 
@@ -142,7 +134,7 @@ class Pawn extends AbstractFigure
                 and
                 $last_move->xFrom == $val->xTo
             ) {
-                $this->desk_change = $last_move->to;
+                $this->en_passant_kill = $last_move->to;
                 return $desk->getFigurePrice([$move->xTo, ($move->yTo + $sign)]);
             }
         }
