@@ -111,21 +111,6 @@ abstract class AbstractFigure
     abstract public function countVacuumHorsePossibleMoves(Move $move): void;
 
     /**
-     * Check for self attack (white goto white etc)
-     * Has not used for pawn
-     * @param Move $move
-     * @param Desk $desk
-     * @return bool
-     */
-    public function checkSelfAttack(Move $move, Desk $desk): bool
-    {
-        if ($desk->isFigureExists($move->to)) {
-            return ($desk->getFigureIsBlack($move->to) === $this->is_black);
-        }
-        return false;
-    }
-
-    /**
      * Return some ktulhu figure price
      * @return int price
      */

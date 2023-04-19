@@ -54,10 +54,6 @@ class King extends AbstractFigure
 
         //TODO special checks
 
-        //check for self attack
-        if ($this->checkSelfAttack($move, $desk)) {
-            return Move::FORBIDDEN;
-        }
         //get possible moves
         $this->countVacuumHorsePossibleMoves($move);
         //

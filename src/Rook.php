@@ -46,10 +46,6 @@ class Rook extends AbstractFigure
      */
     public function checkFigureMove(Move $move, Desk $desk): int
     {
-        //check for self attack
-        if ($this->checkSelfAttack($move, $desk)) {
-            return Move::FORBIDDEN;
-        }
         //get possible moves
         $this->countVacuumHorsePossibleMoves($move);
         //roque move
