@@ -91,16 +91,36 @@ class Desk
             case($this->figures($move->from)->checkFigureMove($move, $this) < Move::MOVING):
                 throw new \Exception('Forbidden move for ' . $this->figures($move->getStart()));
         }
-        //save move
-        $this->moves[] = $move;
         //kill fugure actions
         $this->killFigure($move->to);
         //move to new position + internal figure actions
-        $this->figures[$move->to[0]][$move->to[1]] = $this->figures($move->from)->processMove($move, $this);
-        //move order set
-        $this->last_move = $this->figures[$move->to[0]][$move->to[1]]->getIsBlack();
+        $this->moveActions($move);
         //unset figure in old position
         $this->figureUnset($move->from);
+        //save history
+        $this->moveHistory($move);
+    }
+
+    /**
+     * @param Move $move
+     * @return void
+     * TODO
+     */
+    public function moveActions(Move $move){
+        $move_res = $this->figures($move->from)->processMove($move, $this);
+        $this->figures[$move->to[0]][$move->to[1]] = $move_res;
+    }
+
+    /**
+     * Desk move internal history and flags set
+     * @param Move $move
+     * @return void
+     */
+    public function moveHistory(Move $move){
+        //save move
+        $this->moves[] = $move;
+        //move order set
+        $this->last_move = $this->figures[$move->to[0]][$move->to[1]]->getIsBlack();
     }
 
     /**

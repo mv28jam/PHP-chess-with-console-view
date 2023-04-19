@@ -33,12 +33,6 @@ abstract class AbstractFigure
      * @var int
      */
     protected int $price = 0;
-    /**
-     * All figure possible moves, сlean after $this->move()
-     * @see $this->cleanMoves()
-     * @var array of Moves
-     */
-    protected array $moves = [];
 
     /**
      * Create of figure with color determinate
@@ -71,8 +65,6 @@ abstract class AbstractFigure
      */
     public function processMove(Move $move, Desk $desk): AbstractFigure
     {
-        //add move to history
-        $this->moves[] = $move;
         //clean counted
         $this->cleanMoves();
         //
