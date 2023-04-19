@@ -11,18 +11,18 @@ class Desk
      * array of figures on desk
      * @var array Figures
      */
-    private $figures = [];
+    private array $figures = [];
     /**
      * Last move flag, first move white so true
      * @var bool $last_move previous move
      * @see AbstractFigure::$is_black
      */
-    private $last_move = true;
+    private bool $last_move = true;
     /**
      * Move objects - history of game
      * @var array $moves - all game moves
      */
-    private $moves = [];
+    private array $moves = [];
 
     /**
      * Create chess game desk
