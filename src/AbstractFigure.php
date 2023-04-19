@@ -69,7 +69,7 @@ abstract class AbstractFigure
      * @param Desk $desk
      * @return AbstractFigure
      */
-    public function move(Move $move, Desk $desk): AbstractFigure
+    public function processMove(Move $move, Desk $desk): AbstractFigure
     {
         //add move to history
         $this->moves[] = $move;

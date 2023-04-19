@@ -37,9 +37,9 @@ class King extends AbstractFigure
      * @param Desk $desk
      * @return King
      */
-    public function move(Move $move, Desk $desk): AbstractFigure
+    public function processMove(Move $move, Desk $desk): AbstractFigure
     {
-        return parent::move($move, $desk);
+        return parent::processMove($move, $desk);
     }
 
     /**

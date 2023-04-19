@@ -33,7 +33,7 @@ class Pawn extends AbstractFigure
      * @param Desk $desk
      * @return AbstractFigure
      */
-    public function move(Move $move, Desk $desk): AbstractFigure
+    public function processMove(Move $move, Desk $desk): AbstractFigure
     {
         //register first move
         $this->first_step = false;
@@ -71,7 +71,7 @@ class Pawn extends AbstractFigure
             //change clear
             $this->desk_change = [];
         }
-        return parent::move($move, $desk);
+        return parent::processMove($move, $desk);
         //
     }
 

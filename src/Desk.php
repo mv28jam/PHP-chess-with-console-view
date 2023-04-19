@@ -94,15 +94,23 @@ class Desk
         //save move
         $this->moves[] = $move;
         //kill fugure actions
-        if ($this->isFigureExists($move->to)) {
-            $this->figures($move->to)->killFigure();
-        }
+        $this->killFigure($move);
         //move to new position + internal figure actions
-        $this->figures[$move->to[0]][$move->to[1]] = $this->figures($move->from)->move($move, $this);
+        $this->figures[$move->to[0]][$move->to[1]] = $this->figures($move->from)->processMove($move, $this);
         //move order set
         $this->last_move = $this->figures[$move->to[0]][$move->to[1]]->getIsBlack();
         //unset figure in old position
-        unset($this->figures[$move->from[0]][$move->from[1]]);
+        $this->figureUnset($move->from);
+    }
+
+    /**
+     * @param Move $move
+     * @return void
+     */
+    public function killFigure(Move $move){
+        if ($this->isFigureExists($move->to)) {
+            $this->figures($move->to)->killFigure();
+        }
     }
 
     /**

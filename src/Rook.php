@@ -29,12 +29,12 @@ class Rook extends AbstractFigure
      * @param Desk $desk
      * @return AbstractFigure
      */
-    public function move(\Move $move, \Desk $desk): AbstractFigure
+    public function processMove(\Move $move, \Desk $desk): AbstractFigure
     {
         //first move done
         $this->first_step = false;
         //
-        return parent::move($move, $desk);
+        return parent::processMove($move, $desk);
     }
 
     /**
