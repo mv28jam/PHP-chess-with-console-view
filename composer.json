@@ -14,11 +14,11 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
+    "php": ">=8.1",
     "mv28jam/console_animated_output": "dev-master"
   },
   "require-dev": {
-    "php": ">=7.1"
+    "php": ">=8.1"
   },
   "autoload": {
   }

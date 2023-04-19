@@ -1,5 +1,7 @@
 <?php
 
+use ConsoleAnimated\ConsoleAnimatedOutput;
+
 /**
  * Description of Game
  *
