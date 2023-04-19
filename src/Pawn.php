@@ -47,9 +47,6 @@ class Pawn extends AbstractFigure
             unset($animated_output);
             //choose figure by first letter
             switch (trim(fgets(STDIN))) {
-                case('q'):
-                case('Q'):
-                    return new Queen($this->is_black);
                 case('r'):
                 case('R'):
                     return (new Rook($this->is_black))->fromPawn();
@@ -59,6 +56,8 @@ class Pawn extends AbstractFigure
                 case('B'):
                 case('b'):
                     return new Bishop($this->is_black);
+                case('q'):
+                case('Q'):
                 default:
                     return new Queen($this->is_black);
             }
@@ -81,8 +80,9 @@ class Pawn extends AbstractFigure
      * @param Move $move move object
      * @param Desk $desk
      * @return int "price" of move / -1 = forbidden move / 0 = no attack move
-     * @link en.wikipedia.org/wiki/Pawn_(chess)#Capturing
+     * @throws Exception
      * @see  getLastMove // have to have for pawn attack "en passant"
+     * @link en.wikipedia.org/wiki/Pawn_(chess)#Capturing
      */
     public function checkFigureMove(Move $move, Desk $desk): int
     {
