@@ -98,7 +98,7 @@ class Desk
             case($this->figures($move->from)->checkFigureMove($move, $this) < Move::MOVING):
                 throw new \Exception('Forbidden move for ' . $this->figures($move->getStart()));
         }
-        //kill fugure actions
+        //kill figure actions
         $this->killFigure($move->to);
         //move to new position + internal figure actions
         $this->moveActions($move);
@@ -140,8 +140,10 @@ class Desk
     }
 
     /**
+     * Check for standard chess siruations
      * @return void
      * @throws GameMechanicsException
+     * @throws Exception
      */
     public function afterMoveActions(): void
     {
