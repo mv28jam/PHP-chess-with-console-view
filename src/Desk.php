@@ -325,11 +325,17 @@ class Desk
         //
         for ($y = 8; $y >= 1; $y--) {
             $result[$y] = "$y ";
+            $k=0;
             for ($x = 'a'; $x <= 'h'; $x++) {
+                $k++;
                 if (isset($this->figures[$x][$y])) {
                     $result[$y] .= $this->figures[$x][$y] . ' ';
                 } else {
-                    $result[$y] .= '― ';
+                    if(($y+$k)%2){
+                        $result[$y] .= '■ ';
+                    }else{
+                        $result[$y] .= '□ ';
+                    }
                 }
             }
         }
