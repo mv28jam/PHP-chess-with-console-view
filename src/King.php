@@ -5,7 +5,7 @@
  * King actions and behavior
  * Test game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7
  * Test of end game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7|f5-f2|h2-h3|f2-e1
- *
+ * Roque: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|e1-g1
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */
@@ -20,9 +20,15 @@ class King extends AbstractFigure
      */
     public int $price = PHP_INT_MAX;
 
+    /**
+     * First step save for roque
+     * @var boolean first pawn step or not
+     */
+    private bool $first_step = true;
 
     /**
      * Unset king = game over
+     * @throws EndGameException
      */
     public function destructFigure(): void
     {
@@ -39,6 +45,8 @@ class King extends AbstractFigure
      */
     public function processMove(Move $move, Desk $desk): MoveResult
     {
+        $this->first_step = false;
+        //
         return parent::processMove($move, $desk);
     }
 
@@ -51,11 +59,22 @@ class King extends AbstractFigure
      */
     public function checkFigureMove(Move $move, Desk $desk): int
     {
-
-        //TODO special checks
-
         //get possible moves
         $this->countVacuumHorsePossibleMoves($move);
+        //
+        foreach ($this->special as $val){
+            if ($val->strTo === $move->strTo) {
+                if(
+                    $this->checkStraightMoveBlock($move, $desk)
+                    and
+                    $desk->getFigureClone($val->getTransferFrom()) instanceof Rook
+                    and
+                    $desk->getFigureIsBlack($val->getTransferFrom()) == $this->is_black
+                ){
+                    return Move::MOVING;
+                }
+            }
+        }
         //
         foreach ($this->normal as $val) {
             if ($val->strTo === $move->strTo) {
@@ -84,6 +103,16 @@ class King extends AbstractFigure
         //
         if (!empty($this->normal)) {
             return;
+        }
+        //
+        if($this->first_step){
+            if($this->is_black){
+                $this->special[] = (new Move('e8', 'g8'))->setTransfer(['h8'=>'f8']);
+                $this->special[] = (new Move('e8', 'a8'))->setTransfer(['a8'=>'d8']);
+            }else{
+                $this->special[] = (new Move('e1', 'g1'))->setTransfer(['h1'=>'f1']);
+                $this->special[] = (new Move('e1', 'a1'))->setTransfer(['a1'=>'d1']);
+            }
         }
         //
         foreach (array_merge($this->generateDiagonalMoves($move), $this->generateStraightMoves($move)) as $val) {

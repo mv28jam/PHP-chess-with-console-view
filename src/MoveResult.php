@@ -4,21 +4,14 @@ class MoveResult
 {
     /**
      * Initial move
-     * @var Move
+     * @var AbstractFigure
      */
     protected AbstractFigure $figure;
 
     /**
-     * Kill in not in To position
-     * @var array
+     * @var Move
      */
-    protected array $kill = [];
-
-    /**
-     * Figures to move not in From To
-     * @var array
-     */
-    protected array $transfer = [];
+    protected Move $move;
 
     /**
      * @return AbstractFigure
@@ -39,41 +32,21 @@ class MoveResult
     }
 
     /**
-     * @return array
+     * @return Move
      */
-    public function getKill(): array
+    public function getMove(): Move
     {
-        return $this->kill;
+        return $this->move;
     }
 
     /**
-     * @param array $kill
+     * @param Move $move
      * @return MoveResult
      */
-    public function setKill(array $kill): MoveResult
+    public function setMove(Move $move): MoveResult
     {
-        $this->kill[] = $kill;
+        $this->move = $move;
         return $this;
     }
-
-    /**
-     * @return array
-     */
-    public function getTransfer(): array
-    {
-        return $this->transfer;
-    }
-
-    /**
-     * @param array $transfer
-     * @return MoveResult
-     */
-    public function setTransfer(array $transfer): MoveResult
-    {
-        $this->transfer[] = $transfer;
-        return $this;
-    }
-
-
-
+    
 }

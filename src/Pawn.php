@@ -37,6 +37,8 @@ class Pawn extends AbstractFigure
     {
         //register first move
         $this->first_step = false;
+        //
+        $new = $this;
         //check pawn respawn
         //when we get 1 or 8 we have other figure
         if ($move->yTo == 1 or $move->yTo == 8) {
@@ -49,21 +51,23 @@ class Pawn extends AbstractFigure
             switch (trim(fgets(STDIN))) {
                 case('r'):
                 case('R'):
-                    return (new Rook($this->is_black))->fromPawn();
+                    $new = (new Rook($this->is_black))->fromPawn();
                 case('K'):
                 case('k'):
-                    return new Knight($this->is_black);
+                    $new = new Knight($this->is_black);
                 case('B'):
                 case('b'):
-                    return new Bishop($this->is_black);
+                    $new = new Bishop($this->is_black);
                 case('q'):
                 case('Q'):
                 default:
-                    return new Queen($this->is_black);
+                    $new = new Queen($this->is_black);
             }
         }
+        $res = parent::processMove($move, $desk)->setFigure($new);
+        $res->getMove()->setKill($this->en_passant_kill);
         //
-        return parent::processMove($move, $desk)->setKill($this->en_passant_kill);
+        return $res;
         //
     }
 
@@ -124,7 +128,7 @@ class Pawn extends AbstractFigure
             if (
                 !empty($last_move)
                 and
-                $desk->getFigurePrice($last_move->to) == $this->price()
+                $desk->getFigureClone($last_move->to) instanceof Pawn
                 and
                 $desk->getFigureIsBlack($last_move->to) != $this->is_black
                 and
@@ -134,6 +138,7 @@ class Pawn extends AbstractFigure
                 and
                 $last_move->xFrom == $val->xTo
             ) {
+                //FIXME ?
                 $this->en_passant_kill = $last_move->to;
                 return $desk->getFigurePrice([$move->xTo, ($move->yTo + $sign)]);
             }

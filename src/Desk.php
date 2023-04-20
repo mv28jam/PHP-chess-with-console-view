@@ -113,15 +113,18 @@ class Desk
         //set figure result of move in position
         $this->figures[$move->to[0]][$move->to[1]] = $res->getFigure();
         //kill figures
-        foreach ($res->getKill() as $val) {
+        foreach ($res->getMove()->getKill() as $val) {
             if(empty($val)) break;
             $this->killFigure($val);
             $this->figureRemove($val);
         }
         //move figures
-        foreach ($res->getTransfer() as $val) {
+        foreach ($res->getMove()->getTransfer() as $val) {
             if(empty($val)) break;
-            //todo
+            $key = key($val);
+            $val = str_split($val[$key]);
+            $this->figures[$val[0]][$val[1]] = $this->figures[$key[0]][$key[1]];
+            $this->figureRemove(str_split($key));
         }
         //
         unset($res);
@@ -203,7 +206,7 @@ class Desk
     /**
      * Get fugure is black
      * @param array $position
-     * @return bool|null
+     * @return bool
      */
     public function getFigureIsBlack(array $position): bool
     {
@@ -254,6 +257,20 @@ class Desk
         }
         //
         return Move::MOVING;
+    }
+
+    /**
+     * Get figure clone to compare
+     * @param array $position
+     * @return AbstractFigure|null
+     */
+    public function getFigureClone(array $position): ?AbstractFigure
+    {
+        if ($this->isFigureExists($position)) {
+            return clone $this->figures[$position[0]][$position[1]];
+        }
+        //
+        return null;
     }
 
     /**

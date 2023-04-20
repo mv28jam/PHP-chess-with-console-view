@@ -10,17 +10,17 @@ abstract class AbstractFigure
 
     /**
      * Ordinary moves
-     * @var array of moves
+     * @var Move[]
      */
     public array $normal = [];
     /**
      * Attack special figure moves (for pawn)
-     * @var array of moves
+     * @var Move[]
      */
     public array $attack = [];
     /**
      * Special figure moves
-     * @var array of moves
+     * @var Move[]
      */
     public array $special = [];
     /**
@@ -65,10 +65,14 @@ abstract class AbstractFigure
      */
     public function processMove(Move $move, Desk $desk): MoveResult
     {
+        //
+        $res = (new MoveResult())
+            ->setFigure($this)
+            ->setMove($this->findResultMove($move));
         //clean counted
         $this->cleanMoves();
         //
-        return (new MoveResult())->setFigure($this);
+        return $res;
     }
 
     /**
@@ -79,6 +83,23 @@ abstract class AbstractFigure
         $this->attack = [];
         $this->normal = [];
         $this->special = [];
+    }
+
+    /**
+     * Find move that has been done in game to process actions
+     * @param Move $move
+     * @return Move
+     */
+    protected function findResultMove(Move $move): Move
+    {
+        //
+        foreach (array_merge($this->attack, $this->normal, $this->special) as $val){
+            if($val->strFrom == $move->strFrom and $val->strTo == $move->strTo){
+                return $val;
+            }
+        }
+        //unexpected
+        return $move;
     }
 
     /**
@@ -121,7 +142,10 @@ abstract class AbstractFigure
     }
 
     /**
-     * Destruct figure actions
+     * Destruction of figure actions result of attack
+     * @return void
      */
-    public function destructFigure(): void { }
+    public function destructFigure(): void  {}
+
+
 }

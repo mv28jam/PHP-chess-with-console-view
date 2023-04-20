@@ -28,7 +28,7 @@ class Move
      * Forbidden move
      */
     const FORBIDDEN = -1;
-    protected static $move_delimeter = '-';
+    protected static string $move_delimeter = '-';
     /**
      * @var array $start
      * where is figure
@@ -45,6 +45,18 @@ class Move
      */
     protected int $deltaX = 0;
     protected int $deltaY = 0;
+
+    /**
+     * Kill in not in To position
+     * @var array
+     */
+    protected array $kill = [];
+
+    /**
+     * Figures to move not in From To
+     * @var array
+     */
+    protected array $transfer = [];
 
     /**
      * @param string $move like e2-e4
@@ -195,6 +207,51 @@ class Move
     public function getXLikeY(string $in): int
     {
         return (105 - ord($in));
+    }
+
+    /**
+     * @return array
+     */
+    public function getKill(): array
+    {
+        return $this->kill;
+    }
+
+    /**
+     * @param array $kill
+     * @return Move
+     */
+    public function setKill(array $kill): Move
+    {
+        $this->kill[] = $kill;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTransfer(): array
+    {
+        return $this->transfer;
+    }
+
+    /**
+     * @param int $key
+     * @return array
+     */
+    public function getTransferFrom(int $key = 0): array
+    {
+        return str_split(key($this->transfer[0]));
+    }
+
+    /**
+     * @param array $transfer
+     * @return Move
+     */
+    public function setTransfer(array $transfer): Move
+    {
+        $this->transfer[] = $transfer;
+        return $this;
     }
 
     /**
