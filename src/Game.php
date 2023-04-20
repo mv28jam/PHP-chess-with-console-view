@@ -122,6 +122,10 @@ class Game
             $this->animated_output->echoLine($e->getMessage() . (new Move($move)));
             $this->animated_output->echoEmptyLine();
             exit(0);
+        } catch (GameMechanicsException $e) {
+            $this->animated_output->echoLine($e->getMessage());
+            $this->animated_output->cursorUp();
+            $this->animated_output->echoLine($this->input_move);
         } catch (\Exception $e) {
             //do not save move and echo error message
             $this->animated_output->echoLine($this->mistake . $e->getMessage());

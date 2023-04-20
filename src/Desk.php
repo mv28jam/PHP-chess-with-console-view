@@ -107,6 +107,7 @@ class Desk
         //save history
         $this->moveHistory($move);
         //
+        $this->afterMoveActions();
     }
 
     /**
@@ -138,10 +139,14 @@ class Desk
         unset($res);
     }
 
-
-    public function afterMoveActions(){
+    /**
+     * @return void
+     * @throws GameMechanicsException
+     */
+    public function afterMoveActions(): void
+    {
         if($this->mechanics->isKingUnderAttack(!$this->last_move, $this)){
-
+            throw new \GameMechanicsException('Shah. King ' . (new King(!$this->last_move).' under attack!' ));
         }
     }
 
