@@ -13,7 +13,7 @@ trait DMoveTrait
     /**
      * Generate diagonal moves
      * @param Move $move
-     * @return array of Move
+     * @return Move[]
      * @throws Exception
      */
     public function generateDiagonalMoves(Move $move): array

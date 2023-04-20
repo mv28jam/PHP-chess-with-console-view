@@ -13,7 +13,7 @@ trait SMoveTrait
     /**
      * Generate straight moves
      * @param Move $move
-     * @return array of Move
+     * @return Move[]
      * @throws Exception
      */
     public function generateStraightMoves(Move $move): array

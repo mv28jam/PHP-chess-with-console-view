@@ -109,7 +109,7 @@ abstract class AbstractFigure
 
     /**
      * Get list of possible moves from position start
-     * \except simple limitation - NOT desk depended moves
+     * \except simple limitation - NOT desk depended on moves
      * \simple limitation like "first move"
      * @param Move $move - start position
      * @return array of Move
@@ -154,11 +154,6 @@ abstract class AbstractFigure
         return $this->is_black;
     }
 
-    /**
-     * Destruction of figure actions result of attack
-     * @return void
-     */
-    public function destructFigure(): void  {}
 
 
 }

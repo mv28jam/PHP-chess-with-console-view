@@ -9,7 +9,7 @@ class Desk
 {
     /**
      * array of figures on desk
-     * @var array Figures
+     * @var AbstractFigure[][]
      */
     private array $figures = [];
     /**
@@ -20,13 +20,18 @@ class Desk
     private bool $last_move = true;
     /**
      * Move objects - history of game
-     * @var array $moves - all game moves
+     * @var Move[] $moves - all game moves
      */
     private array $moves = [];
     /**
      * @var GameMechanics
      */
     public GameMechanics $mechanics;
+    /**
+     * Shah state of desc
+     * @var bool
+     */
+    private bool $shah = false;
 
     /**
      * Create chess game desk
@@ -85,7 +90,7 @@ class Desk
         end($this->moves);
         //checks
         switch (true) {
-            //check for figure in start podition
+            //check for figure in start position
             case(!$this->isFigureExists($move->getStart())):
                 throw new \Exception('No figure in position');
             //check move order white-black-white-etc
@@ -98,8 +103,6 @@ class Desk
             case($this->figures($move->from)->checkFigureMove($move, $this) < Move::MOVING):
                 throw new \Exception('Forbidden move for ' . $this->figures($move->getStart()));
         }
-        //kill figure actions
-        $this->killFigure($move->to);
         //move to new position + internal figure actions
         $this->moveActions($move);
         //unset figure in old position
@@ -124,7 +127,6 @@ class Desk
         //kill figures
         foreach ($res->getMove()->getKill() as $val) {
             if(empty($val)) break;
-            $this->killFigure($val);
             $this->figureRemove($val);
         }
         //move figures
@@ -147,8 +149,16 @@ class Desk
      */
     public function afterMoveActions(): void
     {
+        //somehow king is dead
+        if($this->mechanics->findKing(!$this->last_move, $this) === null){
+            throw new EndGameException('Game over. ' . (new Pawn($this->last_move)) . ' wins by ');
+        }
+        //there is shah
         if($this->mechanics->isKingUnderAttack(!$this->last_move, $this)){
+            $this->shah = true;
             throw new \GameMechanicsException('Shah. King ' . (new King(!$this->last_move).' under attack!' ));
+        }else{
+            $this->shah = false;
         }
     }
 
@@ -163,17 +173,6 @@ class Desk
         $this->moves[] = $move;
         //move order set
         $this->last_move = $this->figures[$move->to[0]][$move->to[1]]->getIsBlack();
-    }
-
-    /**
-     * @param array $to
-     * @return void
-     */
-    public function killFigure(array $to): void
-    {
-        if ($this->isFigureExists($to)) {
-            $this->figures($to)->destructFigure();
-        }
     }
 
     /**

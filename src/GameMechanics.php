@@ -48,6 +48,9 @@ class GameMechanics
         return $this->isFieldUnderAttack($this->findKing($is_black, $desk), !$is_black,  $desk);
     }
 
+    //public function isKingUnderAttackAfterMove(bool $is_black, Desk $desk){
+    //
+    //}
     //public function isKingCanMove(){
     //
     //}
@@ -57,7 +60,7 @@ class GameMechanics
      * @param Desk $desk
      * @return array
      */
-    public function findKing(bool $is_black, Desk $desk): array
+    public function findKing(bool $is_black, Desk $desk): ?array
     {
         foreach ($desk->toMap() as $keyH => $line){
             foreach ($line as $keyG => $val) {
@@ -70,6 +73,8 @@ class GameMechanics
                 }
             }
         }
+        //
+        return null;
     }
 
     /**

@@ -29,16 +29,6 @@ class King extends AbstractFigure
      */
     private bool $first_step = true;
 
-    /**
-     * Unset king = game over
-     * @throws EndGameException
-     */
-    public function destructFigure(): void
-    {
-        if (isset($this->price)) {
-            throw new EndGameException('Game over. ' . (new Pawn(!$this->is_black)) . ' wins by ');
-        }
-    }
 
     /**
      * Move action and after action for king
@@ -86,7 +76,6 @@ class King extends AbstractFigure
         foreach ($this->normal as $val) {
             if ($val->strTo === $move->strTo and !$desk->mechanics->isFieldUnderAttack($val->to, !$this->is_black, $desk)) {
                 switch (true) {
-                    //@TODO check got attack move
                     case(abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk)):
                     case($this->checkStraightMoveBlock($move, $desk)):
                         return $desk->getFigurePrice($move->to);
