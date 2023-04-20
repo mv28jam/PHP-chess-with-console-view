@@ -20,7 +20,7 @@ class Rook extends AbstractFigure
      * Rook roque possible only like first step
      * @var boolean
      */
-    private $first_step = true;
+    private bool $first_step = true;
 
 
     /**

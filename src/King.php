@@ -6,6 +6,7 @@
  * Test game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7
  * Test of end game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7|f5-f2|h2-h3|f2-e1
  * Roque: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|e1-g1
+ * Roque can not: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */
@@ -67,9 +68,13 @@ class King extends AbstractFigure
                 if(
                     $this->checkStraightMoveBlock($move, $desk)
                     and
+                    $desk->getFigureIsBlack($val->getTransferFrom()) == $this->is_black
+                    and
                     $desk->getFigureClone($val->getTransferFrom()) instanceof Rook
                     and
-                    $desk->getFigureIsBlack($val->getTransferFrom()) == $this->is_black
+                    $desk->getFigureClone($val->getTransferFrom())->isFirstStep()
+                    and
+                    !$desk->mechanics->isFieldUnderAttack($val->to, !$this->is_black, $desk)
                 ){
                     return Move::MOVING;
                 }

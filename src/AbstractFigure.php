@@ -33,6 +33,11 @@ abstract class AbstractFigure
      * @var int
      */
     protected int $price = 0;
+    /**
+     * Rook roque possible only like first step
+     * @var boolean
+     */
+    private bool $first_step = true;
 
     /**
      * Create of figure with color determinate
@@ -122,6 +127,14 @@ abstract class AbstractFigure
      * @param Move $move - start position
      */
     abstract public function countVacuumHorsePossibleMoves(Move $move): void;
+
+    /**
+     * @return bool
+     */
+    public function isFirstStep(): bool
+    {
+        return $this->first_step;
+    }
 
     /**
      * Return some ktulhu figure price

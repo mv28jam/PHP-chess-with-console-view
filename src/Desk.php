@@ -23,6 +23,10 @@ class Desk
      * @var array $moves - all game moves
      */
     private array $moves = [];
+    /**
+     * @var GameMechanics
+     */
+    public GameMechanics $mechanics;
 
     /**
      * Create chess game desk
@@ -65,6 +69,9 @@ class Desk
         $this->figures['f'][8] = new Bishop(true);
         $this->figures['g'][8] = new Knight(true);
         $this->figures['h'][8] = new Rook(true);
+
+        //
+        $this->mechanics = new GameMechanics();
     }
 
     /**
@@ -275,7 +282,7 @@ class Desk
 
     /**
      * Return map of desk like figure price array
-     * @return array of stdClass
+     * @return stdClass[]
      */
     public function toMap(): array
     {
@@ -284,7 +291,7 @@ class Desk
         for ($y = 8; $y >= 1; $y--) {
             for ($x = 'a'; $x <= 'h'; $x++) {
                 $res = new stdClass();
-                $res->price = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->price() : false);
+                $res->price = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->price() : 0);
                 $res->is_black = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->getIsBlack() : null);
                 $result[$x][$y] = $res;
             }
@@ -295,7 +302,7 @@ class Desk
 
     /**
      * Create array of lines echo
-     * @return array output
+     * @return string[] output
      */
     public function dump(): array
     {
