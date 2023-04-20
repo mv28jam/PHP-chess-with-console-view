@@ -48,6 +48,7 @@ class Move
 
     /**
      * Kill in not in To position
+     * Changes to desk after "en passant" move
      * @var array
      */
     protected array $kill = [];

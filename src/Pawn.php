@@ -10,17 +10,12 @@
  */
 class Pawn extends AbstractFigure
 {
-
     /**
      * Abstract price of figure for automatic game
      * @var int
      */
     protected int $price = 1;
-    /**
-     * Changes to desk after "en passant" move
-     * @var array
-     */
-    protected array $en_passant_kill = [];
+
     /**
      * Pawn first step differ form other
      * @var boolean first pawn step or not
@@ -64,10 +59,7 @@ class Pawn extends AbstractFigure
                     $new = new Queen($this->is_black);
             }
         }
-        $res = parent::processMove($move, $desk)->setFigure($new);
-        $res->getMove()->setKill($this->en_passant_kill);
-        //
-        return $res;
+        return parent::processMove($move, $desk)->setFigure($new);
         //
     }
 
@@ -138,8 +130,7 @@ class Pawn extends AbstractFigure
                 and
                 $last_move->xFrom == $val->xTo
             ) {
-                //FIXME ?
-                $this->en_passant_kill = $last_move->to;
+                $val->setKill($last_move->to);
                 return $desk->getFigurePrice([$move->xTo, ($move->yTo + $sign)]);
             }
         }
