@@ -142,7 +142,7 @@ class Desk
     }
 
     /**
-     * Check for standard chess siruations
+     * Check for standard chess situations
      * @return void
      * @throws GameMechanicsException
      * @throws Exception
