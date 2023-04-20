@@ -28,10 +28,10 @@ class Desk
      */
     public GameMechanics $mechanics;
     /**
-     * Shah state of desc
+     * check state of desc
      * @var bool
      */
-    private bool $shah = false;
+    private bool $check = false;
 
     /**
      * Create chess game desk
@@ -153,12 +153,12 @@ class Desk
         if($this->mechanics->findKing(!$this->last_move, $this) === null){
             throw new EndGameException('Game over. ' . (new Pawn($this->last_move)) . ' wins by ');
         }
-        //there is shah
+        //there is check
         if($this->mechanics->isKingUnderAttack(!$this->last_move, $this)){
-            $this->shah = true;
-            throw new \GameMechanicsException('Shah. King ' . (new King(!$this->last_move).' under attack!' ));
+            $this->check = true;
+            throw new \GameMechanicsException('Check. King ' . (new King(!$this->last_move).' under attack!' ));
         }else{
-            $this->shah = false;
+            $this->check = false;
         }
     }
 
