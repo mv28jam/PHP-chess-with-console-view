@@ -6,7 +6,8 @@
  * Test game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7
  * Test of end game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7|f5-f2|h2-h3|f2-e1
  * Roque: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|e1-g1
- * Roque can not: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3
+ * Roque can not: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3|e1-g1
+ * King goto under attack: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3|e1-f1|h7-h6|f1-g1
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */
@@ -82,7 +83,7 @@ class King extends AbstractFigure
         }
         //
         foreach ($this->normal as $val) {
-            if ($val->strTo === $move->strTo) {
+            if ($val->strTo === $move->strTo and !$desk->mechanics->isFieldUnderAttack($val->to, !$this->is_black, $desk)) {
                 switch (true) {
                     //@TODO check got attack move
                     case(abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk)):

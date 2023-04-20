@@ -42,23 +42,34 @@ class GameMechanics
      * @return bool
      * @throws Exception
      */
-    public function isKingUnderAttack(bool $is_black, Desk $desk)
+    public function isKingUnderAttack(bool $is_black, Desk $desk): bool
     {
-        //find king
-        $map = $desk->toMap();
-        foreach ($map as $keyH => $line){
+        //check for attack
+        return $this->isFieldUnderAttack($this->findKing($is_black, $desk), !$is_black,  $desk);
+    }
+
+    //public function isKingCanMove(){
+    //
+    //}
+
+    /**
+     * @param bool $is_black
+     * @param Desk $desk
+     * @return array
+     */
+    public function findKing(bool $is_black, Desk $desk): array
+    {
+        foreach ($desk->toMap() as $keyH => $line){
             foreach ($line as $keyG => $val) {
                 if(
                     $val->is_black === $is_black
                     and
                     $val->price == PHP_INT_MAX
                 ){
-                    //check for attack
-                    return $this->isFieldUnderAttack([$keyH,$keyG], !$is_black,  $desk);
+                    return [$keyH,$keyG];
                 }
             }
         }
-        return false;
     }
 
     /**

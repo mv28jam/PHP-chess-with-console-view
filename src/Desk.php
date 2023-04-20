@@ -106,6 +106,7 @@ class Desk
         $this->figureRemove($move->from);
         //save history
         $this->moveHistory($move);
+        //
     }
 
     /**
@@ -137,12 +138,20 @@ class Desk
         unset($res);
     }
 
+
+    public function afterMoveActions(){
+        if($this->mechanics->isKingUnderAttack(!$this->last_move, $this)){
+
+        }
+    }
+
     /**
      * Desk move internal history and flags set
      * @param Move $move
      * @return void
      */
-    public function moveHistory(Move $move){
+    public function moveHistory(Move $move): void
+    {
         //save move
         $this->moves[] = $move;
         //move order set
