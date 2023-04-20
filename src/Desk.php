@@ -194,7 +194,7 @@ class Desk
      * @param array $position
      * @return bool
      */
-    public function isSelfAttack(array $position): bool
+    protected function isSelfAttack(array $position): bool
     {
         if ($this->isFigureExists($position)) {
             return ($this->getFigureIsBlack($position) !== $this->last_move);
@@ -235,7 +235,7 @@ class Desk
      * @param array $position like "e5"
      * @return bool
      */
-    public function figureRemove(array $position): bool
+    protected function figureRemove(array $position): bool
     {
         if ($this->isFigureExists($position)) {
             unset($this->figures[$position[0]][$position[1]]);
