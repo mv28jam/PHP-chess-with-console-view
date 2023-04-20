@@ -8,7 +8,7 @@
  *
  * @author mv28jam
  */
-class GameMechanicsException extends \Exception
+class DeskMechanicsException extends \Exception
 {
 
 }

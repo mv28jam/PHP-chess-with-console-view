@@ -6,7 +6,7 @@
  * @TODO
  * @author mv28jam
  */
-class GameMechanics
+class DeskMechanics
 {
     /**
      * Check field under attack

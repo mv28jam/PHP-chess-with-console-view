@@ -24,9 +24,9 @@ class Desk
      */
     private array $moves = [];
     /**
-     * @var GameMechanics
+     * @var DeskMechanics
      */
-    public GameMechanics $mechanics;
+    public DeskMechanics $mechanics;
     /**
      * check state of desc
      * @var bool
@@ -76,7 +76,7 @@ class Desk
         $this->figures['h'][8] = new Rook(true);
 
         //
-        $this->mechanics = new GameMechanics();
+        $this->mechanics = new DeskMechanics();
     }
 
     /**
@@ -144,7 +144,7 @@ class Desk
     /**
      * Check for standard chess situations
      * @return void
-     * @throws GameMechanicsException
+     * @throws DeskMechanicsException
      * @throws Exception
      */
     public function afterMoveActions(): void
@@ -156,7 +156,7 @@ class Desk
         //there is check
         if($this->mechanics->isKingUnderAttack(!$this->last_move, $this)){
             $this->check = true;
-            throw new \GameMechanicsException('Check. King ' . (new King(!$this->last_move).' under attack!' ));
+            throw new DeskMechanicsException('Check. King ' . (new King(!$this->last_move).' under attack!' ));
         }else{
             $this->check = false;
         }
