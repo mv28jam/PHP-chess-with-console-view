@@ -23,8 +23,6 @@ class DeskCondition
     {
         //all figure moves
         $moves = $figure->getVacuumHorsePossibleMoves($move);
-        // $sign direction of move flag for pawn
-        $figure->getIsBlack() ? $sign = -1 : $sign = 1;
         //
         foreach ($moves['normal'] as $val) {
             if ($val->strTo === $move->strTo) {
@@ -52,7 +50,7 @@ class DeskCondition
                         }
                         break;
                     case($figure instanceof King):
-                        //check for kings around 1  field
+                        //FIXME +check for kings around 1  field
                         if (!$this->isFieldUnderAttack($val->to, !$figure->getIsBlack(), $desk)) {
                             if (
                                 (abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk))
@@ -75,13 +73,11 @@ class DeskCondition
         foreach ($moves['special'] as $val) {
             if ($val->strTo === $move->strTo) {
                 switch (true) {
-                    //check for roque
                     case($figure instanceof King):
                         if($this->checkForRoque($val, $figure, $desk)) return Move::MOVING;
                         break;
-                    //check for en passant
                     case($figure instanceof Pawn):
-                        if ($this->checkPawn2fieldMove($move, $desk, $sign)) return Move::MOVING;
+                        if ($this->checkPawn2fieldMove($move, $figure, $desk)) return Move::MOVING;
                         break;
                 }
             }
@@ -91,7 +87,7 @@ class DeskCondition
             if ($val->strTo === $move->strTo) {
                 //only pawn has
                 if ($figure instanceof Pawn) {
-                    return $this->checkPawnEnPassant($val, $figure, $desk, $sign);
+                    return $this->checkPawnEnPassant($val, $figure, $desk);
                 }
             }
         }
@@ -214,12 +210,15 @@ class DeskCondition
     /**
      * Check for 2 fields pawn move
      * @param Move $move
+     * @param AbstractFigure $figure
      * @param Desk $desk
-     * @param int $sign
      * @return bool
      */
-    private function checkPawn2fieldMove(Move $move, Desk $desk, int $sign): bool
+    private function checkPawn2fieldMove(Move $move, AbstractFigure $figure, Desk $desk): bool
     {
+        // $sign direction of move flag for pawn
+        $figure->getIsBlack() ? $sign = -1 : $sign = 1;
+        //
         if (
             $desk->getFigurePrice($move->to) === 0
             and
@@ -235,10 +234,13 @@ class DeskCondition
      * @param Move $move
      * @param AbstractFigure $figure
      * @param Desk $desk
-     * @param int $sign direction of move flag for pawn
      * @return int
      */
-    private function checkPawnEnPassant(Move $move, AbstractFigure $figure, Desk $desk, int $sign) : int{
+    private function checkPawnEnPassant(Move $move, AbstractFigure $figure, Desk $desk) : int
+    {
+        // $sign direction of move flag for pawn
+        $figure->getIsBlack() ? $sign = -1 : $sign = 1;
+        //
         /**
          * @see  getLastMove // have to have for pawn attack "en passant"
          * @link en.wikipedia.org/wiki/Pawn_(chess)#Capturing
