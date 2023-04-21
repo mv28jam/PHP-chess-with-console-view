@@ -2,8 +2,8 @@
 
 
 /**
- * GameMehanics simulates and check moves
- * @TODO
+ * DeskCondition simulates and check moves
+ * @TODO refactor
  * @author mv28jam
  */
 class DeskCondition
@@ -196,7 +196,6 @@ class DeskCondition
                     $new = new Queen($figure->getIsBlack());
             }
         }
-
         //
         $res = (new MoveResult())
             ->setFigure($new)
