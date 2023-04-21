@@ -24,18 +24,9 @@ class Pawn extends AbstractFigure
      */
     public function countVacuumHorsePossibleMoves(Move $move): void
     {
-        //
-        if (!empty($this->normal)) {
-            return;
-        }
         //direction of move flag for color
-        if ($this->is_black) {
-            $sign = -1;
-        } else {
-            $sign = 1;
-        }
+        $this->is_black ? $sign = -1 : $sign = 1;
         //straight move
-        /** @see $this->move() overkill check */
         if ($move->checkY(($move->yFrom + (1 * $sign)))) {
             $this->normal[] = new Move($move->strFrom, $move->xFrom . ($move->yFrom + $sign));
         }

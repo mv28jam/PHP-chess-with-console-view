@@ -28,10 +28,10 @@ class Move
      * Forbidden move
      */
     const FORBIDDEN = -1;
-    protected static string $move_delimeter = '-';
+    public static string $move_delimeter = '-';
     /**
      * @var array $start
-     * where is figure
+     * where is the figure
      */
     protected array $start = [];
     /**
