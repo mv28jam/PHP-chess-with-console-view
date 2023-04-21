@@ -19,46 +19,14 @@ class Queen extends AbstractFigure
 
 
     /**
-     * Validate Queen move
-     * @param Move $move Move object
-     * @param Desk $desk
-     * @return int {@inheritdoc}
-     * @throws Exception
-     */
-    public function checkFigureMove(Move $move, Desk $desk): int
-    {
-        //get possible moves
-        $this->countVacuumHorsePossibleMoves($move);
-        //
-        foreach ($this->normal as $val) {
-            if ($val->strTo === $move->strTo) {
-                switch (true) {
-                    case(abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk)):
-                    case($this->checkStraightMoveBlock($move, $desk)):
-                        return $desk->getFigurePrice($move->to);
-                    default:
-                        return Move::FORBIDDEN;
-                }
-            }
-        }
-        //
-        return Move::FORBIDDEN;
-    }
-
-    /**
      * Create array of all possible moves without other figures for queen
      * @param Move $move
      * @throws Exception
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function countVacuumHorsePossibleMoves(Move $move): void
+    protected function countVacuumHorsePossibleMoves(Move $move): void
     {
-        if (!empty($this->normal)) {
-            return;
-        }
-        //
         $this->normal = array_merge($this->generateDiagonalMoves($move), $this->generateStraightMoves($move));
-        //
     }
 
     /**

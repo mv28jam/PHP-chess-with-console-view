@@ -10,62 +10,12 @@
 class Rook extends AbstractFigure
 {
     use SMoveTrait;
-
     /**
      * Price of Rook
      * @var integer
      */
     public int $price = 2;
-    /**
-     * Rook roque possible only like first step
-     * @var boolean
-     */
-    private bool $first_step = true;
 
-
-    /**
-     * Move Rook figure finally + rook actions
-     * @param Move $move move object
-     * @param Desk $desk
-     * @return MoveResult
-     */
-    public function processMove(\Move $move, \Desk $desk): MoveResult
-    {
-        //first move done
-        $this->first_step = false;
-        //
-        return parent::processMove($move, $desk);
-    }
-
-    /**
-     * Validate Rook move
-     * @param Move $move Move object
-     * @param Desk $desk
-     * @return int {@inheritdoc}
-     * @throws Exception
-     */
-    public function checkFigureMove(Move $move, Desk $desk): int
-    {
-        //get possible moves
-        $this->countVacuumHorsePossibleMoves($move);
-        //roque move
-        if (!empty($this->special) and $this->special[0]->strTo == $move->strTo) {
-            throw new Exception('Roque support under construction! Sorry...');
-            //@TODO check of roque
-            //return true;
-        }
-        //ckeck our normal move
-        foreach ($this->normal as $val) {
-            if ($val->strTo === $move->strTo) {
-                if ($this->checkStraightMoveBlock($move, $desk)) {
-                    return $desk->getFigurePrice($move->to);
-                }
-                return Move::FORBIDDEN;
-            }
-        }
-        //
-        return Move::FORBIDDEN;;
-    }
 
     /**
      * Get list of possible moves from position start for rook
@@ -73,37 +23,16 @@ class Rook extends AbstractFigure
      * @throws Exception
      * @see AbstractFigure::getVacuumHorsePossibleMoves()
      */
-    public function countVacuumHorsePossibleMoves(Move $move): void
+    protected function countVacuumHorsePossibleMoves(Move $move): void
     {
-        //
-        if (!empty($this->normal)) {
-            return;
-        }
-        //ordinary moves
         $this->normal = $this->generateStraightMoves($move);
-        //roque move without limitation
-        switch (true) {
-            case($move->strFrom == 'h1' and $this->first_step):
-                $this->special[] = new Move('h1-f1');
-                break;
-            case($move->strFrom == 'a1' and $this->first_step):
-                $this->special[] = new Move('a1-d1');
-                break;
-            case($move->strFrom == 'h8' and $this->first_step):
-                $this->special[] = new Move('h8-f8');
-                break;
-            case($move->strFrom == 'a8' and $this->first_step):
-                $this->special[] = new Move('a8-d8');
-                break;
-        }
-        //
     }
 
     /**
      * Rook made from pawn already moved
      * @return $this
      */
-    public function fromPawn()
+    public function fromPawn(): AbstractFigure
     {
         $this->first_step = false;
         return $this;

@@ -8,7 +8,7 @@
  *
  * @author mv28jam
  */
-class DeskMechanicsException extends \Exception
+class DeskConditionException extends \Exception
 {
 
 }

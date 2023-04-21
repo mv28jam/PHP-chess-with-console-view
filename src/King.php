@@ -24,71 +24,6 @@ class King extends AbstractFigure
     public int $price = PHP_INT_MAX;
 
     /**
-     * First step save for roque
-     * @var boolean first pawn step or not
-     */
-    private bool $first_step = true;
-
-
-    /**
-     * Move action and after action for king
-     * @param Move $move
-     * @param Desk $desk
-     * @return MoveResult
-     */
-    public function processMove(Move $move, Desk $desk): MoveResult
-    {
-        $this->first_step = false;
-        //
-        return parent::processMove($move, $desk);
-    }
-
-    /**
-     * Validate King move
-     * @param Move $move Move object
-     * @param Desk $desk
-     * @return int {@inheritdoc}
-     * @throws Exception
-     */
-    public function checkFigureMove(Move $move, Desk $desk): int
-    {
-        //get possible moves
-        $this->countVacuumHorsePossibleMoves($move);
-        //
-        foreach ($this->special as $val){
-            if ($val->strTo === $move->strTo) {
-                if(
-                    $this->checkStraightMoveBlock($move, $desk)
-                    and
-                    $desk->getFigureIsBlack($val->getTransferFrom()) == $this->is_black
-                    and
-                    $desk->getFigureClone($val->getTransferFrom()) instanceof Rook
-                    and
-                    $desk->getFigureClone($val->getTransferFrom())->isFirstStep()
-                    and
-                    !$desk->condition->isFieldUnderAttack($val->to, !$this->is_black, $desk)
-                ){
-                    return Move::MOVING;
-                }
-            }
-        }
-        //
-        foreach ($this->normal as $val) {
-            if ($val->strTo === $move->strTo and !$desk->condition->isFieldUnderAttack($val->to, !$this->is_black, $desk)) {
-                switch (true) {
-                    case(abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk)):
-                    case($this->checkStraightMoveBlock($move, $desk)):
-                        return $desk->getFigurePrice($move->to);
-                    default:
-                        return Move::FORBIDDEN;
-                }
-            }
-        }
-        //
-        return Move::FORBIDDEN;
-    }
-
-    /**
      * Create array of all possible moves without other figures for king
      * @param Move $move
      * @throws Exception
@@ -96,10 +31,6 @@ class King extends AbstractFigure
      */
     public function countVacuumHorsePossibleMoves(Move $move): void
     {
-        //
-        if (!empty($this->normal)) {
-            return;
-        }
         //
         if($this->first_step){
             if($this->is_black){

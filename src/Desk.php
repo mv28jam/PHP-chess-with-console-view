@@ -24,9 +24,9 @@ class Desk
      */
     private array $moves = [];
     /**
-     * @var DeskCodition
+     * @var DeskCondition
      */
-    public DeskCodition $condition;
+    public DeskCondition $condition;
     /**
      * check state of desc
      * @var bool
@@ -76,7 +76,7 @@ class Desk
         $this->figures['h'][8] = new Rook(true);
 
         //
-        $this->condition = new DeskCodition();
+        $this->condition = new DeskCondition();
     }
 
     /**
@@ -100,7 +100,7 @@ class Desk
             case($this->isSelfAttack($move->getStop())):
                 throw new \Exception('Self attack move, your color is ' . (new Pawn(!$this->last_move)));
             //check move of figure by this figure rules
-            case($this->figures($move->from)->checkFigureMove($move, $this) < Move::MOVING):
+            case($this->condition->checkFigureMove($move, $this->figures($move->from), $this) < Move::MOVING):
                 throw new \Exception('Forbidden move for ' . $this->figures($move->getStart()));
         }
         //move to new position + internal figure actions
@@ -110,7 +110,7 @@ class Desk
         //save history
         $this->moveHistory($move);
         //
-        $this->afterMoveActions();
+        $this->afterMoveCondition();
     }
 
     /**
@@ -121,7 +121,7 @@ class Desk
     public function moveActions(Move $move): void
     {
         //get result of move
-        $res = $this->figures($move->from)->processMove($move, $this);
+        $res = $this->condition->processMove($move, $this->figures($move->from), $this);
         //set figure result of move in position
         $this->figures[$move->to[0]][$move->to[1]] = $res->getFigure();
         //kill figures
@@ -144,10 +144,10 @@ class Desk
     /**
      * Check for standard chess situations
      * @return void
-     * @throws DeskMechanicsException
+     * @throws DeskConditionException
      * @throws Exception
      */
-    public function afterMoveActions(): void
+    public function afterMoveCondition(): void
     {
         //somehow king is dead
         if($this->condition->findKing(!$this->last_move, $this) === null){
@@ -156,7 +156,7 @@ class Desk
         //there is check
         if($this->condition->isKingUnderAttack(!$this->last_move, $this)){
             $this->check = true;
-            throw new DeskMechanicsException('Check. King ' . (new King(!$this->last_move).' under attack!' ));
+            throw new DeskConditionException('Check. King ' . (new King(!$this->last_move).' under attack!' ));
         }else{
             $this->check = false;
         }

@@ -22,18 +22,18 @@ class GameLauncher
     /**
      * Output messages
      */
-    protected $input_move = 'Input move:';
-    protected $mistake = 'Mistake: ';
+    protected string $input_move = 'Input move:';
+    protected string $mistake = 'Mistake: ';
     /**
      * Object to animate output
      * @var ConsoleAnimatedOutput object holder
      */
-    protected $animated_output = null;
+    protected ConsoleAnimatedOutput $animated_output;
     /**
      * Object desk to play
      * @var Desk desk to play on
      */
-    protected $desk = null;
+    protected Desk $desk;
 
     /**
      * game start
@@ -118,7 +118,7 @@ class GameLauncher
             $this->animated_output->deleteLine();
             $this->animated_output->cursorUp();
             $this->animated_output->echoLine($this->input_move);
-        } catch (DeskMechanicsException $e) {
+        } catch (DeskConditionException $e) {
             $this->animated_output->echoMultipleLine($this->desk->dump(), 1);
             $this->animated_output->deleteLine();
             $this->animated_output->echoLine($e->getMessage());
