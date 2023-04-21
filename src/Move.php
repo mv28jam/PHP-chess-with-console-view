@@ -15,7 +15,7 @@
  * @property-read int $yTo move to
  * @property-read int $dX delta of move
  * @property-read int $dY delta of move
- *
+ * @property-read int $respawn
  */
 class Move
 {
@@ -28,7 +28,7 @@ class Move
      * Forbidden move
      */
     const FORBIDDEN = -1;
-    public static string $move_delimeter = '-';
+    public static string $separator = '-';
     /**
      * @var array $start
      * where is the figure
@@ -39,6 +39,12 @@ class Move
      * where to go
      */
     protected array $stop = [];
+    /**
+     * Respawn marker for pawn
+     * @var string
+     */
+    protected string $respawn = '';
+
     /**
      * Delta of move
      * @var int
@@ -68,10 +74,10 @@ class Move
     {
         //
         if (!empty($move_exploded)) {
-            $move = implode(self::$move_delimeter, [$move, $move_exploded]);
+            $move = implode(self::$separator, [$move, $move_exploded]);
         }
         //check matching for std string move
-        if (!preg_match('/^([a-h])([1-8])' . self::$move_delimeter . '?([a-h])([1-8])$/', $move, $match)) {
+        if (!preg_match('/^([a-h])([1-8])' . self::$separator . '([a-h])([1-8])\+?([rRqQkKbB])?$/', $move, $match)) {
             throw new Exception("Incorrect notation. Use e2-e4.");
         }
         //
@@ -79,6 +85,9 @@ class Move
         $this->start[] = $match[2];
         $this->stop[] = $match[3];
         $this->stop[] = $match[4];
+        if(!empty($match[5])) {
+            $this->respawn = $match[5];
+        }
         //
         if ($this->start == $this->stop) {
             throw new Exception("No move");
@@ -117,6 +126,8 @@ class Move
                 return $this->deltaX;
             case('dY'):
                 return $this->deltaY;
+            case('respawn'):
+                return $this->respawn;
         }
         //
         user_error('Undefined property in ' . __METHOD__ . ' : ' . $name, E_USER_ERROR);
@@ -261,7 +272,7 @@ class Move
      */
     public function __toString(): string
     {
-        return $this->strFrom . self::$move_delimeter . $this->strTo;
+        return $this->strFrom . self::$separator . $this->strTo;
     }
 
 }

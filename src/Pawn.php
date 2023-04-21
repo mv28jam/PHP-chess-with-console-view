@@ -4,7 +4,7 @@
 /**
  * Pawn actions and behavior
  * "en passant" move example b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6
- * figure change example b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6|h3-h2|a2-a3|h2-g1
+ * figure change example b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6|h3-h2|a2-a3|h2-g1+r
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */

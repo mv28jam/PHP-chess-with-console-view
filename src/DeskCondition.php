@@ -281,14 +281,19 @@ class DeskCondition
      */
     private function figureConversion(Move $move, AbstractFigure $figure): AbstractFigure{
         if ($figure instanceof Pawn and $move->yTo == 1 or $move->yTo == 8) {
-            //output change
-            //FIXME
-            $animated_output = new ConsoleAnimated\ConsoleAnimatedOutput();
-            $animated_output->cursorUp();
-            $animated_output->echoLine('Choose replace of pawn, type first letter of figure name:');
-            unset($animated_output);
+            //
+            if($move->respawn){
+                $respawn = $move->respawn;
+            }else{
+                //output change FIXME
+                $animated_output = new ConsoleAnimated\ConsoleAnimatedOutput();
+                $animated_output->cursorUp();
+                $animated_output->echoLine('Choose replace of pawn, type first letter of figure name:');
+                $respawn = trim(fgets(STDIN));
+                unset($animated_output);
+            }
             //choose figure by first letter
-            switch (trim(fgets(STDIN))) {
+            switch ($respawn) {
                 case('r'):
                 case('R'):
                     return (new Rook($figure->getIsBlack()))->fromPawn();
@@ -340,7 +345,7 @@ class DeskCondition
     private function checkProcess(array $start, array $field, Desk $desk): int
     {
         return $this->checkFigureMove(
-            (new Move(implode($start).Move::$move_delimeter.implode($field))),
+            (new Move(implode($start).Move::$separator.implode($field))),
             $desk->getFigureClone($start),
             $desk
         );
