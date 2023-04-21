@@ -12,7 +12,7 @@ class DeskCondition
     use SMoveTrait, DMoveTrait;
 
     /**
-     * @param Move $move
+     * @param Move $move - initial Move, not result Move
      * @param AbstractFigure $figure
      * @param Desk $desk
      * @return int
@@ -104,7 +104,7 @@ class DeskCondition
      * @param Move $move move object
      * @param AbstractFigure $figure
      * @param Desk $desk
-     * @return MoveResult
+     * @return MoveResult - resulting move != initial $move
      */
     public function processMove(Move $move, AbstractFigure $figure, Desk $desk): MoveResult
     {
