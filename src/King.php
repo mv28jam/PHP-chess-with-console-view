@@ -66,7 +66,7 @@ class King extends AbstractFigure
                     and
                     $desk->getFigureClone($val->getTransferFrom())->isFirstStep()
                     and
-                    !$desk->mechanics->isFieldUnderAttack($val->to, !$this->is_black, $desk)
+                    !$desk->condition->isFieldUnderAttack($val->to, !$this->is_black, $desk)
                 ){
                     return Move::MOVING;
                 }
@@ -74,7 +74,7 @@ class King extends AbstractFigure
         }
         //
         foreach ($this->normal as $val) {
-            if ($val->strTo === $move->strTo and !$desk->mechanics->isFieldUnderAttack($val->to, !$this->is_black, $desk)) {
+            if ($val->strTo === $move->strTo and !$desk->condition->isFieldUnderAttack($val->to, !$this->is_black, $desk)) {
                 switch (true) {
                     case(abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk)):
                     case($this->checkStraightMoveBlock($move, $desk)):

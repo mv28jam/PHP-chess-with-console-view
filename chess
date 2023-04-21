@@ -20,5 +20,5 @@ foreach (['src/traits/*.php', 'src/exceptions/*.php', 'src/*.php'] as $mask) {
 }
 
 //
-$game = new Game();
+$game = new GameLauncher();
 

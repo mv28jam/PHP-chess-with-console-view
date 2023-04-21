@@ -7,7 +7,7 @@ use ConsoleAnimated\ConsoleAnimatedOutput;
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */
-class Game
+class GameLauncher
 {
 
     /**
