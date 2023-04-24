@@ -268,14 +268,12 @@ class DeskCondition
             return false;
         }
         //
-        if (!$this->isFieldUnderAttack($move->to, !$figure->getIsBlack(), $desk)) {
-            if (
-                (abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk))
-                or
-                ($this->checkStraightMoveBlock($move, $desk))
-            ) {
-                return true;
-            }
+        if (
+            (abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk))
+            or
+            ($this->checkStraightMoveBlock($move, $desk))
+        ) {
+            return true;
         }
         //
         return false;
@@ -303,8 +301,6 @@ class DeskCondition
             $desk->getFigureClone($move->getTransferFrom()) instanceof Rook
             and
             $desk->getFigureClone($move->getTransferFrom())->isFirstStep()
-            and
-            !$this->isFieldUnderAttack($move->to, !$figure->getIsBlack(), $desk)
         ){
             return true;
         }
