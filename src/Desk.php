@@ -148,9 +148,13 @@ class Desk
         //there is check
         if($this->condition->isKingUnderAttack(!$this->last_move, $this)){
             if($this->condition->isEndGameByCheckmate(!$this->last_move, $this)){
-                throw new EndGameException('Game over. ' . (new Pawn($this->last_move)) . ' wins by ');
+                throw new EndGameException('Game over. Checkmate. ' . (new Pawn($this->last_move)) . ' wins by ');
             }
             throw new DeskConditionException('Check. King ' . (new King(!$this->last_move).' under attack!' ));
+        }else{
+            if($this->condition->isEndGameByStalemate(!$this->last_move, $this)){
+                throw new EndGameException('Game over. Stalemate, nobody wins by ');
+            }
         }
         //
     }

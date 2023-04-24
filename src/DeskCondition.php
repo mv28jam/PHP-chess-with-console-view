@@ -150,10 +150,18 @@ class DeskCondition
         return true;
     }
 
-
-    //public function isEndGameByStalemate(){
-    //
-    //}
+    /**
+     * Alias for isEndGameByCheckmate
+     * @param bool $is_black
+     * @param Desk $desk
+     * @return bool
+     * @throws Exception
+     * @see self::isEndGameByCheckmate()
+     */
+    public function isEndGameByStalemate(bool $is_black, Desk $desk): bool
+    {
+        return $this->isEndGameByCheckmate($is_black, $desk);
+    }
 
 
 
@@ -172,7 +180,7 @@ class DeskCondition
                 if(
                     $val->is_black === $is_black
                     and $val->price > 0
-                    and [$keyH,$keyG] != $field
+                    and [$keyH,$keyG] != $field //field under attack can be start field
                     and $this->checkProcess([$keyH,$keyG], $field, $desk) > Move::FORBIDDEN
                 ){
                     return true;
