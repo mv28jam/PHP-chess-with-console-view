@@ -57,12 +57,14 @@ abstract class AbstractFigure
 
     /**
      * Clean counted moves after actual moving
+     * @return AbstractFigure
      */
-    public function cleanMoves(): void
+    public function cleanMoves(): AbstractFigure
     {
         $this->attack = [];
         $this->normal = [];
         $this->special = [];
+        return $this;
     }
 
     /**
@@ -70,11 +72,17 @@ abstract class AbstractFigure
      * \except simple limitation - NOT desk depended on moves
      * \simple limitation like "first move"
      * @param Move $move - start position
-     * @return array of Move
+     * @param bool $plain
+     * @return Move[]|array of Move
      */
-    public function getVacuumHorsePossibleMoves(Move $move): array
+    public function getVacuumHorsePossibleMoves(Move $move, bool $plain = false): array
     {
-        $this->countVacuumHorsePossibleMoves($move);
+        if(empty($this->normal)) {
+            $this->countVacuumHorsePossibleMoves($move);
+        }
+        if($plain){
+            return array_merge($this->normal, $this->attack, $this->special);
+        }
         return ['normal' => $this->normal, 'attack' => $this->attack, 'special' => $this->special];
     }
 

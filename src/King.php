@@ -3,12 +3,14 @@
 
 /**
  * King actions and behavior
- * Test game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7
- * Test of end game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5|d7-f5|b5-b7|f5-f2|h2-h3|f2-e1
+ * Test game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5
  * Roque: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|e1-g1
  * Roque can not: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3|e1-g1
  * King goto under attack: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3|e1-f1|h7-h6|f1-g1
- * King check: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3|e1-f1|h7-h6|f1-g1|a2-a3
+ * King check: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3|e1-f1|h7-h6|f1-g1|a2-a3|g3-g2
+ * King collision: e2-e4|e7-e5|e1-e2|e8-e7|e2-e3|e7-e6|e3-f4|e6-f6|f3-g3|f6-g6|g3-g4|g6-g5
+ * King under attack: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3|e1-f1|h7-h6|f1-g1|a2-a3|f1-e1|a7-a6|d3-e2|g2-g1
+ * Kinder checkmate: e2-e4|e7-e5|b8-c6|d1-h5|g8-f6|f1-c4|a7-a6|h5-f7
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */

@@ -17,7 +17,6 @@ class DeskCondition
      * @param Desk $desk
      * @return int
      * @throws Exception
-     * REDO FIXME
      */
     public function checkFigureMove(Move $move, AbstractFigure $figure, Desk $desk): int
     {
@@ -28,45 +27,35 @@ class DeskCondition
             if ($val->strTo === $move->strTo) {
                 switch (true) {
                     case($figure instanceof Knight):
-                        return $desk->getFigurePrice($move->to);
+                        return $desk->getFigurePrice($val->to);
                         break;
                     case($figure instanceof Rook):
-                        if ($this->checkStraightMoveBlock($move, $desk)) {
-                            return $desk->getFigurePrice($move->to);
-                        }
+                        if ($this->checkStraightMoveBlock($val, $desk)) return $desk->getFigurePrice($val->to);
                         break;
                     case($figure instanceof Queen):
-                        if (
-                            (abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk))
-                            or
-                            ($this->checkStraightMoveBlock($move, $desk))
-                        ) {
-                            return $desk->getFigurePrice($move->to);
+                        if (abs($val->dX) > 0 and abs($val->dY) > 0){
+                            if($this->checkDiagonalMoveBlock($val, $desk)) return $desk->getFigurePrice($val->to);
+                        }else{
+                            if($this->checkStraightMoveBlock($val, $desk)) return $desk->getFigurePrice($val->to);
                         }
                         break;
                     case($figure instanceof Bishop):
-                        if ($this->checkDiagonalMoveBlock($move, $desk)) {
-                            return $desk->getFigurePrice($move->to);
-                        }
-                        break;
-                    case($figure instanceof King):
-                        //FIXME +check for kings around 1  field
-                        if (!$this->isFieldUnderAttack($val->to, !$figure->getIsBlack(), $desk)) {
-                            if (
-                                (abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk))
-                                or
-                                ($this->checkStraightMoveBlock($move, $desk))
-                            ) {
-                                return $desk->getFigurePrice($move->to);
-                            }
-                        }
+                        if ($this->checkDiagonalMoveBlock($val, $desk)) return $desk->getFigurePrice($val->to);
                         break;
                     case($figure instanceof Pawn):
-                        if ($desk->getFigurePrice($move->to) === Move::MOVING) {
-                            return Move::MOVING;
-                        }
+                        if ($desk->getFigurePrice($val->to) === Move::MOVING)  return Move::MOVING;
                         break;
+                    case($figure instanceof King):
+                        if($this->checkKingMove($val, $figure, $desk))return $desk->getFigurePrice($move->to);
+                        break;
+
                 }
+            }
+        }
+        //check attack moves
+        foreach ($moves['attack'] as $val) {
+            if ($val->strTo === $move->strTo) {
+                if ($figure instanceof Pawn) return $this->checkPawnEnPassant($val, $figure, $desk);
             }
         }
         //
@@ -77,17 +66,8 @@ class DeskCondition
                         if($this->checkForRoque($val, $figure, $desk)) return Move::MOVING;
                         break;
                     case($figure instanceof Pawn):
-                        if ($this->checkPawn2fieldMove($move, $figure, $desk)) return Move::MOVING;
+                        if ($this->checkPawn2fieldMove($val, $figure, $desk)) return Move::MOVING;
                         break;
-                }
-            }
-        }
-        //check attack moves
-        foreach ($moves['attack'] as $val) {
-            if ($val->strTo === $move->strTo) {
-                //only pawn has
-                if ($figure instanceof Pawn) {
-                    return $this->checkPawnEnPassant($val, $figure, $desk);
                 }
             }
         }
@@ -97,7 +77,7 @@ class DeskCondition
 
     /**
      * Move figure finally + internal actions
-     * @param Move $move move object
+     * @param Move $move INITIAL(!) move object
      * @param AbstractFigure $figure
      * @param Desk $desk
      * @return MoveResult - resulting move != initial $move
@@ -114,12 +94,68 @@ class DeskCondition
         return $res;
     }
 
-    //public function isKingUnderAttackAfterMove(bool $is_black, Desk $desk){
+    /**
+     * Check for king under attack after move = loose
+     * @param Move $move
+     * @param bool $is_black
+     * @param Desk $desk
+     * @return bool
+     * @throws Exception
+     */
+    public function isKingUnderAttackAfterMove(Move $move, bool $is_black, Desk $desk) : bool{
+        $clone = $desk->getDeskClone();
+        $clone->moveActions($move);
+        if($this->isKingUnderAttack($is_black, $clone)){
+            return true;
+        }
+        unset ($clone);
+        //
+        return false;
+    }
+
+    /**
+     * @param Move $move
+     * @param Desk $desk
+     * @return bool
+     */
+    public function selfAttackAbstractMove(Move $move, Desk $desk): bool{
+        if ($desk->isFigureExists($move->to)) {
+            return ($desk->getFigureIsBlack($move->from) === $desk->getFigureIsBlack($move->to));
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Check for figures of color can unset check
+     * @param bool $is_black
+     * @param Desk $desk
+     * @return bool
+     * @throws Exception
+     */
+    public function isEndGameByCheckmate(bool $is_black, Desk $desk): bool
+    {
+        foreach ($desk->toMap() as $keyH => $line){
+            foreach ($line as $keyG => $val) {
+                if($val->is_black === $is_black and $val->price > 0){
+                    $fig = $desk->getFigureClone([$keyH,$keyG]);
+                    foreach($fig->getVacuumHorsePossibleMoves(new DummyMove(implode([$keyH,$keyG])),true) as $pmove) {
+                        if(!$this->selfAttackAbstractMove($pmove, $desk) and $this->checkFigureMove($pmove, $fig, $desk) > Move::FORBIDDEN){
+                            if(!$this->isKingUnderAttackAfterMove($pmove,$is_black,$desk)) return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+    //public function isEndGameByStalemate(){
     //
     //}
-    //public function isKingCanMove(){
-    //
-    //}
+
+
 
     /**
      * Check field under attack
@@ -131,12 +167,12 @@ class DeskCondition
      */
     public function isFieldUnderAttack(array $field, bool $is_black, Desk $desk) : bool
     {
-        $map = $desk->toMap();
-        foreach ($map as $keyH => $line){
+        foreach ($desk->toMap() as $keyH => $line){
             foreach ($line as $keyG => $val) {
                 if(
                     $val->is_black === $is_black
                     and $val->price > 0
+                    and [$keyH,$keyG] != $field
                     and $this->checkProcess([$keyH,$keyG], $field, $desk) > Move::FORBIDDEN
                 ){
                     return true;
@@ -157,6 +193,34 @@ class DeskCondition
     {
         //check for attack
         return $this->isFieldUnderAttack($this->findKing($is_black, $desk), !$is_black,  $desk);
+    }
+
+    /**
+     * Check for kings close less then one field of each other
+     * @param Move $move
+     * @param Desk $desk
+     * @return bool
+     * @throws Exception
+     */
+    protected function isKingCollision(Move $move, Desk $desk): bool
+    {
+        $to1 = $to2 =[];
+        //
+        $king1 = $desk->getFigureClone($move->from);
+        $king2pos = $this->findKing(!$king1->getIsBlack(), $desk);
+        $king2 = $desk->getFigureClone($king2pos);
+        //
+        foreach($king1->getVacuumHorsePossibleMoves($move, true) as $val){
+            $to1[] = $val->strTo;
+        }
+        foreach($king2->getVacuumHorsePossibleMoves(new DummyMove(implode($king2pos)), true) as $val){
+            $to2[] = $val->strTo;
+        }
+        //
+        if(!empty(array_intersect($to1, $to2, [$move->strTo]))){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -181,6 +245,34 @@ class DeskCondition
         return null;
     }
 
+
+    /**
+     * @param Move $move
+     * @param AbstractFigure $figure
+     * @param Desk $desk
+     * @return bool
+     * @throws Exception
+     */
+    public function checkKingMove(Move $move, AbstractFigure $figure, Desk $desk):bool
+    {
+        //
+        if($this->isKingCollision($move, $desk)){
+            return false;
+        }
+        //
+        if (!$this->isFieldUnderAttack($move->to, !$figure->getIsBlack(), $desk)) {
+            if (
+                (abs($move->dX) > 0 and abs($move->dY) > 0 and $this->checkDiagonalMoveBlock($move, $desk))
+                or
+                ($this->checkStraightMoveBlock($move, $desk))
+            ) {
+                return true;
+            }
+        }
+        //
+        return false;
+    }
+
     /**
      * @param Move $move
      * @param AbstractFigure $figure
@@ -190,6 +282,11 @@ class DeskCondition
      */
     private function checkForRoque(Move $move, AbstractFigure $figure, Desk $desk):bool
     {
+        //
+        if($this->isKingCollision($move, $desk)){
+            return false;
+        }
+        //
         if(
             $this->checkStraightMoveBlock($move, $desk)
             and
@@ -217,7 +314,7 @@ class DeskCondition
     private function checkPawn2fieldMove(Move $move, AbstractFigure $figure, Desk $desk): bool
     {
         // $sign direction of move flag for pawn
-        $figure->getIsBlack() ? $sign = -1 : $sign = 1;
+        $figure->getIsBlack() ? $sign = 1 : $sign = -1;
         //
         if (
             $desk->getFigurePrice($move->to) === 0
@@ -280,7 +377,10 @@ class DeskCondition
      * @return AbstractFigure
      */
     private function figureConversion(Move $move, AbstractFigure $figure): AbstractFigure{
-        if ($figure instanceof Pawn and $move->yTo == 1 or $move->yTo == 8) {
+
+
+
+        if ($figure instanceof Pawn and ($move->yTo == 1 or $move->yTo == 8)) {
             //
             if($move->respawn){
                 $respawn = $move->respawn;
@@ -322,14 +422,13 @@ class DeskCondition
      */
     private function findResultMove(Move $move, AbstractFigure $figure): Move
     {
-        $res = $figure->getVacuumHorsePossibleMoves($move);
         //
-        foreach (array_merge($res['attack'], $res['normal'], $res['special']) as $val){
+        foreach ($figure->getVacuumHorsePossibleMoves($move, true) as $val){
+            //object Move ($val, $move) are NOT equal - initial move can not contain en passant attack for example
             if($val->strFrom == $move->strFrom and $val->strTo == $move->strTo){
                 return $val;
             }
         }
-        //unexpected
         return $move;
     }
 

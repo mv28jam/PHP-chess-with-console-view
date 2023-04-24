@@ -27,11 +27,6 @@ class Desk
      * @var DeskCondition
      */
     public DeskCondition $condition;
-    /**
-     * check state of desc
-     * @var bool
-     */
-    private bool $check = false;
 
     /**
      * Create chess game desk
@@ -101,14 +96,11 @@ class Desk
                 throw new \Exception('Self attack move, your color is ' . (new Pawn(!$this->last_move)));
             //check move of figure by this figure rules
             case($this->condition->checkFigureMove($move, $this->figures($move->from), $this) < Move::MOVING):
+            case($this->condition->isKingUnderAttackAfterMove($move, $this->figures($move->from)->getIsBlack(), $this)):
                 throw new \Exception('Forbidden move for ' . $this->figures($move->getStart()));
         }
         //move to new position + internal figure actions
         $this->moveActions($move);
-        //unset figure in old position
-        $this->figureRemove($move->from);
-        //save history
-        $this->moveHistory($move);
         //
         $this->afterMoveCondition();
     }
@@ -139,6 +131,10 @@ class Desk
         }
         //
         unset($res);
+        //unset figure in old position
+        $this->figureRemove($move->from);
+        //save history
+        $this->moveHistory($move);
     }
 
     /**
@@ -149,17 +145,14 @@ class Desk
      */
     public function afterMoveCondition(): void
     {
-        //somehow king is dead
-        if($this->condition->findKing(!$this->last_move, $this) === null){
-            throw new EndGameException('Game over. ' . (new Pawn($this->last_move)) . ' wins by ');
-        }
         //there is check
         if($this->condition->isKingUnderAttack(!$this->last_move, $this)){
-            $this->check = true;
+            if($this->condition->isEndGameByCheckmate(!$this->last_move, $this)){
+                throw new EndGameException('Game over. ' . (new Pawn($this->last_move)) . ' wins by ');
+            }
             throw new DeskConditionException('Check. King ' . (new King(!$this->last_move).' under attack!' ));
-        }else{
-            $this->check = false;
         }
+        //
     }
 
     /**
@@ -216,7 +209,7 @@ class Desk
      * @param array $position
      * @return bool
      */
-    protected function isSelfAttack(array $position): bool
+    public function isSelfAttack(array $position): bool
     {
         if ($this->isFigureExists($position)) {
             return ($this->getFigureIsBlack($position) !== $this->last_move);
@@ -289,10 +282,19 @@ class Desk
     public function getFigureClone(array $position): ?AbstractFigure
     {
         if ($this->isFigureExists($position)) {
-            return clone $this->figures[$position[0]][$position[1]];
+            return (clone $this->figures[$position[0]][$position[1]])->cleanMoves();
         }
         //
         return null;
+    }
+
+    /**
+     * Clone of desk to check state sensitive moves
+     * @return Desk
+     */
+    public function getDeskClone(): Desk
+    {
+        return clone $this;
     }
 
     /**
