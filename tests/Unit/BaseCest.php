@@ -3,17 +3,18 @@
 
 namespace Tests\Unit;
 
+use Desk;
 use Exception;
 use Tests\Support\UnitTester;
 use Tests\Support\Data\BaseActionsData;
 use \Codeception\Attribute\DataProvider;
-use \Codeception\Example;;
+use \Codeception\Example;
 
 class BaseCest
 {
 
     private BaseActionsData $data;
-    private \Desk $desk;
+    private Desk $desk;
 
     public function __construct()
     {
@@ -22,7 +23,7 @@ class BaseCest
 
     public function _before(UnitTester $I)
     {
-        $this->desk = new \Desk();
+        $this->desk = new Desk();
     }
 
 
