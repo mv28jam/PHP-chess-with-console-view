@@ -379,22 +379,16 @@ class DeskCondition
      * @param Move $move
      * @param AbstractFigure $figure
      * @return AbstractFigure
+     * @throws Exception
      */
     private function figureConversion(Move $move, AbstractFigure $figure): AbstractFigure{
-
-
-
+        //
         if ($figure instanceof Pawn and ($move->yTo == 1 or $move->yTo == 8)) {
             //
             if($move->respawn){
                 $respawn = $move->respawn;
             }else{
-                //output change FIXME
-                $animated_output = new ConsoleAnimated\ConsoleAnimatedOutput();
-                $animated_output->cursorUp();
-                $animated_output->echoLine('Choose replace of pawn, type first letter of figure name:');
-                $respawn = trim(fgets(STDIN));
-                unset($animated_output);
+                throw new Exception('Pawn conversion move. Choose replace of pawn by adding h2-g1+r (move +first letter of new figure name).');
             }
             //choose figure by first letter
             switch ($respawn) {

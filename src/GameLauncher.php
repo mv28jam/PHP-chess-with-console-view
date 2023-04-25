@@ -37,6 +37,7 @@ class GameLauncher
 
     /**
      * game start
+     * @throws Exception
      */
     public function __construct()
     {

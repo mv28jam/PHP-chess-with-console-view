@@ -14,8 +14,8 @@ if (!class_exists('ConsoleAnimated\ConsoleAnimatedOutput')) {
 
 //load
 spl_autoload_register(function ($class) {
-    foreach (['./src/traits/*.php', './src/exceptions/*.php', './src/*.php','./*.php'] as $mask) {
-        $file = str_replace(['\\','*'], [DIRECTORY_SEPARATOR,$class], $mask);
+    foreach (['./src/traits/*', './src/exceptions/*', './src/*','./*'] as $mask) {
+        $file = str_replace(['\\','*'], [DIRECTORY_SEPARATOR,$class], $mask).'.php';
             if (file_exists($file)) {
                 require_once($file);
                 return true;
@@ -23,7 +23,6 @@ spl_autoload_register(function ($class) {
     }
     return false;
 });
-
 
 //
 $game = new GameLauncher();
