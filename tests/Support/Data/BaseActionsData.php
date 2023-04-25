@@ -8,19 +8,27 @@ namespace Tests\Support\Data;
  */
 class BaseActionsData
 {
+
     /**
-     * @param string $name
-     * @return false|string
+     * @return array[]
      */
-    public function __get(string $name){
-        return $this->$name;
+    public function moveInitProvider() : array  // to make it public use `_` prefix
+    {
+        return [
+            ['move'=>"e2-e4", 'dY'=>-2, 'dX'=>0,'xFrom'=>'e','xTo'=>'e','yFrom'=>2,'yTo'=>4],
+            ['move'=>"e7-e5", 'dY'=>2, 'dX'=>0,'xFrom'=>'e','xTo'=>'e','yFrom'=>7,'yTo'=>5],
+            ['move'=>"g1-f3", 'dY'=>-2, 'dX'=>1,'xFrom'=>'g','xTo'=>'f','yFrom'=>1,'yTo'=>3],
+            ['move'=>"b8-c6", 'dY'=>2, 'dX'=>-1,'xFrom'=>'b','xTo'=>'c','yFrom'=>8,'yTo'=>6],
+            ['move'=>"h1-g1", 'dY'=>0, 'dX'=>1,'xFrom'=>'h','xTo'=>'g','yFrom'=>1,'yTo'=>1],
+            ['move'=>"a8-b8", 'dY'=>0, 'dX'=>-1,'xFrom'=>'a','xTo'=>'b','yFrom'=>8,'yTo'=>8]
+        ];
     }
 
     /**
      * Desc start description
      * @var string
      */
-    private string $start_desc = '{
+    public string $start_desc = '{
     "a": {
         "8": {
             "fig": "Rook",

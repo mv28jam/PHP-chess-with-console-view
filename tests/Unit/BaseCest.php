@@ -6,6 +6,8 @@ namespace Tests\Unit;
 use Exception;
 use Tests\Support\UnitTester;
 use Tests\Support\Data\BaseActionsData;
+use \Codeception\Attribute\DataProvider;
+use \Codeception\Example;;
 
 class BaseCest
 {
@@ -13,9 +15,13 @@ class BaseCest
     private BaseActionsData $data;
     private \Desk $desk;
 
-    public function _before(UnitTester $I)
+    public function __construct()
     {
         $this->data = new BaseActionsData();
+    }
+
+    public function _before(UnitTester $I)
+    {
         $this->desk = new \Desk();
     }
 
@@ -25,17 +31,18 @@ class BaseCest
         $I->assertEquals($this->data->start_desc, json_encode($this->desk->toMap(), JSON_PRETTY_PRINT));
     }
 
-    public function moveBaseTest(UnitTester $I): void
+    #[DataProvider('moveInitProvider')]
+    public function moveBaseTest(UnitTester $I,  Example $v): void
     {
-        $move = new \Move('e2-e4');
-        $I->assertEquals($move->dY, -2);
-        $I->assertEquals($move->dX, 0);
+        $move = new \Move($v['move']);
+        $I->assertEquals($move->dY, $v['dY']);
+        $I->assertEquals($move->dX, $v['dX']);
         $I->assertEquals($move->getKill(), []);
         $I->assertEquals($move->getTransfer(), []);
-        $I->assertEquals($move->xFrom, 'e');
-        $I->assertEquals($move->xTo, 'e');
-        $I->assertEquals($move->yFrom, 2);
-        $I->assertEquals($move->yTo, 4);
+        $I->assertEquals($move->xFrom, $v['xFrom']);
+        $I->assertEquals($move->xTo, $v['xTo']);
+        $I->assertEquals($move->yFrom, $v['yFrom']);
+        $I->assertEquals($move->yTo, $v['yTo']);
         $I->assertEquals($move->respawn, '');
     }
 
@@ -81,5 +88,10 @@ class BaseCest
         );
     }
 
+    //
+    protected function moveInitProvider() : array  // to make it public use `_` prefix
+    {
+        return $this->data->moveInitProvider();
+    }
 
 }
