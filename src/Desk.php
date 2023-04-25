@@ -98,6 +98,7 @@ class Desk
             case($this->condition->checkFigureMove($move, $this->figures($move->from), $this) < Move::MOVING):
             case($this->condition->isKingUnderAttackAfterMove($move, $this->figures($move->from)->getIsBlack(), $this)):
                 throw new \Exception('Forbidden move for ' . $this->figures($move->getStart()));
+
         }
         //move to new position + internal figure actions
         $this->moveActions($move);
@@ -108,7 +109,6 @@ class Desk
     /**
      * @param Move $move
      * @return void
-     * TODO
      */
     public function moveActions(Move $move): void
     {
@@ -348,5 +348,32 @@ class Desk
         $result[] = "  a b c d e f g h\n";
         //
         return $result;
+    }
+
+    /**
+     * In desc array of objects has to be cloned
+     * otherwise it will be modified by DescConditions
+     * @return void
+     */
+    function __clone()
+    {
+        //
+        $cloned_figures = [];
+        foreach ($this->figures as $key => $val){
+            foreach ($val as $key2 => $val2){
+                if(!empty($val2)){
+                    $cloned_figures[$key][$key2] = clone $val2;
+                }else{
+                    $cloned_figures[$key][$key2] = null;
+                }
+            }
+        }
+        $this->figures = $cloned_figures;
+        //
+        $cloned_moves = [];
+        foreach ($this->moves as $key => $val){
+            $cloned_moves[$key] = clone $val;
+        }
+        $this->moves = $cloned_moves;
     }
 }

@@ -8,6 +8,22 @@ namespace Tests\Support\Data;
  */
 class BaseActionsData
 {
+    /**
+     * @return array[]
+     */
+    public function deskBaseMoveProvider() : array  // to make it public use `_` prefix
+    {
+        return [
+            ['move'=>"a2-a3", 'fig'=>'Pawn'],
+            ['move'=>"a2-a4", 'fig'=>'Pawn'],
+            ['move'=>"e2-e3", 'fig'=>'Pawn'],
+            ['move'=>"e2-e4", 'fig'=>'Pawn'],
+            ['move'=>'b1-a3', 'fig'=>'Knight'],
+            ['move'=>'b1-c3', 'fig'=>'Knight'],
+            ['move'=>'g1-h3', 'fig'=>'Knight'],
+            ['move'=>'g1-f3', 'fig'=>'Knight'],
+        ];
+    }
 
     /**
      * @return array[]

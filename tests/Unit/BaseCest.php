@@ -5,6 +5,7 @@ namespace Tests\Unit;
 
 use Desk;
 use Exception;
+use Move;
 use Tests\Support\UnitTester;
 use Tests\Support\Data\BaseActionsData;
 use \Codeception\Attribute\DataProvider;
@@ -47,7 +48,7 @@ class BaseCest
     #[DataProvider('moveInitProvider')]
     public function moveBaseTest(UnitTester $I,  Example $v): void
     {
-        $move = new \Move($v['move']);
+        $move = new Move($v['move']);
         $I->assertEquals($move->dY, $v['dY']);
         $I->assertEquals($move->dX, $v['dX']);
         $I->assertEquals($move->getKill(), []);
@@ -62,16 +63,17 @@ class BaseCest
     /**
      * Test for figure moving on desk
      * @param UnitTester $I
+     * @param Example $v
      * @return void
      * @throws Exception
      */
-    public function deskBaseMoveTest(UnitTester $I): void
+    #[DataProvider('deskBaseMoveProvider')]
+    public function deskBaseMoveTest(UnitTester $I,  Example $v): void
     {
-        $this->desk->move(new \Move('e2-e4'));
-        $I->assertEquals('Pawn', $this->desk->toMap()['e']['4']->fig);
+        $this->desk->move(new Move($v['move']));
+        $pos=explode('-',$v['move']);
+        $I->assertEquals($v['fig'], $this->desk->toMap()[$pos[1][0]][$pos[1][1]]->fig);
         //
-        $this->desk->move(new \Move('g8-f6'));
-        $I->assertEquals('Knight', $this->desk->toMap()['f']['6']->fig);
     }
 
     /**
@@ -83,13 +85,13 @@ class BaseCest
     {
         //
         $I->expectThrowable(
-            new \Exception('Incorrect notation. Use e2-e4.'),
-            function(){new \Move('e3-e');}
+            new Exception('Incorrect notation. Use e2-e4.'),
+            function(){new Move('e3-e');}
         );
         //
         $I->expectThrowable(
-            new \Exception('No move'),
-            function(){$this->desk->move(new \Move('e2-e2'));}
+            new Exception('No move'),
+            function(){$this->desk->move(new Move('e2-e2'));}
         );
     }
 
@@ -102,18 +104,18 @@ class BaseCest
     {
         //
         $I->expectThrowable(
-            new \Exception('No figure in position'),
-            function(){$this->desk->move(new \Move('e3-e4'));}
+            new Exception('No figure in position'),
+            function(){$this->desk->move(new Move('e3-e4'));}
         );
         //
         $I->expectThrowable(
-            new \Exception('Other color moves - ♟'),
-            function(){$this->desk->move(new \Move('e7-e5'));}
+            new Exception('Other color moves - ♟'),
+            function(){$this->desk->move(new Move('e7-e5'));}
         );
 
         $I->expectThrowable(
-            new \Exception('Self attack move, your color is ♟'),
-            function(){$this->desk->move(new \Move('h1-g1'));}
+            new Exception('Self attack move, your color is ♟'),
+            function(){$this->desk->move(new Move('h1-g1'));}
         );
     }
 
@@ -121,6 +123,10 @@ class BaseCest
     protected function moveInitProvider() : array  // to make it public use `_` prefix
     {
         return $this->data->moveInitProvider();
+    }
+    protected function deskBaseMoveProvider() : array  // to make it public use `_` prefix
+    {
+        return $this->data->deskBaseMoveProvider();
     }
 
 }
