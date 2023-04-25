@@ -7,19 +7,19 @@ use Desk;
 use Exception;
 use Move;
 use Tests\Support\UnitTester;
-use Tests\Support\Data\BaseActionsData;
+use Tests\Support\Data\BaseData;
 use \Codeception\Attribute\DataProvider;
 use \Codeception\Example;
 
 class BaseCest
 {
 
-    private BaseActionsData $data;
+    private BaseData $data;
     private Desk $desk;
 
     public function __construct()
     {
-        $this->data = new BaseActionsData();
+        $this->data = new BaseData();
     }
 
     public function _before(UnitTester $I)

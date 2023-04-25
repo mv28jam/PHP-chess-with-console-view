@@ -6,7 +6,7 @@ namespace Tests\Support\Data;
 /**
  *  @property-read  $start_desc
  */
-class BaseActionsData
+class BaseData
 {
     /**
      * @return array[]

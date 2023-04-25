@@ -39,6 +39,7 @@ class GameCest
     #[DataProvider('gameEndProvider')]
     public function gameEndTest(UnitTester $I,  Example $v): void
     {
+        $this->desk = new Desk();
         $I->expectThrowable(
             new EndGameException($v['result']),
             function() use ($v){
