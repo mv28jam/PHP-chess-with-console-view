@@ -43,7 +43,7 @@ class GameData
             ],
             //Pawn respawn
             [
-            'moves'=>'b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6|h3-h2|a2-a3|h2-g1+r', 'x'=>'g', 'y'=>1, 'fig'=>'Rook'
+                'moves'=>'b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6|h3-h2|a2-a3|h2-g1+r', 'x'=>'g', 'y'=>1, 'fig'=>'Rook'
             ],
             [
                 'moves'=>'b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6|h3-h2|a2-a3|h2-g1+q', 'x'=>'g', 'y'=>1, 'fig'=>'Queen'

@@ -34,7 +34,7 @@ class BaseData
     /**
      * @return array[]
      */
-    public function moveInitProvider() : array  
+    public function moveInitProvider() : array
     {
         return [
             ['move'=>"e2-e4", 'dY'=>-2, 'dX'=>0,'xFrom'=>'e','xTo'=>'e','yFrom'=>2,'yTo'=>4],
