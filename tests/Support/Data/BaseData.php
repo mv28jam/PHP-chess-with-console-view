@@ -23,14 +23,18 @@ class BaseData
             ['move'=>'g1-h3', 'fig'=>'Knight'],
             ['move'=>'g1-f3', 'fig'=>'Knight'],
             ['move'=>"e7-e5", 'fig'=>'Pawn', 'pre'=>'e2-e4'],
+            ['move'=>"e7-e6", 'fig'=>'Pawn', 'pre'=>'e2-e4'],
             ['move'=>'b8-a6', 'fig'=>'Knight', 'pre'=>'e2-e4'],
+            ['move'=>'b8-c6', 'fig'=>'Knight', 'pre'=>'e2-e4'],
+            ['move'=>'g8-h6', 'fig'=>'Knight', 'pre'=>'e2-e4'],
+            ['move'=>'g8-f6', 'fig'=>'Knight', 'pre'=>'e2-e4'],
         ];
     }
 
     /**
      * @return array[]
      */
-    public function moveInitProvider() : array  // to make it public use `_` prefix
+    public function moveInitProvider() : array  
     {
         return [
             ['move'=>"e2-e4", 'dY'=>-2, 'dX'=>0,'xFrom'=>'e','xTo'=>'e','yFrom'=>2,'yTo'=>4],
