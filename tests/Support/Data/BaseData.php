@@ -22,6 +22,8 @@ class BaseData
             ['move'=>'b1-c3', 'fig'=>'Knight'],
             ['move'=>'g1-h3', 'fig'=>'Knight'],
             ['move'=>'g1-f3', 'fig'=>'Knight'],
+            ['move'=>"e7-e5", 'fig'=>'Pawn', 'pre'=>'e2-e4'],
+            ['move'=>'b8-a6', 'fig'=>'Knight', 'pre'=>'e2-e4'],
         ];
     }
 

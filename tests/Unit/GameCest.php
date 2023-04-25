@@ -51,7 +51,7 @@ class GameCest
     }
 
     /**
-     * Game after moves figure in position
+     * Game cant exception after move check
      * @param UnitTester $I
      * @param Example $v
      * @return void

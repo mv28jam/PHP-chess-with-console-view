@@ -70,6 +70,9 @@ class BaseCest
     #[DataProvider('deskBaseMoveProvider')]
     public function deskBaseMoveTest(UnitTester $I,  Example $v): void
     {
+        if(!empty($v['pre'])){
+            $this->desk->move(new Move($v['pre']));
+        }
         $this->desk->move(new Move($v['move']));
         $pos=explode('-',$v['move']);
         $I->assertEquals($v['fig'], $this->desk->toMap()[$pos[1][0]][$pos[1][1]]->fig);
