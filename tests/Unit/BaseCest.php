@@ -26,11 +26,23 @@ class BaseCest
     }
 
 
+    /**
+     * View description of desk
+     * @param UnitTester $I
+     * @return void
+     */
     public function deskViewTest(UnitTester $I): void
     {
         $I->assertEquals($this->data->start_desc, json_encode($this->desk->toMap(), JSON_PRETTY_PRINT));
     }
 
+    /**
+     * Primitive Move object test
+     * @param UnitTester $I
+     * @param Example $v
+     * @return void
+     * @throws Exception
+     */
     #[DataProvider('moveInitProvider')]
     public function moveBaseTest(UnitTester $I,  Example $v): void
     {
@@ -46,6 +58,12 @@ class BaseCest
         $I->assertEquals($move->respawn, '');
     }
 
+    /**
+     * Test for figure moving on desk
+     * @param UnitTester $I
+     * @return void
+     * @throws Exception
+     */
     public function deskBaseMoveTest(UnitTester $I): void
     {
         $this->desk->move(new \Move('e2-e4'));
@@ -55,6 +73,11 @@ class BaseCest
         $I->assertEquals('Knight', $this->desk->toMap()['f']['6']->fig);
     }
 
+    /**
+     * Base move exceptions test
+     * @param UnitTester $I
+     * @return void
+     */
     public function moveBaseExceptionsTest(UnitTester $I): void
     {
         //
@@ -69,6 +92,11 @@ class BaseCest
         );
     }
 
+    /**
+     * Base desk move exceptions test
+     * @param UnitTester $I
+     * @return void
+     */
     public function deskBaseExceptionsTest(UnitTester $I): void
     {
         //
@@ -88,7 +116,7 @@ class BaseCest
         );
     }
 
-    //
+    /** PROVIDERS */
     protected function moveInitProvider() : array  // to make it public use `_` prefix
     {
         return $this->data->moveInitProvider();
