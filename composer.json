@@ -1,25 +1,29 @@
 {
-  "name": "mv28jam/interactive_chess",
-  "description": "Chess, php chess",
-  "authors": [
-    {
-      "name": "mv28jam",
-      "email": "mv28jam@yandex.ru"
+    "name": "mv28jam/interactive_chess",
+    "description": "Chess, php chess",
+    "authors": [
+        {
+            "name": "mv28jam",
+            "email": "mv28jam@yandex.ru"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:mv28jam/console_animated_output.git"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "mv28jam/console_animated_output": "dev-master"
+    },
+    "require-dev": {
+        "php": ">=8.1",
+        "codeception/codeception": "^5.0",
+        "codeception/module-phpbrowser": "*",
+        "codeception/module-asserts": "^3.0"
+    },
+    "autoload": {
+        "classmap": ["src/"]
     }
-  ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git@github.com:mv28jam/console_animated_output.git"
-    }
-  ],
-  "require": {
-    "php": ">=8.1",
-    "mv28jam/console_animated_output": "dev-master"
-  },
-  "require-dev": {
-    "php": ">=8.1"
-  },
-  "autoload": {
-  }
 }

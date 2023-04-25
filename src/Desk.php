@@ -312,7 +312,7 @@ class Desk
         for ($y = 8; $y >= 1; $y--) {
             for ($x = 'a'; $x <= 'h'; $x++) {
                 $res = new stdClass();
-                $res->price = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->price() : 0);
+                $res->fig = (isset($this->figures[$x][$y]) ? get_class($this->figures[$x][$y]) : '');
                 $res->is_black = (isset($this->figures[$x][$y]) ? $this->figures[$x][$y]->getIsBlack() : null);
                 $result[$x][$y] = $res;
             }

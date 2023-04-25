@@ -137,7 +137,7 @@ class DeskCondition
     {
         foreach ($desk->toMap() as $keyH => $line){
             foreach ($line as $keyG => $val) {
-                if($val->is_black === $is_black and $val->price > 0){
+                if($val->is_black === $is_black and !empty($val->fig)){
                     $fig = $desk->getFigureClone([$keyH,$keyG]);
                     foreach($fig->getVacuumHorsePossibleMoves(new DummyMove(implode([$keyH,$keyG])),true) as $pmove) {
                         if(!$this->selfAttackAbstractMove($pmove, $desk) and $this->checkFigureMove($pmove, $fig, $desk) > Move::FORBIDDEN){
@@ -179,7 +179,7 @@ class DeskCondition
             foreach ($line as $keyG => $val) {
                 if(
                     $val->is_black === $is_black
-                    and $val->price > 0
+                    and !empty($val->fig)
                     and [$keyH,$keyG] != $field //field under attack can be start field
                     and $this->checkProcess([$keyH,$keyG], $field, $desk) > Move::FORBIDDEN
                 ){
@@ -243,7 +243,7 @@ class DeskCondition
                 if(
                     $val->is_black === $is_black
                     and
-                    $val->price == (new King(true))->price
+                    $val->fig == get_class(new King(true))
                 ){
                     return [$keyH,$keyG];
                 }

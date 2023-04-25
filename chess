@@ -5,25 +5,12 @@ if (PHP_MAJOR_VERSION * 10 + PHP_MINOR_VERSION < 81) {
     die('PHP version have to be 8.1 or higher.' . PHP_EOL);
 }
 
-//сomposer
+//composer
 require_once(__DIR__ . '/vendor/autoload.php');
 //check for output class exists
 if (!class_exists('ConsoleAnimated\ConsoleAnimatedOutput')) {
     die('Can not find output library. Try "composer install".' . PHP_EOL);
 }
-
-//load
-spl_autoload_register(function ($class) {
-    foreach (['./src/traits/*', './src/exceptions/*', './src/*','./*'] as $mask) {
-        $file = str_replace(['\\','*'], [DIRECTORY_SEPARATOR,$class], $mask).'.php';
-            if (file_exists($file)) {
-                require_once($file);
-                return true;
-            }
-    }
-    return false;
-});
-
 //
 $game = new GameLauncher();
 
