@@ -442,7 +442,7 @@ class DeskCondition
     private function checkProcess(array $start, array $field, Desk $desk): int
     {
         return $this->checkFigureMove(
-            (new Move(implode($start).Move::$separator.implode($field))),
+            (new Move(implode($start),implode($field))),
             $desk->getFigureClone($start),
             $desk
         );

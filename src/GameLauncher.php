@@ -14,10 +14,6 @@ class GameLauncher
      * Game quit symbol
      */
     const QUIT = 'q';
-    /**
-     * Move delimiter
-     */
-    const DELIMITER = '|';
 
     /**
      * Output messages
@@ -29,6 +25,10 @@ class GameLauncher
      * @var ConsoleAnimatedOutput object holder
      */
     protected ConsoleAnimatedOutput $animated_output;
+    /**
+     * @var GameNotationConverter
+     */
+    protected GameNotationConverter $notation;
     /**
      * Object desk to play
      * @var Desk desk to play on
@@ -49,7 +49,7 @@ class GameLauncher
             //check for out or save or some other not move
             $this->controlActions($input);
             //explode moves b2-b4|g7-g5
-            $input = explode(self::DELIMITER, $input);
+            $input = $this->notation->internalMoves($input);
             //moving  
             foreach ($input as $key => $move) {
                 //for multiple input moves we miss STDIN line so create empty
@@ -72,6 +72,7 @@ class GameLauncher
     {
         $this->animated_output = new ConsoleAnimated\ConsoleAnimatedOutput();
         $this->desk = new Desk();
+        $this->notation = new GameNotationConverter();
         //prepare output space
         $this->animated_output->echoMultipleLine($this->desk->dump(), -1);
         $this->animated_output->echoEmptyLine();

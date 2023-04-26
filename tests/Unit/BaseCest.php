@@ -88,7 +88,7 @@ class BaseCest
     {
         //
         $I->expectThrowable(
-            new Exception('Incorrect notation. Use e2-e4.'),
+            new Exception('Incorrect move description.'),
             function(){new Move('e3-e');}
         );
         //

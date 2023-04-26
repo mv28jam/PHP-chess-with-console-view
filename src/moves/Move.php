@@ -65,6 +65,16 @@ class Move
      */
     protected array $transfer = [];
 
+
+    public function convert(string $in): string
+    {
+        // long dash to minus
+        $in = str_replace('—', '-', $in);
+
+
+
+        return $in;
+    }
     /**
      * @param string $move like e2-e4
      * @param string $move_exploded end of move like e4 and $move like e2
@@ -77,8 +87,8 @@ class Move
             $move = implode(self::$separator, [$move, $move_exploded]);
         }
         //check matching for std string move
-        if (!preg_match('/^([a-h])([1-8])' . self::$separator . '([a-h])([1-8])\+?([rRqQkKbB])?$/', $move, $match)) {
-            throw new Exception("Incorrect notation. Use e2-e4.");
+        if (!preg_match('/^([a-h])([1-8])' . self::$separator . '([a-h])([1-8])-?([rRqQkKbB])?$/', $move, $match)) {
+            throw new Exception("Incorrect move description.");
         }
         //
         $this->start[] = $match[1];
