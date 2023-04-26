@@ -26,9 +26,9 @@ class GameLauncher
      */
     protected ConsoleAnimatedOutput $animated_output;
     /**
-     * @var GameNotationConverter
+     * @var NotationConverter
      */
-    protected GameNotationConverter $notation;
+    protected NotationConverter $notation;
     /**
      * Object desk to play
      * @var Desk desk to play on
@@ -49,9 +49,9 @@ class GameLauncher
             //check for out or save or some other not move
             $this->controlActions($input);
             //explode moves b2-b4|g7-g5
-            $input = $this->notation->internalMoves($input);
-            //moving  
-            foreach ($input as $key => $move) {
+            $moves = $this->notation->process($input);
+            //moving
+            foreach ($moves as $key => $move) {
                 //for multiple input moves we miss STDIN line so create empty
                 if ($key > 0) {
                     $this->animated_output->echoEmptyLine();
@@ -72,7 +72,7 @@ class GameLauncher
     {
         $this->animated_output = new ConsoleAnimated\ConsoleAnimatedOutput();
         $this->desk = new Desk();
-        $this->notation = new GameNotationConverter();
+        $this->notation = new NotationConverter();
         //prepare output space
         $this->animated_output->echoMultipleLine($this->desk->dump(), -1);
         $this->animated_output->echoEmptyLine();

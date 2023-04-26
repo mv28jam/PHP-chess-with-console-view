@@ -22,10 +22,17 @@ interface NotationInterface
     public function detectNotation(string $in):bool;
 
     /**
-     * Convert to internal notation moves
-     * @param $in
+     * Split moves in current notation
+     * @param string $in
      * @return array
      */
-    public function convertToInternalNotation($in):array;
+    public function splitMoves(string $in):array;
+
+    /**
+     * Convert to internal notation moves
+     * @param string $in
+     * @return array
+     */
+    public function convertToInternalMoves(string $in):array;
 
 }

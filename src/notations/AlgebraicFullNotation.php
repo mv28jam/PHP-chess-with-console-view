@@ -4,9 +4,8 @@ namespace notations;
 
 use Move;
 
-class NumericNotation implements NotationInterface
+class AlgebraicFullNotation implements NotationInterface
 {
-
     /**
      * regex for move split
      */
@@ -14,19 +13,15 @@ class NumericNotation implements NotationInterface
     /**
      * regex for notation detect
      */
-    const REGEX = '/^(\d*\.\s)?([1-8]{4}([1-4]{1})?\s)?[1-8]{4}([1-4]{1})?/';
-    /**
-     * maps for translation
-     */
-    protected array $map=[1=>'a',2=>'b',3=>'c',4=>'d',5=>'e',6=>'f',7=>'g',8=>'h'];
-    protected array $respawn_map=[1=>'q',2=>'r',3=>'b',4=>'k'];
+    const REGEX = '/^(\d{1}\.\s)?\pL?([a-h]{1}[0-8]{1})[-|—|x]([a-h]{1}[0-8]{1})/u';
+    const REGEX2 = '/^(\d{1}\.\s)?([0-]{2,})/u';
 
     /**
      * @inheritDoc
      */
     public function getNotationName(): string
     {
-        return 'ICCF numeric notation. "6264"';
+        return 'Algebraic full notation. "1. e2—e4 e7—e5"';
     }
 
     /**
@@ -34,7 +29,7 @@ class NumericNotation implements NotationInterface
      */
     public function detectNotation(string $in): bool
     {
-        return (preg_match(self::REGEX, $in) != false);
+        return ((preg_match(self::REGEX, $in) != false) or (preg_match(self::REGEX2, $in) != false));
     }
 
     /**
@@ -43,18 +38,21 @@ class NumericNotation implements NotationInterface
     public function convertToInternalMoves($in): array
     {
         $res = [];
+
+        //FIXME!!! Convert Roque
+
         //
         foreach ($this->splitMoves($in) as $val){
-            $res[]=
-                $this->map[$val[0]].$val[1]. Move::SEPARATOR.$this->map[$val[2]].$val[3]
-                .(empty($val[4]) ? '' : (Move::SEPARATOR.$this->respawn_map[$val[4]]));
+            $tmp = str_replace(['—','x'],Move::SEPARATOR,$val);
+            $tmp = str_replace(['?','!','#','+'],'',$tmp);
+            preg_match(self::REGEX, $tmp, $matches);
+            $tmp = $matches[2].Move::SEPARATOR.$matches[3];
+            $res[] = $tmp;
         }
+        //
         return $res;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function splitMoves(string $in): array
     {
         $in = preg_split(self::DELIMITER, $in);

@@ -1,5 +1,7 @@
 <?php
 
+use notations\InternalNotation;
+
 /**
  * Description of Move
  *
@@ -20,6 +22,9 @@
 class Move
 {
 
+
+    const SEPARATOR = '-';
+    const REGEX = '/^([a-h])([1-8])'.self::SEPARATOR.'([a-h])([1-8])'.self::SEPARATOR.'?([rRqQkKbB])?$/';
     /**
      * Move without attack
      */
@@ -28,7 +33,6 @@ class Move
      * Forbidden move
      */
     const FORBIDDEN = -1;
-    public static string $separator = '-';
     /**
      * @var array $start
      * where is the figure
@@ -84,10 +88,10 @@ class Move
     {
         //
         if (!empty($move_exploded)) {
-            $move = implode(self::$separator, [$move, $move_exploded]);
+            $move = implode(self::SEPARATOR, [$move, $move_exploded]);
         }
         //check matching for std string move
-        if (!preg_match('/^([a-h])([1-8])' . self::$separator . '([a-h])([1-8])-?([rRqQkKbB])?$/', $move, $match)) {
+        if (!preg_match(self::REGEX, $move, $match)) {
             throw new Exception("Incorrect move description.");
         }
         //
@@ -282,7 +286,7 @@ class Move
      */
     public function __toString(): string
     {
-        return $this->strFrom . self::$separator . $this->strTo;
+        return $this->strFrom . self::SEPARATOR . $this->strTo;
     }
 
 }
