@@ -38,16 +38,17 @@ class AlgebraicFullNotation implements NotationInterface
     public function convertToInternalMoves($in): array
     {
         $res = [];
-
-        //FIXME!!! Convert Roque
-
         //
         foreach ($this->splitMoves($in) as $val){
-            $tmp = str_replace(['—','x',':'],Move::SEPARATOR,$val);
-            $tmp = str_replace(['?','!','#','+'],'',$tmp);
-            preg_match(self::REGEX, $tmp, $matches);
-            $tmp = $matches[2].Move::SEPARATOR.$matches[3].(empty($val[4]) ?? [$val[4]]);;
-            $res[] = $tmp;
+            if(preg_match(self::REGEX2, $in)){
+                $res[] = '';
+            }else{
+                $tmp = str_replace(['—', 'x', ':'], Move::SEPARATOR, $val);
+                $tmp = str_replace(['?', '!', '#', '+'], '', $tmp);
+                preg_match(self::REGEX, $tmp, $matches);
+                $tmp = $matches[2] . Move::SEPARATOR . $matches[3] . (empty($val[4]) ?? [$val[4]]);;
+                $res[] = $tmp;
+            }
         }
         //
         return $res;
