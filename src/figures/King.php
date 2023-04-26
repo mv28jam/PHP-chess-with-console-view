@@ -32,10 +32,10 @@ class King extends AbstractFigure
         if($this->first_step){
             if($this->is_black){
                 $this->special[] = (new Move('e8', 'g8'))->setTransfer(['h8'=>'f8']);
-                $this->special[] = (new Move('e8', 'a8'))->setTransfer(['a8'=>'d8']);
+                $this->special[] = (new Move('e8', 'b8'))->setTransfer(['a8'=>'d8']);
             }else{
                 $this->special[] = (new Move('e1', 'g1'))->setTransfer(['h1'=>'f1']);
-                $this->special[] = (new Move('e1', 'a1'))->setTransfer(['a1'=>'d1']);
+                $this->special[] = (new Move('e1', 'b1'))->setTransfer(['a1'=>'d1']);
             }
         }
         //

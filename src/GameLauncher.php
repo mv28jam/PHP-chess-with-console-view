@@ -49,7 +49,7 @@ class GameLauncher
             //check for out or save or some other not move
             $this->controlActions($input);
             //explode moves b2-b4|g7-g5
-            $moves = $this->notation->process($input);
+            $moves = $this->notation->process($input, $this->desk);
             //moving
             foreach ($moves as $key => $move) {
                 //for multiple input moves we miss STDIN line so create empty

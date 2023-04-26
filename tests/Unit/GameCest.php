@@ -46,7 +46,7 @@ class GameCest
         $I->expectThrowable(
             new EndGameException($v['result']),
             function() use ($v){
-                foreach ($this->notation->process($v['moves']) as $move) {
+                foreach ($this->notation->process($v['moves'], $this->desk) as $move) {
                     $this->desk->move(new Move($move));
                 }
             }
@@ -67,7 +67,7 @@ class GameCest
         $I->expectThrowable(
             new DeskConditionException($v['result']),
             function() use ($v){
-                foreach ($this->notation->process($v['moves']) as $move) {
+                foreach ($this->notation->process($v['moves'], $this->desk) as $move) {
                     $this->desk->move(new Move($move));
                 }
             }
@@ -87,7 +87,7 @@ class GameCest
         $I->expectThrowable(
             new Exception($v['result']),
             function() use ($v){
-                foreach ($this->notation->process($v['moves']) as $move) {
+                foreach ($this->notation->process($v['moves'], $this->desk) as $move) {
                     $this->desk->move(new Move($move));
                 }
             }
@@ -104,7 +104,7 @@ class GameCest
     #[DataProvider('gameFigurePosProvider')]
     public function gameFigurePosTest(UnitTester $I,  Example $v): void
     {
-        foreach ($this->notation->process($v['moves']) as $move) {
+        foreach ($this->notation->process($v['moves'], $this->desk) as $move) {
             $this->desk->move(new Move($move));
         }
         $I->assertEquals($v['fig'], $this->desk->toMap()[$v['x']][$v['y']]->fig);

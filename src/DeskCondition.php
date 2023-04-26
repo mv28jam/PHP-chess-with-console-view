@@ -346,7 +346,7 @@ class DeskCondition
          * @see  getLastMove // have to have for pawn attack "en passant"
          * @link en.wikipedia.org/wiki/Pawn_(chess)#Capturing
          */
-        $last_move = $desk->getLastMove();
+        $last_move = $desk->getColor();
         if (
             $desk->getFigurePrice($move->to) !== 0
         ) {

@@ -14,10 +14,10 @@ class Desk
     private array $figures = [];
     /**
      * Last move flag, first move white so true
-     * @var bool $last_move previous move
+     * @var bool $color
      * @see AbstractFigure::$is_black
      */
-    private bool $last_move = true;
+    private bool $color = true;
     /**
      * Move objects - history of game
      * @var Move[] $moves - all game moves
@@ -90,10 +90,7 @@ class Desk
                 throw new \Exception('No figure in position');
             //check move order white-black-white-etc
             case(!$this->moveOrder($move)):
-                throw new \Exception('Other color moves - ' . (new Pawn(!$this->last_move)));
-            //check for attack figure of same color
-            case($this->isSelfAttack($move->getStop())):
-                throw new \Exception('Self attack move, your color is ' . (new Pawn(!$this->last_move)));
+                throw new \Exception('Other color moves - ' . (new Pawn(!$this->color)));
             //check move of figure by this figure rules
             case($this->condition->checkFigureMove($move, $this->figures($move->from), $this) < Move::MOVING):
             case($this->condition->isKingUnderAttackAfterMove($move, $this->figures($move->from)->getIsBlack(), $this)):
@@ -146,13 +143,13 @@ class Desk
     public function afterMoveCondition(): void
     {
         //there is check
-        if($this->condition->isKingUnderAttack(!$this->last_move, $this)){
-            if($this->condition->isEndGameByCheckmate(!$this->last_move, $this)){
-                throw new EndGameException('Game over. Checkmate. ' . (new Pawn($this->last_move)) . ' wins by '.end($this->moves));
+        if($this->condition->isKingUnderAttack(!$this->color, $this)){
+            if($this->condition->isEndGameByCheckmate(!$this->color, $this)){
+                throw new EndGameException('Game over. Checkmate. ' . (new Pawn($this->color)) . ' wins by '.end($this->moves));
             }
-            throw new DeskConditionException('Check. King ' . (new King(!$this->last_move).' under attack!' ));
+            throw new DeskConditionException('Check. King ' . (new King(!$this->color).' under attack!' ));
         }else{
-            if($this->condition->isEndGameByStalemate(!$this->last_move, $this)){
+            if($this->condition->isEndGameByStalemate(!$this->color, $this)){
                 throw new EndGameException('Game over. Stalemate, nobody wins by '.end($this->moves));
             }
         }
@@ -169,7 +166,7 @@ class Desk
         //save move
         $this->moves[] = $move;
         //move order set
-        $this->last_move = $this->figures[$move->to[0]][$move->to[1]]->getIsBlack();
+        $this->color = $this->figures[$move->to[0]][$move->to[1]]->getIsBlack();
     }
 
     /**
@@ -190,7 +187,7 @@ class Desk
     protected function moveOrder(Move $move): bool
     {
         if (
-            $this->last_move === $this->figures[$move->from[0]][$move->from[1]]->getIsBlack()
+            $this->color === $this->figures[$move->from[0]][$move->from[1]]->getIsBlack()
         ) {
             return false;
         } else {
@@ -216,7 +213,7 @@ class Desk
     public function isSelfAttack(array $position): bool
     {
         if ($this->isFigureExists($position)) {
-            return ($this->getFigureIsBlack($position) !== $this->last_move);
+            return ($this->getFigureIsBlack($position) !== $this->color);
         } else {
             return false;
         }
@@ -244,7 +241,7 @@ class Desk
      * Get last move of game
      * @return Move|null
      */
-    public function getLastMove(): ?Move
+    public function getColor(): ?Move
     {
         return (current($this->moves) ?: null);
     }
@@ -299,6 +296,14 @@ class Desk
     public function getDeskClone(): Desk
     {
         return clone $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getOrderColor(): bool
+    {
+        return $this->color;
     }
 
     /**

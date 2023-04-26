@@ -115,11 +115,6 @@ class BaseCest
             new Exception('Other color moves - ♟'),
             function(){$this->desk->move(new Move('e7-e5'));}
         );
-
-        $I->expectThrowable(
-            new Exception('Self attack move, your color is ♟'),
-            function(){$this->desk->move(new Move('h1-g1'));}
-        );
     }
 
     /** PROVIDERS */

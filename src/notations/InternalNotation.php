@@ -2,6 +2,7 @@
 
 namespace notations;
 
+use Desk;
 use Move;
 
 /**
@@ -38,7 +39,7 @@ class InternalNotation implements NotationInterface
     /**
      * @inheritDoc
      */
-    public function convertToInternalMoves($in): array
+    public function convertToInternalMoves($in, Desk $desk=null): array
     {
         return $this->splitMoves($in);
     }
