@@ -14,7 +14,7 @@ class AlgebraicFullNotation implements NotationInterface
     /**
      * regex for notation detect
      */
-    const REGEX = '/^(\d{1}\.\s)?\pL?([a-h]{1}[0-8]{1})[-|—|x|:]([a-h]{1}[0-8]{1})([RQKB]{1})?/u';
+    const REGEX = '/^(\d{1}\.\s)?\pL{0,2}?([a-h]{1}[0-8]{1})[-|—|x|:]([a-h]{1}[0-8]{1})([RQKB]{1})?/u';
     const REGEX2 = '/^(\d{1}\.\s)?([0-]{2,})/u';
 
     /**
