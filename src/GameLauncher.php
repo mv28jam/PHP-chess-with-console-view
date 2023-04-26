@@ -57,7 +57,7 @@ class GameLauncher
                 //move output and desk move
                 $this->moveAction($move);
             }
-        } while (!empty($input));
+        } while (true);
     }
 
     /**
@@ -131,6 +131,10 @@ class GameLauncher
             $this->animated_output->echoLine($e->getMessage() );
             $this->animated_output->echoEmptyLine();
             exit(0);
+        } catch (\MoveValidationException $e) {
+            $this->animated_output->echoLine($e->getMessage().$this->notation->info());
+            $this->animated_output->cursorUp();
+            $this->animated_output->echoLine($this->input_move);
         } catch (\Exception $e) {
             //do not save move and echo error message
             $this->animated_output->echoLine($this->mistake . $e->getMessage());

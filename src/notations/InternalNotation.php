@@ -23,7 +23,7 @@ class InternalNotation implements NotationInterface
      */
     public function getNotationName(): string
     {
-        return 'Internal simplified notation. "g8'.Move::SEPARATOR.'f6"';
+        return 'Internal notation:"g8'.Move::SEPARATOR.'f6"';
     }
 
     /**

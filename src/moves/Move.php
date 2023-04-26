@@ -1,7 +1,5 @@
 <?php
 
-use notations\InternalNotation;
-
 /**
  * Description of Move
  *
@@ -92,7 +90,7 @@ class Move
         }
         //check matching for std string move
         if (!preg_match(self::REGEX, $move, $match)) {
-            throw new Exception("Incorrect move description.");
+            throw new MoveValidationException("Incorrect notation. Use:");
         }
         //
         $this->start[] = $match[1];
@@ -104,7 +102,7 @@ class Move
         }
         //
         if ($this->start == $this->stop) {
-            throw new Exception("No move");
+            throw new MoveValidationException("No move");
         }
         //create delta of move
         $this->deltaX = ord($this->start[0]) - ord($this->stop[0]);

@@ -27,7 +27,7 @@ class NumericNotation implements NotationInterface
      */
     public function getNotationName(): string
     {
-        return 'ICCF numeric notation. "6264"';
+        return 'ICCF numeric notation:"6264"';
     }
 
     /**

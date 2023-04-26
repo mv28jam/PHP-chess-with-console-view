@@ -6,6 +6,7 @@ namespace Tests\Unit;
 use Desk;
 use Exception;
 use Move;
+use MoveValidationException;
 use Tests\Support\UnitTester;
 use Tests\Support\Data\BaseData;
 use \Codeception\Attribute\DataProvider;
@@ -88,12 +89,12 @@ class BaseCest
     {
         //
         $I->expectThrowable(
-            new Exception('Incorrect move description.'),
+            new MoveValidationException('Incorrect notation. Use:'),
             function(){new Move('e3-e');}
         );
         //
         $I->expectThrowable(
-            new Exception('No move'),
+            new MoveValidationException('No move'),
             function(){$this->desk->move(new Move('e2-e2'));}
         );
     }

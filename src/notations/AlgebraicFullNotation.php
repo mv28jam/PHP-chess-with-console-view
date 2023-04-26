@@ -22,7 +22,7 @@ class AlgebraicFullNotation implements NotationInterface
      */
     public function getNotationName(): string
     {
-        return 'Algebraic full notation. "1. e2—e4 e7—e5"';
+        return 'Algebraic full notation:"1. e2—e4 e7—e5"';
     }
 
     /**
