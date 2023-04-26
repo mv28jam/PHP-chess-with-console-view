@@ -13,7 +13,7 @@ class AlgebraicFullNotation implements NotationInterface
     /**
      * regex for notation detect
      */
-    const REGEX = '/^(\d{1}\.\s)?\pL?([a-h]{1}[0-8]{1})[-|—|x]([a-h]{1}[0-8]{1})/u';
+    const REGEX = '/^(\d{1}\.\s)?\pL?([a-h]{1}[0-8]{1})[-|—|x|:]([a-h]{1}[0-8]{1})([RQKB]{1})?/u';
     const REGEX2 = '/^(\d{1}\.\s)?([0-]{2,})/u';
 
     /**
@@ -43,16 +43,19 @@ class AlgebraicFullNotation implements NotationInterface
 
         //
         foreach ($this->splitMoves($in) as $val){
-            $tmp = str_replace(['—','x'],Move::SEPARATOR,$val);
+            $tmp = str_replace(['—','x',':'],Move::SEPARATOR,$val);
             $tmp = str_replace(['?','!','#','+'],'',$tmp);
             preg_match(self::REGEX, $tmp, $matches);
-            $tmp = $matches[2].Move::SEPARATOR.$matches[3];
+            $tmp = $matches[2].Move::SEPARATOR.$matches[3].(empty($val[4]) ?? [$val[4]]);;
             $res[] = $tmp;
         }
         //
         return $res;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function splitMoves(string $in): array
     {
         $in = preg_split(self::DELIMITER, $in);

@@ -10,18 +10,17 @@ class GameData
     public function gameEndProvider() : array
     {
         return [
-            //Kinder checkmate
+            //checkmate
             [
                 'moves'=>"e2-e4|e7-e5|d1-h5|g8-f6|f1-c4|a7-a6|h5-f7",
                 'result'=>'Game over. Checkmate. ♟ wins by h5-f7'
             ],
-            //fools checkmate
             [
                 'moves'=>"g2-g4|e7-e5|f2-f4|d8-h4",
                 'result'=>'Game over. Checkmate. ♙ wins by d8-h4'
             ],
             [
-                'moves'=>"g2-g4|e7-e5|f2-f3|d8-h4",
+                'moves'=>"1. f2-f3 e7-e5 2. g2-g4?? Фd8-h4x",
                 'result'=>'Game over. Checkmate. ♙ wins by d8-h4'
             ],
             //checkmate dif notations
@@ -40,6 +39,24 @@ class GameData
             [
                 'moves'=>"5254 5755 6134 2836 4185 7866 8567",
                 'result'=>'Game over. Checkmate. ♟ wins by h5-f7'
+            ],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function gameCheckProvider() : array
+    {
+        return [
+            //check
+            [
+                'moves'=>"1. d2-d4 Kg8-f6 2. Cc1-g5 c7-c6 3. e2-e3?? Фd8-a5+",
+                'result'=>'Check. King ♚ under attack!'
+            ],
+            [
+                'moves'=>"1. d2-d4 Kg8-f6 2. Kg1-f3 c7-c5 3. Cc1-f4 c5:d4 4. Kf3:d4? e7-e5! 5. Сf4:e5 Фd8-a5+",
+                'result'=>'Check. King ♚ under attack!'
             ],
         ];
     }

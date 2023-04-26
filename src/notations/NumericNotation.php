@@ -14,7 +14,7 @@ class NumericNotation implements NotationInterface
     /**
      * regex for notation detect
      */
-    const REGEX = '/^(\d*\.\s)?([1-8]{4}([1-4]{1})?\s)?[1-8]{4}([1-4]{1})?/';
+    const REGEX = '/^(\d*\.\s)?([1-8]{4}([1-4]{1})?\s)?[1-8]{4}([1-4]{1})?()?/';
     /**
      * maps for translation
      */

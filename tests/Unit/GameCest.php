@@ -54,6 +54,27 @@ class GameCest
     }
 
     /**
+     * Check test
+     * @param UnitTester $I
+     * @param Example $v
+     * @return void
+     * @throws Exception
+     */
+    #[DataProvider('gameCheckProvider')]
+    public function gameCheckTest(UnitTester $I,  Example $v): void
+    {
+        $this->desk = new Desk();
+        $I->expectThrowable(
+            new DeskConditionException($v['result']),
+            function() use ($v){
+                foreach ($this->notation->process($v['moves']) as $move) {
+                    $this->desk->move(new Move($move));
+                }
+            }
+        );
+    }
+
+    /**
      * Game cant exception after move check
      * @param UnitTester $I
      * @param Example $v
@@ -103,6 +124,11 @@ class GameCest
     {
         return $this->data->gameFigureSituationProvider();
     }
+    protected function gameCheckProvider() : array  // to make it public use `_` prefix
+    {
+        return $this->data->gameCheckProvider();
+    }
+
 
 
 }

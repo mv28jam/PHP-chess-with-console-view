@@ -14,5 +14,5 @@ No "bot", only game mechanics.
 Input move:b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3
 
 ### TODO:
-- Tests MORE
-- Roque support in alg full notation
+- Tests MORE!
+- Roque support in algebr full notation
