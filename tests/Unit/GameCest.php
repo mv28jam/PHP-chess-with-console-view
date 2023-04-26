@@ -112,19 +112,19 @@ class GameCest
 
 
     /** PROVIDERS */
-    protected function gameEndProvider() : array  // to make it public use `_` prefix
+    protected function gameEndProvider() : array
     {
         return $this->data->gameEndProvider();
     }
-    protected function gameFigurePosProvider() : array  // to make it public use `_` prefix
+    protected function gameFigurePosProvider() : array
     {
         return $this->data->gameFigurePosProvider();
     }
-    protected function gameFigureSituationProvider() : array  // to make it public use `_` prefix
+    protected function gameFigureSituationProvider() : array
     {
         return $this->data->gameFigureSituationProvider();
     }
-    protected function gameCheckProvider() : array  // to make it public use `_` prefix
+    protected function gameCheckProvider() : array
     {
         return $this->data->gameCheckProvider();
     }
