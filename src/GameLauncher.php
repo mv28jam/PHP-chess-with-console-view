@@ -43,6 +43,12 @@ class GameLauncher
     {
         //new game init
         $this->init();
+        //
+        //prepare output space
+        $this->animated_output->echoMultipleLine($this->desk->dump(), -1);
+        $this->animated_output->echoEmptyLine();
+        $this->animated_output->cursorUp();
+        $this->animated_output->echoLine($this->input_move);
         //game action
         do {
             $input = trim(fgets(STDIN));
@@ -71,11 +77,6 @@ class GameLauncher
         $this->animated_output = new ConsoleAnimated\ConsoleAnimatedOutput();
         $this->desk = new Desk();
         $this->notation = new NotationConverter();
-        //prepare output space
-        $this->animated_output->echoMultipleLine($this->desk->dump(), -1);
-        $this->animated_output->echoEmptyLine();
-        $this->animated_output->cursorUp();
-        $this->animated_output->echoLine($this->input_move);
     }
 
     /**

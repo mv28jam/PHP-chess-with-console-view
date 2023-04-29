@@ -20,7 +20,11 @@ class NotationConverter
      */
     public function __construct()
     {
-        $this->notations = [new InternalNotation(), new NumericNotation(), new AlgebraicFullNotation()];
+        $this->notations = [
+            new InternalNotation(),
+            new NumericNotation(),
+            new AlgebraicFullNotation()
+        ];
     }
 
     /**
