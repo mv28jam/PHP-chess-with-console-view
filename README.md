@@ -9,7 +9,7 @@
 2 ♟ ― ♟ ♟ ♟ ♟ ♟ ―   
 1 ♜ ♞ ♝ ♛ ♚ ♝ ♞ ♜   
 &nbsp; a&nbsp; b&nbsp; c&nbsp; d&nbsp; e&nbsp; f&nbsp; g&nbsp; h   
-Input move:b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3
+Input move:1. f2-f3 e7-e5 2. g2-g4?? Фd8-h4x
 
 ### TODO:
 - tests more
