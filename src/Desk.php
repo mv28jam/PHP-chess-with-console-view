@@ -7,6 +7,10 @@
  */
 class Desk
 {
+
+    const COLOR_BLACK = true;
+    const COLOR_WHITE = false;
+
     /**
      * array of figures on desk
      * @var AbstractFigure[][]
@@ -17,7 +21,7 @@ class Desk
      * @var bool $color
      * @see AbstractFigure::$is_black
      */
-    private bool $color = true;
+    private bool $color = self::COLOR_BLACK;
     /**
      * Move objects - history of game
      * @var Move[] $moves - all game moves
@@ -34,41 +38,41 @@ class Desk
      */
     public function __construct()
     {
-        $this->figures['a'][1] = new Rook(false);
-        $this->figures['b'][1] = new Knight(false);
-        $this->figures['c'][1] = new Bishop(false);
-        $this->figures['d'][1] = new Queen(false);
-        $this->figures['e'][1] = new King(false);
-        $this->figures['f'][1] = new Bishop(false);
-        $this->figures['g'][1] = new Knight(false);
-        $this->figures['h'][1] = new Rook(false);
+        $this->figures['a'][1] = new Rook(self::COLOR_WHITE);
+        $this->figures['b'][1] = new Knight(self::COLOR_WHITE);
+        $this->figures['c'][1] = new Bishop(self::COLOR_WHITE);
+        $this->figures['d'][1] = new Queen(self::COLOR_WHITE);
+        $this->figures['e'][1] = new King(self::COLOR_WHITE);
+        $this->figures['f'][1] = new Bishop(self::COLOR_WHITE);
+        $this->figures['g'][1] = new Knight(self::COLOR_WHITE);
+        $this->figures['h'][1] = new Rook(self::COLOR_WHITE);
 
-        $this->figures['a'][2] = new Pawn(false);
-        $this->figures['b'][2] = new Pawn(false);
-        $this->figures['c'][2] = new Pawn(false);
-        $this->figures['d'][2] = new Pawn(false);
-        $this->figures['e'][2] = new Pawn(false);
-        $this->figures['f'][2] = new Pawn(false);
-        $this->figures['g'][2] = new Pawn(false);
-        $this->figures['h'][2] = new Pawn(false);
+        $this->figures['a'][2] = new Pawn(self::COLOR_WHITE);
+        $this->figures['b'][2] = new Pawn(self::COLOR_WHITE);
+        $this->figures['c'][2] = new Pawn(self::COLOR_WHITE);
+        $this->figures['d'][2] = new Pawn(self::COLOR_WHITE);
+        $this->figures['e'][2] = new Pawn(self::COLOR_WHITE);
+        $this->figures['f'][2] = new Pawn(self::COLOR_WHITE);
+        $this->figures['g'][2] = new Pawn(self::COLOR_WHITE);
+        $this->figures['h'][2] = new Pawn(self::COLOR_WHITE);
 
-        $this->figures['a'][7] = new Pawn(true);
-        $this->figures['b'][7] = new Pawn(true);
-        $this->figures['c'][7] = new Pawn(true);
-        $this->figures['d'][7] = new Pawn(true);
-        $this->figures['e'][7] = new Pawn(true);
-        $this->figures['f'][7] = new Pawn(true);
-        $this->figures['g'][7] = new Pawn(true);
-        $this->figures['h'][7] = new Pawn(true);
+        $this->figures['a'][7] = new Pawn(self::COLOR_BLACK);
+        $this->figures['b'][7] = new Pawn(self::COLOR_BLACK);
+        $this->figures['c'][7] = new Pawn(self::COLOR_BLACK);
+        $this->figures['d'][7] = new Pawn(self::COLOR_BLACK);
+        $this->figures['e'][7] = new Pawn(self::COLOR_BLACK);
+        $this->figures['f'][7] = new Pawn(self::COLOR_BLACK);
+        $this->figures['g'][7] = new Pawn(self::COLOR_BLACK);
+        $this->figures['h'][7] = new Pawn(self::COLOR_BLACK);
 
-        $this->figures['a'][8] = new Rook(true);
-        $this->figures['b'][8] = new Knight(true);
-        $this->figures['c'][8] = new Bishop(true);
-        $this->figures['d'][8] = new Queen(true);
-        $this->figures['e'][8] = new King(true);
-        $this->figures['f'][8] = new Bishop(true);
-        $this->figures['g'][8] = new Knight(true);
-        $this->figures['h'][8] = new Rook(true);
+        $this->figures['a'][8] = new Rook(self::COLOR_BLACK);
+        $this->figures['b'][8] = new Knight(self::COLOR_BLACK);
+        $this->figures['c'][8] = new Bishop(self::COLOR_BLACK);
+        $this->figures['d'][8] = new Queen(self::COLOR_BLACK);
+        $this->figures['e'][8] = new King(self::COLOR_BLACK);
+        $this->figures['f'][8] = new Bishop(self::COLOR_BLACK);
+        $this->figures['g'][8] = new Knight(self::COLOR_BLACK);
+        $this->figures['h'][8] = new Rook(self::COLOR_BLACK);
 
         //
         $this->condition = new DeskCondition();

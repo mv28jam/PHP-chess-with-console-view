@@ -16,11 +16,17 @@ class NoOpponent implements OpponentInterface
      */
     private bool $is_black;
 
+    /**
+     * @inheritDoc
+     */
     public function __construct(bool $color)
     {
         $this->is_black = $color;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function color(): bool
     {
         return $this->is_black;

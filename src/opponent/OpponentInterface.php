@@ -21,13 +21,12 @@ interface OpponentInterface
     /**
      * Return opponent move
      * @param Desk $desk
-     * @param bool $is_black
      * @return string
      */
     public function opMove(Desk $desk): string;
 
     /**
-     * Can opponent move by itself
+     * Can opponent move now
      * @param bool $color
      * @return bool
      */

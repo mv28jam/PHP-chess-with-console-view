@@ -3,6 +3,7 @@
 use ConsoleAnimated\ConsoleAnimatedOutput;
 use opponent\NoOpponent;
 use opponent\OpponentInterface;
+use opponent\RandomOpponent;
 
 /**
  * Console game launcher
@@ -46,19 +47,14 @@ class GameConsoleLauncher
         //new game init
         $this->init();
         //
+        $this->opponent = $this->chooseOpponent($this->chooseColor());
         //prepare output space
         $this->animated_output->echoMultipleLine($this->game->desc()->dump(), -1);
         $this->animated_output->echoEmptyLine();
         $this->animated_output->cursorUp();
         $this->animated_output->echoLine($this->input_move);
-        //game action
-        do {
-            $input = trim(fgets(STDIN));
-            //check for out or save or some other not move
-            $this->controlActions($input);
-            //moving
-           $this->moveAction($input);
-        } while (true);
+        //game
+        $this->gameProcess();
     }
 
     /**
@@ -72,49 +68,40 @@ class GameConsoleLauncher
     {
         $this->animated_output = new ConsoleAnimated\ConsoleAnimatedOutput();
         $this->game = new Game();
-        $this->opponent =new NoOpponent(true);
     }
 
     /**
-     * Check input for control strings
-     * @param string $move from STDIN
+     * Process game with opponent
      * @return void
      */
-    protected function controlActions(string $move): void
+    public function gameProcess(): void
     {
-        switch ($move) {
-            case(self::QUIT):
-            case('exit'):
-            case('quit'):
-            case('die'):
-                $this->gameExit();
-                break;
-        }
-    }
-
-    /**
-     * exit the game
-     * @return void
-     */
-    public function gameExit(): void
-    {
-        exit(0);
+        do {
+            //opponent move
+            if($this->opponent->can($this->game->desc()->getOrderColor())){
+                $input = $this->opponent->opMove($this->game->desc());
+                //have to draw empty line instead of STDIN
+                $this->animated_output->echoEmptyLine();
+            }else {
+                $input = trim(fgets(STDIN));
+                //check for out or save or some other not move
+                $this->controlActions($input);
+            }
+            //
+            $this->moveAction($input);
+                //
+        } while (true);
     }
 
     /**
      * Move actions
-     * @param string $move
+     * @param $move
      * @return void
-     * @throws Exception
      */
-    public function moveAction(string $move): void
+    public function moveAction($move): void
     {
         try {
-            if($this->opponent->can($this->game->desc()->getOrderColor())){
-                $this->game->makeMove($this->opponent->opMove($this->game->desc()));
-            }else{
-                $this->game->makeMove($move);
-            }
+            $this->game->makeMove($move);
             $this->animated_output->echoMultipleLine($this->game->desc()->dump(), 1);
             $this->animated_output->deleteLine();
             $this->animated_output->cursorUp();
@@ -142,6 +129,77 @@ class GameConsoleLauncher
             $this->animated_output->cursorUp();
             $this->animated_output->echoLine($this->input_move);
         }
+    }
+
+    /**
+     * Choose color
+     * sry for realisation - tired of frontend
+     * @return bool
+     */
+    public function chooseColor(): bool
+    {
+        $color_sym = ['w', 'b'];
+        $it=0;
+        do {
+            if ($it) {
+                $this->animated_output->cursorUp();
+                $this->animated_output->deleteLine();
+            }
+            $this->animated_output->echoLine('Type w for white, b for black : ');
+            $color = trim(fgets(STDIN));
+            $it++;
+        }while (!in_array($color, $color_sym));
+        //
+        return $color == $color_sym[0] ? Desk::COLOR_WHITE : Desk::COLOR_BLACK;
+    }
+
+    public function chooseOpponent(bool $color): OpponentInterface
+    {
+        $it = 0;
+        $opponents = [new NoOpponent($color), new RandomOpponent($color)];
+        $output[] = 'Select opponent type:';
+        foreach($opponents as $key => $val){
+            $output[] = $key.' - '.$val->opName();
+        }
+        //
+        do {
+            if($it){
+                $this->animated_output->cursorUp();
+                $this->animated_output->deleteLine();
+            }
+            $this->animated_output->echoMultipleLine($output,-1);
+            $this->animated_output->echoLine('Number: ');
+            $key = trim(fgets(STDIN));
+            $it++;
+        }while (!in_array($key, array_keys($opponents)));
+        //
+        return $opponents[$key];
+    }
+
+    /**
+     * Check input for control strings
+     * @param string $move from STDIN
+     * @return void
+     */
+    protected function controlActions(string $move): void
+    {
+        switch ($move) {
+            case(self::QUIT):
+            case('exit'):
+            case('quit'):
+            case('die'):
+                $this->gameExit();
+                break;
+        }
+    }
+
+    /**
+     * exit the game
+     * @return void
+     */
+    public function gameExit(): void
+    {
+        exit(0);
     }
 
 
