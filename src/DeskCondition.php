@@ -4,6 +4,7 @@
 /**
  * DeskCondition simulates and check moves
  * Has no state!
+ * Stateless.
  * Describes game mechanics
  * @author mv28jam
  */

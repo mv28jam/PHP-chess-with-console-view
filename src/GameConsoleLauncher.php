@@ -1,13 +1,15 @@
 <?php
 
 use ConsoleAnimated\ConsoleAnimatedOutput;
+use opponent\NoOpponent;
+use opponent\OpponentInterface;
 
 /**
- * Description of Game
+ * Console game launcher
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */
-class GameLauncher
+class GameConsoleLauncher
 {
 
     /**
@@ -26,14 +28,14 @@ class GameLauncher
      */
     protected ConsoleAnimatedOutput $animated_output;
     /**
-     * @var NotationConverter
+     * @var Game
      */
-    protected NotationConverter $notation;
+    protected Game $game;
     /**
-     * Object desk to play
-     * @var Desk desk to play on
+     * @var OpponentInterface
      */
-    protected Desk $desk;
+    protected OpponentInterface $opponent;
+
 
     /**
      * game start
@@ -45,7 +47,7 @@ class GameLauncher
         $this->init();
         //
         //prepare output space
-        $this->animated_output->echoMultipleLine($this->desk->dump(), -1);
+        $this->animated_output->echoMultipleLine($this->game->desc()->dump(), -1);
         $this->animated_output->echoEmptyLine();
         $this->animated_output->cursorUp();
         $this->animated_output->echoLine($this->input_move);
@@ -55,14 +57,7 @@ class GameLauncher
             //check for out or save or some other not move
             $this->controlActions($input);
             //moving
-            foreach ($this->notation->process($input, $this->desk) as $key => $move) {
-                //for multiple input moves we miss STDIN line so create empty
-                if ($key > 0) {
-                    $this->animated_output->echoEmptyLine();
-                }
-                //move output and desk move
-                $this->moveAction($move);
-            }
+           $this->moveAction($input);
         } while (true);
     }
 
@@ -71,12 +66,13 @@ class GameLauncher
      * create objects
      * prepare game space
      * @return void
+     * @throws Exception
      */
     public function init(): void
     {
         $this->animated_output = new ConsoleAnimated\ConsoleAnimatedOutput();
-        $this->desk = new Desk();
-        $this->notation = new NotationConverter();
+        $this->game = new Game();
+        $this->opponent =new NoOpponent(true);
     }
 
     /**
@@ -114,26 +110,30 @@ class GameLauncher
     public function moveAction(string $move): void
     {
         try {
-            $this->desk->move(new Move($move));
-            $this->animated_output->echoMultipleLine($this->desk->dump(), 1);
+            if($this->opponent->can($this->game->desc()->getOrderColor())){
+                $this->game->makeMove($this->opponent->opMove($this->game->desc()));
+            }else{
+                $this->game->makeMove($move);
+            }
+            $this->animated_output->echoMultipleLine($this->game->desc()->dump(), 1);
             $this->animated_output->deleteLine();
             $this->animated_output->cursorUp();
             $this->animated_output->echoLine($this->input_move);
         } catch (DeskConditionException $e) {
-            $this->animated_output->echoMultipleLine($this->desk->dump(), 1);
+            $this->animated_output->echoMultipleLine($this->game->desc()->dump(), 1);
             $this->animated_output->deleteLine();
             $this->animated_output->echoLine($e->getMessage());
             $this->animated_output->cursorUp();
             $this->animated_output->echoLine($this->input_move);
         } catch (EndGameException $e) {
-            $this->animated_output->echoMultipleLine($this->desk->dump(), 1);
+            $this->animated_output->echoMultipleLine($this->game->desc()->dump(), 1);
             $this->animated_output->deleteLine();
             $this->animated_output->cursorUp();
             $this->animated_output->echoLine($e->getMessage() );
             $this->animated_output->echoEmptyLine();
             exit(0);
         } catch (\MoveValidationException $e) {
-            $this->animated_output->echoLine($e->getMessage().$this->notation->info());
+            $this->animated_output->echoLine($e->getMessage().$this->game->notation()->info());
             $this->animated_output->cursorUp();
             $this->animated_output->echoLine($this->input_move);
         } catch (\Exception $e) {

@@ -2,12 +2,11 @@
 
 namespace Tests\Unit;
 
-use Desk;
 use DeskConditionException;
 use EndGameException;
 use Exception;
+use Game;
 use Move;
-use NotationConverter;
 use Tests\Support\Data\GameData;
 use Tests\Support\UnitTester;
 use \Codeception\Attribute\DataProvider;
@@ -17,18 +16,16 @@ use \Codeception\Example;;
 class GameCest
 {
     private GameData $data;
-    private Desk $desk;
-    private NotationConverter $notation;
+    private Game $game;
 
     public function __construct()
     {
         $this->data = new GameData();
-        $this->notation = new NotationConverter();
     }
 
     public function _before(UnitTester $I)
     {
-        $this->desk = new Desk();
+        $this->game = new Game();
     }
 
 
@@ -42,13 +39,10 @@ class GameCest
     #[DataProvider('gameEndProvider')]
     public function gameEndTest(UnitTester $I,  Example $v): void
     {
-        $this->desk = new Desk();
         $I->expectThrowable(
             new EndGameException($v['result']),
             function() use ($v){
-                foreach ($this->notation->process($v['moves'], $this->desk) as $move) {
-                    $this->desk->move(new Move($move));
-                }
+                $this->game->makeMove($v['moves']);
             }
         );
     }
@@ -63,13 +57,10 @@ class GameCest
     #[DataProvider('gameCheckProvider')]
     public function gameCheckTest(UnitTester $I,  Example $v): void
     {
-        $this->desk = new Desk();
         $I->expectThrowable(
             new DeskConditionException($v['result']),
             function() use ($v){
-                foreach ($this->notation->process($v['moves'], $this->desk) as $move) {
-                    $this->desk->move(new Move($move));
-                }
+                $this->game->makeMove($v['moves']);
             }
         );
     }
@@ -87,9 +78,7 @@ class GameCest
         $I->expectThrowable(
             new Exception($v['result']),
             function() use ($v){
-                foreach ($this->notation->process($v['moves'], $this->desk) as $move) {
-                    $this->desk->move(new Move($move));
-                }
+                $this->game->makeMove($v['moves']);
             }
         );
     }
@@ -104,10 +93,8 @@ class GameCest
     #[DataProvider('gameFigurePosProvider')]
     public function gameFigurePosTest(UnitTester $I,  Example $v): void
     {
-        foreach ($this->notation->process($v['moves'], $this->desk) as $move) {
-            $this->desk->move(new Move($move));
-        }
-        $I->assertEquals($v['fig'], $this->desk->toMap()[$v['x']][$v['y']]->fig);
+        $this->game->makeMove($v['moves']);
+        $I->assertEquals($v['fig'], $this->game->desc()->toMap()[$v['x']][$v['y']]->fig);
     }
 
 

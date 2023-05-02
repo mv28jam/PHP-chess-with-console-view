@@ -1,7 +1,5 @@
 # Console chess made with PHP 
 
-No "bot", only game mechanics.
-
 8 ♖ ♘ ♗ ♕ ♔ ♗ ♘ ♖   
 7 ♙ ♙ ♙ ♙ ♙ ♙ ― ♙   
 6 ― ― ― ― ― ― ― ―   
@@ -15,3 +13,4 @@ Input move:b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3
 
 ### TODO:
 - Tests MORE!
+- making bot 

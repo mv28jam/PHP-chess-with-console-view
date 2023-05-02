@@ -12,5 +12,5 @@ if (!class_exists('ConsoleAnimated\ConsoleAnimatedOutput')) {
     die('Can not find output library. Try "composer install".' . PHP_EOL);
 }
 //
-$game = new GameLauncher();
+$game = new GameConsoleLauncher();
 
