@@ -132,15 +132,14 @@ class GameConsoleLauncher
     public function moveAction($move): void
     {
         try {
-            $this->game->makeMove($move);
+            $info = $this->game->makeMove($move);
             $this->animated_output->echoMultipleLine($this->game->desc()->dump(), 1);
             $this->animated_output->deleteLine();
+            if($info)$this->animated_output->echoLine($info);
             $this->animated_output->cursorUp();
             $this->animated_output->echoLine($this->input_move);
-        } catch (DeskConditionException $e) {
-            $this->animated_output->echoMultipleLine($this->game->desc()->dump(), 1);
-            $this->animated_output->deleteLine();
-            $this->animated_output->echoLine($e->getMessage());
+        } catch (MoveValidationException $e) {
+            $this->animated_output->echoLine($e->getMessage().$this->game->notation()->info());
             $this->animated_output->cursorUp();
             $this->animated_output->echoLine($this->input_move);
         } catch (EndGameException $e) {
@@ -149,12 +148,10 @@ class GameConsoleLauncher
             $this->animated_output->cursorUp();
             $this->animated_output->echoLine($e->getMessage() );
             $this->animated_output->echoEmptyLine();
+            $this->animated_output->echoLine('Game notation: '.$this->game->getMovesRecord());
+            $this->animated_output->echoEmptyLine();
             exit(0);
-        } catch (\MoveValidationException $e) {
-            $this->animated_output->echoLine($e->getMessage().$this->game->notation()->info());
-            $this->animated_output->cursorUp();
-            $this->animated_output->echoLine($this->input_move);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             //do not save move and echo error message
             $this->animated_output->echoLine($this->mistake . $e->getMessage());
             $this->animated_output->cursorUp();

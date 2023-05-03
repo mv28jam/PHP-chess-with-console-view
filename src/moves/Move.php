@@ -20,6 +20,13 @@
 class Move
 {
 
+    /**
+     * Move internal delimiter
+     */
+    const DELIMITER = '|';
+    /**
+     * Move saparator
+     */
     const SEPARATOR = '-';
     const REGEX = '/^([a-h])([1-8])'.self::SEPARATOR.'([a-h])([1-8])'.self::SEPARATOR.'?([rRqQkKbB])?$/';
     /**
@@ -280,7 +287,7 @@ class Move
      */
     public function __toString(): string
     {
-        return $this->strFrom . self::SEPARATOR . $this->strTo.($this->respawn ?? (Move::SEPARATOR.$this->respawn));
+        return $this->strFrom . self::SEPARATOR . $this->strTo.($this->respawn!='' ? (Move::SEPARATOR.$this->respawn) : '');
     }
 
 }

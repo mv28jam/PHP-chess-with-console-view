@@ -17,9 +17,12 @@ class PriceOpponent extends RandomOpponent implements OpponentInterface
     {
         $moves = $this->collectMoves($desk);
         //sort by price of attacked figure
-        usort ($moves , function ($a, $b) {return $a[1]>$b[1];});
+        usort ($moves , function ($a, $b) {
+            if(($a[0]->respawn > $b[0]->respawn) or $a[0]->respawn=='q') return true;
+            return $a[1]>$b[1];
+        });
         //
-        if($moves[0][1] > 0){
+        if($moves[0][1] > 0 or $moves[0][0]->respawn){
             return $moves[0][0];
         }
         //
@@ -40,9 +43,6 @@ class PriceOpponent extends RandomOpponent implements OpponentInterface
                 if($val->is_black === $this->is_black and !empty($val->fig)){
                     $fig = $desk->getFigureClone([$keyH,$keyG]);
                     foreach($fig->getVacuumHorsePossibleMoves(new DummyMove(implode([$keyH,$keyG])),true) as $pmove) {
-                        //convert pawn
-                        $desk->condition->pawnConversionSet($pmove, $fig, $desk);
-                        //
                         if(
                             !$desk->condition->selfAttackAbstractMove($pmove, $desk)
                         ){

@@ -50,9 +50,6 @@ class RandomOpponent implements OpponentInterface
                 if($val->is_black === $this->is_black and !empty($val->fig)){
                     $fig = $desk->getFigureClone([$keyH,$keyG]);
                     foreach($fig->getVacuumHorsePossibleMoves(new DummyMove(implode([$keyH,$keyG])),true) as $pmove) {
-                        //convert pawn
-                        $desk->condition->pawnConversionSet($pmove, $fig, $desk);
-                        //
                         if(
                             !$desk->condition->selfAttackAbstractMove($pmove, $desk)
                             and

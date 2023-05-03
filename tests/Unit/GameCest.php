@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use DeskConditionException;
 use EndGameException;
 use Exception;
 use Game;
@@ -57,12 +56,7 @@ class GameCest
     #[DataProvider('gameCheckProvider')]
     public function gameCheckTest(UnitTester $I,  Example $v): void
     {
-        $I->expectThrowable(
-            new DeskConditionException($v['result']),
-            function() use ($v){
-                $this->game->makeMove($v['moves']);
-            }
-        );
+        $I->assertEquals($this->game->makeMove($v['moves']),$v['result']);
     }
 
     /**

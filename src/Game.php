@@ -30,18 +30,19 @@ class Game
     /**
      * game start
      * @param $in string clean in
-     * @return bool
+     * @return string
      * @throws Exception
      */
-    public function makeMove(string $in) : bool
+    public function makeMove(string $in) : string
     {
+        $info = '';
         //moving
         foreach ($this->notation->process($in, $this->desk) as $move) {
             //move output and desk move
-            $this->desk->move(new Move($move));
+            $info = $this->desk->move(new Move($move));
         }
         //
-        return true;
+        return $info;
     }
 
     /**
@@ -58,6 +59,13 @@ class Game
     public function notation(): NotationConverter
     {
         return $this->notation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMovesRecord(){
+        return $this->desk->getMoveHistory();
     }
 
 }

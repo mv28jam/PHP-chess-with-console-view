@@ -14,7 +14,7 @@ class InternalNotation implements NotationInterface
     /**
      * Move internal delimiter
      */
-    const DELIMITER = '|';
+    const DELIMITER = Move::DELIMITER;
 
     const REGEX='/^([a-h])([1-8])'.Move::SEPARATOR.'([a-h])([1-8])('.Move::SEPARATOR.'[rRqQkKbB])?$[^!?:#+]?/u';
 

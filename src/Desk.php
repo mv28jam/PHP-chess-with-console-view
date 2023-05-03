@@ -83,7 +83,7 @@ class Desk
      * @param Move $move
      * @throws \Exception
      */
-    public function move(Move $move): void
+    public function move(Move $move): string
     {
         //rewind moves
         end($this->moves);
@@ -104,7 +104,7 @@ class Desk
         //move to new position + internal figure actions
         $this->moveActions($move);
         //
-        $this->afterMoveCondition();
+        return $this->afterMoveCondition();
     }
 
     /**
@@ -141,12 +141,13 @@ class Desk
 
     /**
      * Check for standard chess situations
-     * @return void
-     * @throws DeskConditionException
+     * @return string
+     * @throws EndGameException
      * @throws Exception
      */
-    public function afterMoveCondition(): void
+    public function afterMoveCondition(): string
     {
+        $info = '';
         if($this->condition->isEndGameBy2Kings($this)){
             throw new EndGameException('Game over. 2 kings on desk - nobody wins by '.end($this->moves));
         }
@@ -155,13 +156,14 @@ class Desk
             if($this->condition->isEndGameByCheckmate(!$this->color, $this)){
                 throw new EndGameException('Game over. Checkmate. ' . (new Pawn($this->color)) . ' wins by '.end($this->moves));
             }
-            throw new DeskConditionException('Check. King ' . (new King(!$this->color).' under attack!' ));
+            $info = 'Check. King ' . (new King(!$this->color).' under attack!' );
         }else{
             if($this->condition->isEndGameByStalemate(!$this->color, $this)){
                 throw new EndGameException('Game over. Stalemate, nobody wins by '.end($this->moves));
             }
         }
         //
+        return $info;
     }
 
     /**
@@ -175,6 +177,21 @@ class Desk
         $this->moves[] = $move;
         //move order set
         $this->color = $this->figures[$move->to[0]][$move->to[1]]->getIsBlack();
+    }
+
+    /**
+     * Desk move history
+     * @return string
+     */
+    public function getMoveHistory(): string
+    {
+        $res = [];
+        //
+        foreach($this->moves as $move){
+            $res[] = (string)$move;
+        }
+        //
+        return implode(Move::DELIMITER ,$res);
     }
 
     /**

@@ -44,7 +44,7 @@ class Pawn extends AbstractFigure
         if ($move->checkX($move->nextX()) and $move->checkY($y)) {
             if($y == 1 or $y == 8) {
                 foreach ($this->conversions as $add) {
-                    $this->normal[] = new Move($move->strFrom, $move->nextX().$y.Move::SEPARATOR.$add);
+                    $this->attack[] = new Move($move->strFrom, $move->nextX().$y.Move::SEPARATOR.$add);
                 }
             }else{
                 $this->attack[] = new Move($move->strFrom, $move->nextX() . $y);
@@ -53,7 +53,7 @@ class Pawn extends AbstractFigure
         if ($move->checkX($move->prevX()) and $move->checkY($y)) {
             if($y == 1 or $y == 8) {
                 foreach ($this->conversions as $add) {
-                    $this->normal[] = new Move($move->strFrom, $move->prevX() . $y.Move::SEPARATOR.$add);
+                    $this->attack[] = new Move($move->strFrom, $move->prevX() . $y.Move::SEPARATOR.$add);
                 }
             }else{
                 $this->attack[] = new Move($move->strFrom, $move->prevX() . $y);
