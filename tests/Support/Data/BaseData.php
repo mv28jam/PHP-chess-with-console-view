@@ -11,7 +11,7 @@ class BaseData
     /**
      * @return array[]
      */
-    public function deskBaseMoveProvider() : array  // to make it public use `_` prefix
+    public function deskBaseMoveProvider() : array
     {
         return [
             ['move'=>"a2-a3", 'fig'=>'Pawn'],
@@ -28,6 +28,16 @@ class BaseData
             ['move'=>'b8-c6', 'fig'=>'Knight', 'pre'=>'e2-e4'],
             ['move'=>'g8-h6', 'fig'=>'Knight', 'pre'=>'e2-e4'],
             ['move'=>'g8-f6', 'fig'=>'Knight', 'pre'=>'e2-e4'],
+            ['move'=>'e1-e2', 'fig'=>'King', 'pre'=>'e2-e4|e7-e5'],
+            ['move'=>'e8-e7', 'fig'=>'King', 'pre'=>'e2-e4|e7-e5|a2-a4'],
+            ['move'=>'a1-a2', 'fig'=>'Rook', 'pre'=>'a2-a4|e7-e5'],
+            ['move'=>'a8-a6', 'fig'=>'Rook', 'pre'=>'e2-e4|a7-a5|e4-e5'],
+            ['move'=>'h1-h2', 'fig'=>'Rook', 'pre'=>'h2-h4|e7-e5'],
+            ['move'=>'h8-h6', 'fig'=>'Rook', 'pre'=>'e2-e4|h7-h5|e4-e5'],
+            ['move'=>'f1-c4', 'fig'=>'Bishop', 'pre'=>'e2-e4|e7-e5'],
+            ['move'=>'f8-c5', 'fig'=>'Bishop', 'pre'=>'e2-e4|e7-e5|a2-a4'],
+            ['move'=>'c1-e3', 'fig'=>'Bishop', 'pre'=>'d2-d4|e7-e5'],
+            ['move'=>'c8-a6', 'fig'=>'Bishop', 'pre'=>'e2-e4|b7-b5|a2-a4'],
         ];
     }
 

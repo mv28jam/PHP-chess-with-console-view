@@ -64,7 +64,8 @@ class Game
     /**
      * @return string
      */
-    public function getMovesRecord(){
+    public function getMovesRecord(): string
+    {
         return $this->desk->getMoveHistory();
     }
 

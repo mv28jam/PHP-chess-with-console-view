@@ -17,6 +17,7 @@ git clone git@github.com:mv28jam/PHP-chess-with-console-view.git ./
 composer install --no-dev
 
 ## Play
+./chess
 
 ## TODO:
 - tests more

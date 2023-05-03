@@ -53,6 +53,11 @@ class GameData
                 'moves'=>"g1-f3|e7-e5|c2-c4|f8-a3|d1-a4|a3-c5|g2-g3|c5-e7|e1-d1|e8-f8|f3-e1|g8-h6|a4-a5|f8-e8|c4-c5|h8-f8|h2-h3|f7-f5|e2-e3|e7-f6|f1-e2|b7-b6|e2-f3|b8-c6|f3-e2|e8-f7|e2-b5|f5-f4|b5-a4|f4-e3|e1-g2|b6-a5|g2-h4|c8-a6|b2-b3|g7-g5|b1-c3|f7-g7|h4-f3|e3-d2|h3-h4|d7-d5|f3-d2|g5-h4|h1-h2|d8-e7|f2-f4|c6-d4|d2-f1|h6-f5|h2-g2|e7-c5|c3-b1|f5-e3|f1-e3|f6-e7|a4-d7|a8-e8|d7-a4|d4-b3|a2-a3|c5-c1",
                 'result'=>'Game over. Checkmate. ♙ wins by c5-c1'
             ],
+            [
+                'moves'=>"e2-e4|b8-c6|d2-d4|c6-b8|e1-e2|b7-b6|b1-d2|d7-d6|c2-c4|c8-a6|b2-b4|a6-c4|e2-e3|c4-a2|f1-b5|c7-c6|b5-e2|f7-f5|e2-f1|e8-f7|d1-f3|d8-e8|e4-e5|g8-h6|f3-h5|g7-g6|e3-e2|a2-b1|a1-a2|e8-d8|h5-g5|f7-e8|h2-h4|d8-c8|g5-h6|f5-f4|h4-h5|f4-f3|e2-e3|f8-g7|f1-e2|a7-a5|e2-b5|e8-d7|b5-c4|c8-b7|h1-h4|f3-g2|f2-f3|b7-a7|a2-a3|g7-h6|f3-f4|e7-e6|h4-h2|b1-c2|c4-b5|h8-d8|h2-h1|g2-h1-q|a3-a4|h1-h4|b5-c6|d7-c8|c6-d7|b8-d7|c1-a3|h4-g4|g1-h3|c2-b3|d4-d5|g4-f5|d2-f3|h6-f4|h3-f4|d8-f8|e3-f2|b3-a4|h5-g6|f5-f4|a3-c1|f8-d8|f2-g1|f4-h6|c1-e3|e6-d5|e3-c5|a8-b8|g1-f2|h6-f8|f2-e1|b6-c5|b4-c5|f8-h8|f3-g1|h7-g6|e5-e6|h8-h2|e6-d7|a7-d7|g1-e2|h2-g1|e1-d2|c8-c7|e2-d4|b8-b1|d4-b5|c7-c8|b5-d6|d7-d6|d2-e2|g1-f2|e2-d3|d6-f8|d3-c3|f8-d6|c5-c6|d6-f8|c6-c7|f2-f7|c7-d8-r|c8-b7|d8-e8|a4-b3|e8-a8|b3-c4|a8-e8|f8-e8|c3-d4|e8-h8|d4-e3|f7-f2|e3-f2|h8-e8|f2-f3|e8-a8|f3-g2|a8-c8|g2-f3|c8-d7|f3-e3|b7-c8|e3-d4|d7-a4|d4-c5|a4-a2|c5-d4|a2-g2|d4-c3|b1-g1|c3-d4|g1-b1|d4-e3|c8-b8|e3-d4|b1-b6|d4-e5|c4-d3|e5-f4|g2-h1|f4-g5|d3-e4|g5-f4|h1-c1|f4-e5|e4-g2|e5-d4|g2-h1|d4-d3|b6-b2|d3-d4|c1-d2|d4-e5|d2-h6|e5-d6|b2-h2|d6-e5|h2-h3|e5-d6|b8-a7|d6-d7|h3-h4|d7-c8|d5-d4|c8-d8|h4-g4|d8-e7|a5-a4|e7-e8|h6-c1|e8-e7|c1-g1|e7-f8|g1-a1|f8-f7|h1-e4|f7-f8|a1-h1|f8-g8|g4-g2|g8-f7|a7-b8|f7-e6|h1-g1|e6-f6|d4-d3|f6-e6|g1-d4|e6-e7|d4-a1|e7-d6|g2-h2|d6-c5|e4-b7|c5-b6|a1-f1|b6-c5|h2-h7|c5-b6|f1-e2|b6-a5|e2-a2|a5-b6|a4-a3|b6-c5|h7-d7|c5-b4|b8-a7|b4-a5|a2-b1|a5-a4|a7-b8|a4-a5|d7-d8|a5-a4|d8-f8|a4-a5|b1-f1|a5-b5|f1-f3|b5-c4|f3-d1|c4-b4|b7-c6|b4-c5|c6-a8|c5-d6|d1-e1|d6-c5|a8-h1|c5-d6|e1-b4|d6-d7|b8-b7|d7-e6|d3-d2|e6-e5|f8-g8|e5-e6|h1-f3|e6-f6|f3-g2|f6-g5|b4-a5|g5-f6|d2-d1-r|f6-e7|d1-f1|e7-d6|g8-a8|d6-d7|a5-b5|d7-d6|b5-e2|d6-c5|g2-d5|c5-d6|d5-a2|d6-c5|f1-f8|c5-b4|e2-c4",
+                'result'=>'Game over. Checkmate. ♙ wins by e2-c4'
+            ],
+
         ];
     }
 

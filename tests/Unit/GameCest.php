@@ -27,25 +27,6 @@ class GameCest
         $this->game = new Game();
     }
 
-
-    /**
-     * Full game test with end
-     * @param UnitTester $I
-     * @param Example $v
-     * @return void
-     * @throws Exception
-     */
-    #[DataProvider('gameEndProvider')]
-    public function gameEndTest(UnitTester $I,  Example $v): void
-    {
-        $I->expectThrowable(
-            new EndGameException($v['result']),
-            function() use ($v){
-                $this->game->makeMove($v['moves']);
-            }
-        );
-    }
-
     /**
      * Check test
      * @param UnitTester $I
@@ -91,6 +72,23 @@ class GameCest
         $I->assertEquals($v['fig'], $this->game->desc()->toMap()[$v['x']][$v['y']]->fig);
     }
 
+    /**
+     * Full game test with end
+     * @param UnitTester $I
+     * @param Example $v
+     * @return void
+     * @throws Exception
+     */
+    #[DataProvider('gameEndProvider')]
+    public function gameEndTest(UnitTester $I,  Example $v): void
+    {
+        $I->expectThrowable(
+            new EndGameException($v['result']),
+            function() use ($v){
+                $this->game->makeMove($v['moves']);
+            }
+        );
+    }
 
     /** PROVIDERS */
     protected function gameEndProvider() : array

@@ -5,6 +5,7 @@ namespace Tests\Unit;
 
 use Desk;
 use Exception;
+use Game;
 use Move;
 use MoveValidationException;
 use Tests\Support\UnitTester;
@@ -17,6 +18,7 @@ class BaseCest
 
     private BaseData $data;
     private Desk $desk;
+    private Game $game;
 
     public function __construct()
     {
@@ -26,6 +28,7 @@ class BaseCest
     public function _before(UnitTester $I)
     {
         $this->desk = new Desk();
+        $this->game = new Game();
     }
 
 
@@ -72,11 +75,11 @@ class BaseCest
     public function deskBaseMoveTest(UnitTester $I,  Example $v): void
     {
         if(!empty($v['pre'])){
-            $this->desk->move(new Move($v['pre']));
+            $this->game->makeMove($v['pre']);
         }
-        $this->desk->move(new Move($v['move']));
+        $this->game->makeMove(new Move($v['move']));
         $pos=explode('-',$v['move']);
-        $I->assertEquals($v['fig'], $this->desk->toMap()[$pos[1][0]][$pos[1][1]]->fig);
+        $I->assertEquals($v['fig'], $this->game->desc()->toMap()[$pos[1][0]][$pos[1][1]]->fig);
         //
     }
 
