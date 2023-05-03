@@ -489,10 +489,7 @@ class DeskCondition
         //
         foreach ($figure->getVacuumHorsePossibleMoves($move, true) as $val){
             //object Move ($val, $move) are NOT equal - initial move can not contain en passant attack for example
-            if($val->strFrom == $move->strFrom and $val->strTo == $move->strTo){
-                if($move->respawn != ''){
-                    $val->setRespawn($move->respawn);
-                }
+            if($val->strFrom == $move->strFrom and $val->strTo == $move->strTo and $val->respawn == $move->respawn){
                 return $val;
             }
         }

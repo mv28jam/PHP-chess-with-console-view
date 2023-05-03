@@ -20,7 +20,6 @@
 class Move
 {
 
-
     const SEPARATOR = '-';
     const REGEX = '/^([a-h])([1-8])'.self::SEPARATOR.'([a-h])([1-8])'.self::SEPARATOR.'?([rRqQkKbB])?$/';
     /**
@@ -46,21 +45,18 @@ class Move
      * @var string
      */
     protected string $respawn = '';
-
     /**
      * Delta of move
      * @var int
      */
     protected int $deltaX = 0;
     protected int $deltaY = 0;
-
     /**
      * Kill in not in To position
      * Changes to desk after "en passant" move
      * @var array
      */
     protected array $kill = [];
-
     /**
      * Figures to move not in From To
      * @var array
@@ -249,19 +245,6 @@ class Move
     {
         $this->kill[] = $kill;
         return $this;
-    }
-
-    /**
-     * @param string $respawn
-     * @return bool
-     */
-    public function setRespawn(string $respawn): bool
-    {
-        if($this->respawn == '') {
-            $this->respawn = $respawn;
-            return true;
-        }
-        return false;
     }
 
     /**

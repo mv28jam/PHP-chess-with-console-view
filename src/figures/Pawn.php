@@ -28,24 +28,40 @@ class Pawn extends AbstractFigure
     {
         //direction of move flag for color
         $this->is_black ? $sign = -1 : $sign = 1;
+        //
+        $y = $move->yFrom + $sign;
         //straight move
-        if ($move->checkY(($move->yFrom + (1 * $sign)))) {
-            $this->normal[] = new Move($move->strFrom, $move->xFrom . ($move->yFrom + $sign));
+        if ($move->checkY($y)) {
+            if($y == 1 or $y == 8) {
+                foreach ($this->conversions as $add) {
+                    $this->normal[] = new Move($move->strFrom, $move->xFrom.$y.Move::SEPARATOR.$add);
+                }
+            }else{
+                $this->normal[] = new Move($move->strFrom, $move->xFrom . $y);
+            }
         }
         //attack
-        if ($move->checkX($move->nextX())) {
-            $this->attack[] = new Move($move->strFrom, $move->nextX() . ($move->yFrom + $sign));
+        if ($move->checkX($move->nextX()) and $move->checkY($y)) {
+            if($y == 1 or $y == 8) {
+                foreach ($this->conversions as $add) {
+                    $this->normal[] = new Move($move->strFrom, $move->nextX().$y.Move::SEPARATOR.$add);
+                }
+            }else{
+                $this->attack[] = new Move($move->strFrom, $move->nextX() . $y);
+            }
         }
-        if ($move->checkX($move->prevX())) {
-            $this->attack[] = new Move($move->strFrom, $move->prevX() . ($move->yFrom + $sign));
+        if ($move->checkX($move->prevX()) and $move->checkY($y)) {
+            if($y == 1 or $y == 8) {
+                foreach ($this->conversions as $add) {
+                    $this->normal[] = new Move($move->strFrom, $move->prevX() . $y.Move::SEPARATOR.$add);
+                }
+            }else{
+                $this->attack[] = new Move($move->strFrom, $move->prevX() . $y);
+            }
         }
         //special move
         if ($this->first_step) {
             $this->special[] = new Move($move->strFrom, $move->xFrom . ($move->yFrom + (2 * $sign)));
-        }
-        //
-        if($move->yTo == 1 or $move->yTo == 8){
-
         }
     }
 
