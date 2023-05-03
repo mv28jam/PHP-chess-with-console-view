@@ -7,6 +7,9 @@ use DummyMove;
 use Exception;
 use Move;
 
+/**
+ * Price simple opponent
+ */
 class PriceOpponent extends RandomOpponent implements OpponentInterface
 {
 

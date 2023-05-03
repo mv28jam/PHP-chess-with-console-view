@@ -1,9 +1,7 @@
 <?php
 
-
 /**
  * Rook actions and behavior
- * Test game: b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6|a7-a6|h1-h3|c7-b6|h3-a3|a6-a5|c2-c3|a5-a4
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */

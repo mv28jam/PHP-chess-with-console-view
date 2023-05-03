@@ -81,7 +81,9 @@ class Desk
     /**
      * Move of figure
      * @param Move $move
-     * @throws \Exception
+     * @return string
+     * @throws EndGameException
+     * @throws Exception
      */
     public function move(Move $move): string
     {

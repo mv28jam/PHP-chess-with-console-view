@@ -4,6 +4,9 @@ namespace opponent;
 
 use Desk;
 
+/**
+ * Interface for player
+ */
 interface OpponentInterface
 {
 

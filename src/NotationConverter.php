@@ -7,6 +7,7 @@ use notations\NumericNotation;
 
 /**
  * Notation converter for moves
+ * For detect and convert different notations
  */
 class NotationConverter
 {

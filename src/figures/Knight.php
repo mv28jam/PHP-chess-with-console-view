@@ -3,7 +3,6 @@
 
 /**
  * Knight actions and behavior
- * Test game:g1-f3|b8-c6|f3-e5|c6-e5|e2-e4|f5-e3|e4-e5|f3-e1
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */

@@ -5,6 +5,9 @@ namespace notations;
 use Desk;
 use Move;
 
+/**
+ *
+ */
 class NumericNotation implements NotationInterface
 {
 

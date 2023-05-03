@@ -5,7 +5,7 @@ namespace opponent;
 use Desk;
 
 /**
- * Empty opponent
+ * Human opponent
  */
 class HumanOpponent implements OpponentInterface
 {

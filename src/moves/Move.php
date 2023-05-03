@@ -70,16 +70,6 @@ class Move
      */
     protected array $transfer = [];
 
-
-    public function convert(string $in): string
-    {
-        // long dash to minus
-        $in = str_replace('—', '-', $in);
-
-
-
-        return $in;
-    }
     /**
      * @param string $move like e2-e4
      * @param string $move_exploded end of move like e4 and $move like e2

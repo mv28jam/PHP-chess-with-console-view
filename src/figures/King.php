@@ -3,9 +3,6 @@
 
 /**
  * King actions and behavior
- * Test game: e2-e4|d7-d6|f1-a6|c8-g4|d1-e2|d8-d7|e2-b5
- * King check: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3|e1-f1|h7-h6|f1-g1|a2-a3|g3-g2
- * King under attack: g1-h3|e7-e6|e2-e4|e6-e5|f1-d3|d8-h4|g2-g4|h4-g3|e1-f1|h7-h6|f1-g1|a2-a3|f1-e1|a7-a6|d3-e2|g2-g1
  *
  * @author mv28jam <mv28jam@yandex.ru>
  */

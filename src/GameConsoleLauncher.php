@@ -18,7 +18,6 @@ class GameConsoleLauncher
      * Game quit symbol
      */
     const QUIT = 'q';
-
     /**
      * Output messages
      */

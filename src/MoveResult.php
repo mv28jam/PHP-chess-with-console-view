@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Move results in object
+ */
 class MoveResult
 {
     /**
