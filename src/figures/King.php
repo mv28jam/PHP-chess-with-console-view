@@ -18,7 +18,7 @@ class King extends AbstractFigure
      * Price of King
      * @var integer
      */
-    public int $price = PHP_INT_MAX;
+    public int $price = 100;
 
     /**
      * Create array of all possible moves without other figures for king

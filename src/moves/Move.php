@@ -252,6 +252,19 @@ class Move
     }
 
     /**
+     * @param string $respawn
+     * @return bool
+     */
+    public function setRespawn(string $respawn): bool
+    {
+        if($this->respawn == '') {
+            $this->respawn = $respawn;
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * @return array
      */
     public function getTransfer(): array
@@ -284,7 +297,7 @@ class Move
      */
     public function __toString(): string
     {
-        return $this->strFrom . self::SEPARATOR . $this->strTo;
+        return $this->strFrom . self::SEPARATOR . $this->strTo.($this->respawn ?? (Move::SEPARATOR.$this->respawn));
     }
 
 }

@@ -33,6 +33,12 @@ interface OpponentInterface
     public function can(bool $color): bool;
 
     /**
+     * Is human opponent
+     * @return bool
+     */
+    public function isHuman():bool;
+
+    /**
      * Name of bot
      * @return string
      */

@@ -7,7 +7,7 @@ use Desk;
 /**
  * Empty opponent
  */
-class NoOpponent implements OpponentInterface
+class HumanOpponent implements OpponentInterface
 {
 
     /**
@@ -37,7 +37,7 @@ class NoOpponent implements OpponentInterface
      */
     public function opMove(Desk $desk): string
     {
-        return '';
+        return trim(fgets(STDIN));
     }
 
     /**
@@ -46,7 +46,7 @@ class NoOpponent implements OpponentInterface
      */
     public function can(bool $color): bool
     {
-       return false;
+        return ($this->color() == $color);
     }
 
     /**
@@ -57,4 +57,11 @@ class NoOpponent implements OpponentInterface
         return 'No opponent mode.';
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function isHuman(): bool
+    {
+        return true;
+    }
 }

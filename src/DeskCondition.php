@@ -82,13 +82,15 @@ class DeskCondition
      * @param AbstractFigure $figure
      * @param Desk $desk
      * @return MoveResult - resulting move != initial $move
+     * @throws Exception
      */
     public function processMove(Move $move, AbstractFigure $figure, Desk $desk): MoveResult
     {
+        $move = $this->findResultMove($move, $figure);
         //Move result assembly
         $res = (new MoveResult())
             ->setFigure($this->figureConversion($move, $figure))
-            ->setMove($this->findResultMove($move, $figure));
+            ->setMove($move);
         //signal for figure about move finalisation
         $figure->step();
         //
@@ -105,6 +107,9 @@ class DeskCondition
      */
     public function isKingUnderAttackAfterMove(Move $move, bool $is_black, Desk $desk) : bool{
         $clone = $desk->getDeskClone();
+
+        $this->pawnConversionSet($move, $clone->getFigureClone($move->from), $desk);
+
         $clone->moveActions($move);
         if($this->isKingUnderAttack($is_black, $clone)){
             return true;
@@ -128,6 +133,29 @@ class DeskCondition
     }
 
     /**
+     * End game by 2 kings on desk
+     * @param Desk $desk
+     * @return bool
+     */
+    public function isEndGameBy2Kings(Desk $desk): bool
+    {
+        $count=0;
+        //
+        foreach ($desk->toMap() as $keyH => $line) {
+            foreach ($line as $keyG => $val) {
+                if(!empty($val->fig)){
+                    $count++;
+                    if($count > 2){
+                        return false;
+                    }
+                }
+            }
+        }
+        //
+        return true;
+    }
+
+    /**
      * Check for figures of color can unset check
      * @param bool $is_black
      * @param Desk $desk
@@ -141,7 +169,14 @@ class DeskCondition
                 if($val->is_black === $is_black and !empty($val->fig)){
                     $fig = $desk->getFigureClone([$keyH,$keyG]);
                     foreach($fig->getVacuumHorsePossibleMoves(new DummyMove(implode([$keyH,$keyG])),true) as $pmove) {
-                        if(!$this->selfAttackAbstractMove($pmove, $desk) and $this->checkFigureMove($pmove, $fig, $desk) > Move::FORBIDDEN){
+                        //
+                        $this->pawnConversionSet($pmove, $fig, $desk);
+                        //
+                        if(
+                            !$this->selfAttackAbstractMove($pmove, $desk)
+                            and
+                            $this->checkFigureMove($pmove, $fig, $desk) > Move::FORBIDDEN
+                        ){
                             if(!$this->isKingUnderAttackAfterMove($pmove,$is_black,$desk)) return false;
                         }
                     }
@@ -149,6 +184,23 @@ class DeskCondition
             }
         }
         return true;
+    }
+
+    /**
+     * Replace initial Pawn move with Pawn conversion move
+     * FIXME
+     * @param Move $move
+     * @param AbstractFigure $figure
+     * @param Desk $desk
+     * @throws Exception
+     */
+    public function pawnConversionSet(Move $move, AbstractFigure $figure, Desk $desk): void
+    {
+        if($desk->condition->isPawnConversion($move, $figure)){
+            //always make Quin by auto
+            //add respawn
+            $move->setRespawn('Q');
+        }
     }
 
     /**
@@ -297,6 +349,8 @@ class DeskCondition
         if(
             $this->checkStraightMoveBlock($move, $desk)
             and
+            $desk->isFigureExists($move->getTransferFrom())
+            and
             $desk->getFigureIsBlack($move->getTransferFrom()) == $figure->getIsBlack()
             and
             $desk->getFigureClone($move->getTransferFrom()) instanceof Rook
@@ -384,7 +438,7 @@ class DeskCondition
      */
     private function figureConversion(Move $move, AbstractFigure $figure): AbstractFigure{
         //
-        if ($figure instanceof Pawn and ($move->yTo == 1 or $move->yTo == 8)) {
+        if ($this->isPawnConversion($move, $figure)) {
             //
             if($move->respawn){
                 $respawn = $move->respawn;
@@ -413,6 +467,17 @@ class DeskCondition
     }
 
     /**
+     * Is move pawn conversion
+     * @param Move $move
+     * @param AbstractFigure $figure
+     * @return bool
+     */
+    public function isPawnConversion(Move $move, AbstractFigure $figure): bool
+    {
+        return ($figure instanceof Pawn and ($move->yTo == 1 or $move->yTo == 8));
+    }
+
+    /**
      * Detect result move with after actions by initial move
      * Result move that has been done in game to process actions
      * @param Move $move
@@ -425,6 +490,9 @@ class DeskCondition
         foreach ($figure->getVacuumHorsePossibleMoves($move, true) as $val){
             //object Move ($val, $move) are NOT equal - initial move can not contain en passant attack for example
             if($val->strFrom == $move->strFrom and $val->strTo == $move->strTo){
+                if($move->respawn != ''){
+                    $val->setRespawn($move->respawn);
+                }
                 return $val;
             }
         }

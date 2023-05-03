@@ -16,6 +16,8 @@ class Pawn extends AbstractFigure
      */
     protected int $price = 1;
 
+    public array $conversions = ['q','r','k','b'];
+
     /**
      * Create array of all possible moves without other figures for pawn
      * @param Move $move
@@ -42,6 +44,9 @@ class Pawn extends AbstractFigure
             $this->special[] = new Move($move->strFrom, $move->xFrom . ($move->yFrom + (2 * $sign)));
         }
         //
+        if($move->yTo == 1 or $move->yTo == 8){
+
+        }
     }
 
     /**

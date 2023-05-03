@@ -2,8 +2,10 @@
 
 namespace opponent;
 
+use AbstractFigure;
 use Desk;
 use DummyMove;
+use Exception;
 use Move;
 
 /**
@@ -17,7 +19,7 @@ class RandomOpponent implements OpponentInterface
      * Color of opponent
      * @var bool
      */
-    private bool $is_black;
+    protected bool $is_black;
 
 
     /**
@@ -37,7 +39,7 @@ class RandomOpponent implements OpponentInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function opMove(Desk $desk): string
     {
@@ -45,11 +47,20 @@ class RandomOpponent implements OpponentInterface
         //
         foreach ($desk->toMap() as $keyH => $line){
             foreach ($line as $keyG => $val) {
-                if($val->is_black === !$this->is_black and !empty($val->fig)){
+                if($val->is_black === $this->is_black and !empty($val->fig)){
                     $fig = $desk->getFigureClone([$keyH,$keyG]);
                     foreach($fig->getVacuumHorsePossibleMoves(new DummyMove(implode([$keyH,$keyG])),true) as $pmove) {
-                        if(!$desk->condition->selfAttackAbstractMove($pmove, $desk) and $desk->condition->checkFigureMove($pmove, $fig, $desk) > Move::FORBIDDEN){
-                            $moves[] = $pmove;
+                        //convert pawn
+                        $desk->condition->pawnConversionSet($pmove, $fig, $desk);
+                        //
+                        if(
+                            !$desk->condition->selfAttackAbstractMove($pmove, $desk)
+                            and
+                            $desk->condition->checkFigureMove($pmove, $fig, $desk) > Move::FORBIDDEN
+                            and
+                            !$desk->condition->isKingUnderAttackAfterMove($pmove, $this->is_black, $desk)
+                        ){
+                            $moves[] =$pmove;
                         }
                     }
                 }
@@ -67,6 +78,17 @@ class RandomOpponent implements OpponentInterface
         return ($this->color() == $color);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function isHuman(): bool
+    {
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function opName(): string
     {
         return 'Random move by opponent only.';

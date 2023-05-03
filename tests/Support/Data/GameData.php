@@ -125,6 +125,10 @@ class GameData
                 'moves'=>"e2-e4|e7-e5|e1-e2|e8-e7|e2-e3|e7-e6|e3-f4|e6-f6|f3-g3|f6-g6|g3-g4|g6-g5",
                 'result'=>'Forbidden move for ♚'
             ],
+            [
+                'moves'=>"'moves'=>'b2-b4|g7-g5|b4-b5|g5-g4|h2-h4|g4-h3|b5-b6|h3-h2|a2-a3|h2-g1'",
+                'result'=>'Pawn conversion move. Choose replace of pawn by adding h2-g1+r (move +first letter of new figure name).'
+            ],
 
         ];
     }

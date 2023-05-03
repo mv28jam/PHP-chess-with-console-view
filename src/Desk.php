@@ -110,6 +110,7 @@ class Desk
     /**
      * @param Move $move
      * @return void
+     * @throws Exception
      */
     public function moveActions(Move $move): void
     {
@@ -146,6 +147,9 @@ class Desk
      */
     public function afterMoveCondition(): void
     {
+        if($this->condition->isEndGameBy2Kings($this)){
+            throw new EndGameException('Game over. 2 kings on desk - nobody wins by '.end($this->moves));
+        }
         //there is check
         if($this->condition->isKingUnderAttack(!$this->color, $this)){
             if($this->condition->isEndGameByCheckmate(!$this->color, $this)){
@@ -235,7 +239,7 @@ class Desk
         if ($this->isFigureExists($position)) {
             $color = $this->figures[$position[0]][$position[1]]->getIsBlack();
         } else {
-            user_error('No figure to get color. Check figure exist before get color.', E_USER_ERROR);
+            user_error('No figure in '.implode($position).' to get color. Check figure exist before get color.', E_USER_ERROR);
         }
         //
         return $color;

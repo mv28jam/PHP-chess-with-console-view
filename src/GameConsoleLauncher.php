@@ -1,8 +1,9 @@
 <?php
 
 use ConsoleAnimated\ConsoleAnimatedOutput;
-use opponent\NoOpponent;
+use opponent\HumanOpponent;
 use opponent\OpponentInterface;
+use opponent\PriceOpponent;
 use opponent\RandomOpponent;
 
 /**
@@ -35,7 +36,20 @@ class GameConsoleLauncher
     /**
      * @var OpponentInterface
      */
-    protected OpponentInterface $opponent;
+    protected OpponentInterface $player1;
+    /**
+     * @var OpponentInterface
+     */
+    protected OpponentInterface $player2;
+    /**
+     * Game variants
+     * @var string[]
+     */
+    const VARIANTS = [
+        0=>'person vs person (one screen)',
+        1=>'person vs computer',
+        2=>'computer vs computer'
+    ];
 
 
     /**
@@ -47,7 +61,20 @@ class GameConsoleLauncher
         //new game init
         $this->init();
         //
-        $this->opponent = $this->chooseOpponent($this->chooseColor());
+        switch ($this->chooseTypeofGame()){
+            case(0):
+                $this->player1 = new HumanOpponent($this->chooseColor());
+                $this->player2 = new HumanOpponent(!$this->player1->color());
+                break;
+            case(1):
+                $this->player1 = new HumanOpponent($this->chooseColor());
+                $this->player2 = $this->chooseOpponent(!$this->player1->color());
+                break;
+            case(2):
+                $this->player1 = $this->chooseOpponent($this->chooseColor());
+                $this->player2 = $this->chooseOpponent(!$this->player1->color());
+                break;
+        }
         //prepare output space
         $this->animated_output->echoMultipleLine($this->game->desc()->dump(), -1);
         $this->animated_output->echoEmptyLine();
@@ -77,19 +104,23 @@ class GameConsoleLauncher
     public function gameProcess(): void
     {
         do {
-            //opponent move
-            if($this->opponent->can($this->game->desc()->getOrderColor())){
-                $input = $this->opponent->opMove($this->game->desc());
-                //have to draw empty line instead of STDIN
-                $this->animated_output->echoEmptyLine();
-            }else {
-                $input = trim(fgets(STDIN));
-                //check for out or save or some other not move
-                $this->controlActions($input);
+            //find player who can move
+            foreach ([$this->player1, $this->player2] as $val){
+                if($val->can(!$this->game->desc()->getOrderColor())) {
+                    $input = $val->opMove($this->game->desc());
+                    if($val->isHuman()) {
+                        //control actions for humans
+                        $this->controlActions($input);
+                    }else{
+                        //have to draw empty line instead of STDIN
+                        $this->animated_output->echoEmptyLine();
+                    }
+                    break;
+                }
             }
             //
             $this->moveAction($input);
-                //
+            //
         } while (true);
     }
 
@@ -131,6 +162,35 @@ class GameConsoleLauncher
         }
     }
 
+
+    /**
+     * Game type choose
+     * @see self::VARIANTS
+     * @return int
+     */
+    public function chooseTypeofGame(): int
+    {
+        $it = 0;
+        //
+        $output[] = 'Select game type:';
+        foreach(self::VARIANTS as $key => $val){
+            $output[] = $key.' - '.$val;
+        }
+        //
+        do {
+            if($it){
+                $this->animated_output->cursorUp();
+                $this->animated_output->deleteLine();
+            }
+            $this->animated_output->echoMultipleLine($output,-1);
+            $this->animated_output->echoLine('Number: ');
+            $key = trim(fgets(STDIN));
+            $it++;
+        }while (!in_array($key, array_keys(self::VARIANTS)));
+        //
+        return $key;
+    }
+
     /**
      * Choose color
      * sry for realisation - tired of frontend
@@ -153,10 +213,15 @@ class GameConsoleLauncher
         return $color == $color_sym[0] ? Desk::COLOR_WHITE : Desk::COLOR_BLACK;
     }
 
+    /**
+     * Opponent type selection
+     * @param bool $color
+     * @return OpponentInterface
+     */
     public function chooseOpponent(bool $color): OpponentInterface
     {
         $it = 0;
-        $opponents = [new NoOpponent($color), new RandomOpponent($color)];
+        $opponents = [new HumanOpponent($color), new RandomOpponent($color), new PriceOpponent($color)];
         $output[] = 'Select opponent type:';
         foreach($opponents as $key => $val){
             $output[] = $key.' - '.$val->opName();
