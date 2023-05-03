@@ -11,10 +11,10 @@
 Input move:1. f2-f3 e7-e5 2. g2-g4?? Фd8-h4x
 
 ## Install
-mkdir php-chess
-cd ./php-chess
-git clone git@github.com:mv28jam/PHP-chess-with-console-view.git ./
-composer install --no-dev
+mkdir php-chess  
+cd ./php-chess  
+git clone git@github.com:mv28jam/PHP-chess-with-console-view.git ./  
+composer install --no-dev  
 
 ## Play
 ./chess
