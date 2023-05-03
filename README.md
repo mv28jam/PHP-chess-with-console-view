@@ -19,6 +19,10 @@ composer install --no-dev
 ## Play
 ./chess
 
+## Tests
+composer install --dev  
+php vendor/bin/codecept run
+
 ## TODO:
 - tests more
 - making smarter bot 
