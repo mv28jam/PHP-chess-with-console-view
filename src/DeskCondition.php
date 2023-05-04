@@ -7,6 +7,9 @@
  * Stateless.
  * Describes game mechanics
  * @author mv28jam
+ *
+ * c2-c4|b7-b6|d1-b3|g8-f6|a2-a4|f6-h5|b3-a3|c8-a6|a3-b4|h7-h6|b4-a5|b6-a5|g2-g4|a6-c4|g4-h5|d7-d5|g1-f3|d8-c8|e2-e4|d5-e4|f1-c4|e4-f3|c4-b5|e8-d8|a1-a3|c8-f5|h1-f1|f5-b1|a3-f3|b1-c1|e1-e2|c1-b2|f3-f7|b2-a2|f1-e1|a2-f7|e2-d1|f7-f2|d1-c1|f2-e1|c1-c2|e1-e4|c2-d1|h8-h7|h2-h3|e4-e3|d2-e3|g7-g6|h5-g6|h7-f7|g6-f7|e7-e5|f7-e8-r
+ *
  */
 class DeskCondition
 {
@@ -25,7 +28,8 @@ class DeskCondition
         $moves = $figure->getVacuumHorsePossibleMoves($move);
         //
         foreach ($moves['normal'] as $val) {
-            if ($val->strTo === $move->strTo) {
+            //check for move destination and respawn for diff pawn moves
+            if ($val->strTo === $move->strTo and $val->respawn == $move->respawn) {
                 switch (true) {
                     case($figure instanceof Knight):
                         return $desk->getFigurePrice($val->to);
@@ -44,7 +48,13 @@ class DeskCondition
                         if ($this->checkDiagonalMoveBlock($val, $desk)) return $desk->getFigurePrice($val->to);
                         break;
                     case($figure instanceof Pawn):
-                        if ($desk->getFigurePrice($val->to) === Move::MOVING)  return Move::MOVING;
+                        if ($desk->getFigurePrice($val->to) === Move::MOVING){
+                            //if pawn convert to other figure return price of new figure
+                           if($val->respawn != '') {
+                               return $this->figureConversion($val, $figure)->price();
+                           }
+                           return Move::MOVING;
+                        }
                         break;
                     case($figure instanceof King):
                         if($this->checkKingMove($val, $figure, $desk))return $desk->getFigurePrice($move->to);
@@ -56,7 +66,14 @@ class DeskCondition
         //check attack moves
         foreach ($moves['attack'] as $val) {
             if ($val->strTo === $move->strTo) {
-                if ($figure instanceof Pawn) return $this->checkPawnEnPassant($val, $figure, $desk);
+                if ($figure instanceof Pawn){
+                    $pprice = $this->checkPawnAttack($val, $figure, $desk);
+                    //if convert after attack price more
+                    if($pprice != Move::FORBIDDEN and $val->respawn != '') {
+                        $pprice += $this->figureConversion($val, $figure)->price();
+                    }
+                    return $pprice;
+                }
             }
         }
         //
@@ -368,7 +385,7 @@ class DeskCondition
      * @param Desk $desk
      * @return int
      */
-    private function checkPawnEnPassant(Move $move, AbstractFigure $figure, Desk $desk) : int
+    private function checkPawnAttack(Move $move, AbstractFigure $figure, Desk $desk) : int
     {
         // $sign direction of move flag for pawn
         $figure->getIsBlack() ? $sign = -1 : $sign = 1;
@@ -377,9 +394,9 @@ class DeskCondition
          * @see  getLastMove // have to have for pawn attack "en passant"
          * @link en.wikipedia.org/wiki/Pawn_(chess)#Capturing
          */
-        $last_move = $desk->getColor();
+        $last_move = $desk->getLastMove();
         if (
-            $desk->getFigurePrice($move->to) !== 0
+            $desk->getFigurePrice($move->to) > 0
         ) {
             return $desk->getFigurePrice($move->to);
         }
@@ -392,6 +409,8 @@ class DeskCondition
             $desk->getFigureIsBlack($last_move->to) != $figure->getIsBlack()
             and
             abs($last_move->dY) == 2
+            and
+            abs($last_move->yTo - $move->yTo)<2
             and
             $move->yFrom == $last_move->yTo
             and
@@ -416,13 +435,11 @@ class DeskCondition
         //
         if ($figure instanceof Pawn and ($move->yTo == 1 or $move->yTo == 8)) {
             //
-            if($move->respawn){
-                $respawn = $move->respawn;
-            }else{
+            if($move->respawn == ''){
                 throw new Exception('Pawn conversion move. Choose replace of pawn by adding h2-g1-r (move +first letter of new figure name).');
             }
             //choose figure by first letter
-            switch ($respawn) {
+            switch ($move->respawn) {
                 case('r'):
                 case('R'):
                     return (new Rook($figure->getIsBlack()))->fromPawn();
@@ -434,8 +451,9 @@ class DeskCondition
                     return new Bishop($figure->getIsBlack());
                 case('q'):
                 case('Q'):
-                default:
                     return new Queen($figure->getIsBlack());
+                default:
+                    user_error('Conversion Pawn unexpected value', E_USER_ERROR);
             }
         }
         //

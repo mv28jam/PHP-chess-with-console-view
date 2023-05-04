@@ -268,7 +268,7 @@ class Desk
      * Get last move of game
      * @return Move|null
      */
-    public function getColor(): ?Move
+    public function getLastMove(): ?Move
     {
         return (current($this->moves) ?: null);
     }

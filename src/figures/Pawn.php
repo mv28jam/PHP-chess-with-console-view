@@ -14,6 +14,10 @@ class Pawn extends AbstractFigure
      */
     protected int $price = 1;
 
+    /**
+     * Pawn conversion variants
+     * @var string[]
+     */
     public array $conversions = ['q','r','k','b'];
 
     /**

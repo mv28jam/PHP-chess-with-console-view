@@ -14,7 +14,7 @@ class Queen extends AbstractFigure
      * Price of Queen
      * @var integer
      */
-    public int $price = 3;
+    public int $price = 4;
 
 
     /**

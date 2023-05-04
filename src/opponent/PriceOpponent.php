@@ -14,28 +14,26 @@ class PriceOpponent extends RandomOpponent implements OpponentInterface
 {
 
     /**
+     * @inheritDoc
      * @throws Exception
      */
     public function opMove(Desk $desk): string
     {
         $moves = $this->collectMoves($desk);
+        //
+        shuffle($moves);
         //sort by price of attacked figure
         usort ($moves , function ($a, $b) {
-            if(($a[0]->respawn > $b[0]->respawn) or $a[0]->respawn=='q') return true;
-            return $a[1]>$b[1];
+            return $a[1]<$b[1];
         });
         //
-        if($moves[0][1] > 0 or $moves[0][0]->respawn){
-            return $moves[0][0];
-        }
-        //
-        return $moves[mt_rand(0,(count($moves)-1))][0];
+        return $moves[0][0];
     }
 
     /**
      * Collect moves with price
      * @param Desk $desk
-     * @return array[][]
+     * @return array[]
      * @throws Exception
      */
     protected function collectMoves(Desk $desk) : array {
@@ -71,6 +69,6 @@ class PriceOpponent extends RandomOpponent implements OpponentInterface
      */
     public function opName(): string
     {
-        return 'Opponent choose move by figure price.';
+        return 'Opponent choose move by figure under attack price.';
     }
 }

@@ -2,6 +2,7 @@
 
 use ConsoleAnimated\ConsoleAnimatedOutput;
 use opponent\HumanOpponent;
+use opponent\OneIterPriceOpponent;
 use opponent\OpponentInterface;
 use opponent\PriceOpponent;
 use opponent\RandomOpponent;
@@ -217,7 +218,12 @@ class GameConsoleLauncher
     public function chooseOpponent(bool $color): OpponentInterface
     {
         $it = 0;
-        $opponents = [new HumanOpponent($color), new RandomOpponent($color), new PriceOpponent($color)];
+        $opponents = [
+            new HumanOpponent($color),
+            new RandomOpponent($color),
+            new PriceOpponent($color),
+            new OneIterPriceOpponent($color)
+        ];
         $output[] = 'Select opponent type:';
         foreach($opponents as $key => $val){
             $output[] = $key.' - '.$val->opName();

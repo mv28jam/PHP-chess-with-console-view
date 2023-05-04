@@ -15,7 +15,7 @@
  * @property-read int $yTo move to
  * @property-read int $dX delta of move
  * @property-read int $dY delta of move
- * @property-read int $respawn
+ * @property-read string $respawn
  */
 class Move
 {
