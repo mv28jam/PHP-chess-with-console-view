@@ -17,7 +17,7 @@ git clone git@github.com:mv28jam/PHP-chess-with-console-view.git ./
 composer install --no-dev  
 
 ## Docker Install
-docker build - < Dockerfile --build-arg ssh_prv_key="$(cat ~/.ssh/id_rsa)" -t php-chess-jam 
+docker build - < Dockerfile --build-arg ssh_prv_key="$(cat ~/.ssh/id_rsa)" -t php-chess-jam   
 docker run -d -it php-chess-jam
 
 ## Play
