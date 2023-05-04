@@ -24,5 +24,4 @@ composer install --dev
 php vendor/bin/codecept run
 
 ## TODO:
-- tests more
-- making smarter bot 
+- ml bot integration
