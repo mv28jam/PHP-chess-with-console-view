@@ -57,6 +57,22 @@ class BaseData
     }
 
     /**
+     * @return array[]
+     */
+    public function deskBadMoveProvider() : array
+    {
+        return [
+            ["e2-f3"],
+            ["h1-h3"],
+            ["f1-d3"],
+            ["d1-f3"],
+            ["b1-b3"],
+        ];
+    }
+
+
+
+    /**
      * Desc start description
      * @var string
      */

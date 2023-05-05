@@ -84,6 +84,21 @@ class BaseCest
     }
 
     /**
+     * @param UnitTester $I
+     * @param Example $v
+     * @return void
+     */
+    #[DataProvider('deskBadMoveProvider')]
+    public function deskBadMoveTest(UnitTester $I,  Example $v): void
+    {
+        $I->expectThrowable(
+            Exception::class,
+            function() use ($v){$this->desk->move(new Move($v[0]));}
+        );
+        //
+    }
+
+    /**
      * Base move exceptions test
      * @param UnitTester $I
      * @return void
@@ -129,6 +144,11 @@ class BaseCest
     protected function deskBaseMoveProvider() : array  // to make it public use `_` prefix
     {
         return $this->data->deskBaseMoveProvider();
+    }
+
+    protected function deskBadMoveProvider() : array  // to make it public use `_` prefix
+    {
+        return $this->data->deskBadMoveProvider();
     }
 
 }
