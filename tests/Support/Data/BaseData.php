@@ -67,10 +67,13 @@ class BaseData
             ["f1-d3"],
             ["d1-f3"],
             ["b1-b3"],
+            ["a1-a8"],
+            ["b1-b7"],
+            ["a1-a8"],
+            ["a1-h8"],
+            ["a1-b2"],
         ];
     }
-
-
 
     /**
      * Desc start description
